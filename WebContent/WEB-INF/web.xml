@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE web-app
+        PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN"
+        "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd">
+
+<web-app>
+
+	<servlet>
+		<servlet-name>TimeSeriesServer</servlet-name>
+		<servlet-class>lasp.tss.TimeSeriesServer</servlet-class>
+		<init-param>
+            <param-name>config</param-name>
+            <param-value>tss.properties</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+  
+    <servlet>
+      <servlet-name>fileServlet</servlet-name>
+      <servlet-class>net.balusc.webapp.FileServlet</servlet-class>
+      <init-param>
+        <param-name>basePath</param-name>
+        <param-value>/</param-value>
+      </init-param>
+    </servlet>
+    
+	<servlet-mapping>
+		<servlet-name>TimeSeriesServer</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- The mapping for the default servlet -->
+	<servlet-mapping>
+		<servlet-name>fileServlet</servlet-name>
+		<url-pattern>/resources/*</url-pattern>
+	</servlet-mapping>
+      
+</web-app>
+

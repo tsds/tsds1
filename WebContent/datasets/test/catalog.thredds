@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog name="Test Data"
+        xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0"
+        xmlns:xlink="http://www.w3.org/1999/xlink">
+
+  <service name="tss" serviceType="OpenDAP" base="" />
+
+  <dataset name="Scalar" >
+    <access serviceName="tss" urlPath="Scalar" />
+    <documentation type="summary">
+      Single variable time series
+    </documentation>
+  </dataset>
+
+  <dataset name="Structure" >
+    <access serviceName="tss" urlPath="Structure" />
+    <documentation type="summary">
+      Vector (three component) time series
+    </documentation>
+  </dataset>
+  
+  <dataset name="Sequence" >
+    <access serviceName="tss" urlPath="Sequence" />
+    <documentation type="summary">
+      Spectrum time series
+    </documentation>
+  </dataset>
+
+</catalog>
