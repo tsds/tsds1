@@ -158,13 +158,9 @@ public class AsciiIOSP extends AbstractIOSP {
                 throw new TSSException(msg);
             }
             
-            String[] letters = timeFormat.split(""); //note, 1st character will be element 1
-            StringBuilder sb = new StringBuilder();
-            for (String letter : letters) {
-                if (letter.matches("\\w")) sb.append("\\d"); //replace letter with regex for a digit
-                else sb.append(letter); //e.g. keep space or "-"... 
-            }
-            regex = sb.toString();
+            //Simply match the number of characters in the format
+            int n = timeFormat.length();
+            regex = ".{"+n+"}";
         }
         
         return regex;
@@ -220,7 +216,7 @@ public class AsciiIOSP extends AbstractIOSP {
         DataType type = variable.getDataType();
         
         //get index from var name suffix: v#
-        String num = vname.substring(1); //assumes one character folowed by the column number
+        String num = vname.substring(1); //assumes one character followed by the column number
         int varIndex = -1;
         try {
             varIndex = Integer.parseInt(num);
@@ -229,6 +225,9 @@ public class AsciiIOSP extends AbstractIOSP {
             _logger.error(msg, nfe);
             throw new TSSException(msg, nfe);
         }
+        
+        //TODO: support flattened spectra (column for each sample), treat as 2nd dim
+        
         
         //Get info on time selection (1st dimension)
         //Assume only 1D for now
