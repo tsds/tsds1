@@ -156,7 +156,7 @@ public class TimeVariable extends IndependentVariable {
     /**
      * Return the given value as a Date, making use of the units.
      */
-    private Date getValueAsDate(double time) {
+    public Date getValueAsDate(double time) {
         Date date = null;
         
         if (_isJulianDate) {
