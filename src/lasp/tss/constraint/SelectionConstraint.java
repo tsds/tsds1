@@ -32,6 +32,7 @@ import java.util.Arrays;
 
 import lasp.tss.TSSPublicException;
 import lasp.tss.TimeSeriesDataset;
+import lasp.tss.filter.ExcludeValueFilter;
 import lasp.tss.filter.Filter;
 import lasp.tss.filter.MatchFilter;
 import lasp.tss.filter.ThresholdFilter;
@@ -48,7 +49,16 @@ import ucar.ma2.Range;
 /**
  * Represent a "selection" clause of an OPeNDAP constraint expression.
  * e.g. "time>2009-01-01"
- * 
+ * Supported operators include:
+ *   >   Greater than (numbers only)
+ *   >=  Greater than or equal to (numbers only)
+ *   <   Less than (numbers only)
+ *   <=  Less than or equal to (numbers only)
+ *   =   Equals
+ *   !=  Not equals
+ *   =~  Matches pattern (Strings only)
+ *   ~   Almost equals, match nearest value (Independent Variables only)
+ *   
  * @author Doug Lindholm
  */
 public class SelectionConstraint extends Constraint {
@@ -84,15 +94,17 @@ public class SelectionConstraint extends Constraint {
             throw new TSSPublicException(msg);
         }
         
-        //Check if the value is another variable. Null if no such variable.
-        TSSVariable var2 = timeSeries.findVariable(_value);
+        //TODO: Check if the value is another variable. Null if no such variable.
+        //TSSVariable var2 = timeSeries.findVariable(_value);
 
         //If this variable is the independent variable of a Sequence (e.g. time, wavelength)
         //and the value is a constant,
         //apply a subset to each member of the sequence, even if not projected.
         //IndependentVariable-s will be used for length.
+        //Need special handling for the "!=" operator since it can't be applied as a Range
+        boolean isNE = _operator.equals("!=");
         CompositeVariable parent = variable.getParent();
-        if (var2 == null && variable.isIndependent() && parent instanceof SequenceVariable) {
+        if (! isNE && variable.isIndependent() && parent instanceof SequenceVariable) {
             Range range = makeRange(variable);
             parent.subset(range); //subset the seq with the range of its indep var
         }
@@ -100,9 +112,9 @@ public class SelectionConstraint extends Constraint {
         //otherwise, add a Filter to the named variable to be applied during read/write.
         else {
             Filter filter = null;
-            if (variable.isString()) filter = new MatchFilter(_operator, _value);
-            else if (var2 == null) filter = new ThresholdFilter(_operator, _value);
-            //TODO: else error?
+            if (isNE) filter = new ExcludeValueFilter(_value);
+            else if (variable.isString()) filter = new MatchFilter(_operator, _value);
+            else filter = new ThresholdFilter(_operator, _value);
             
             variable.addFilter(filter);
         }
