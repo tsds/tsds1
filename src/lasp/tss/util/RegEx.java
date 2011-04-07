@@ -60,9 +60,16 @@ public class RegEx {
     
     /**
      * Regular expression matching the operators: 
-     * > >= < <= = != ~= ~
+     *   >   Greater than
+     *   >=  Greater than or equal to
+     *   <   Less than
+     *   <=  Less than or equal to
+     *   =   Equals
+     *   !=  Not equals
+     *   =~  Matches pattern
+     *   ~   Almost equals, match nearest value
      */
-    public static final String SELECTION_OPERATOR = "[|>=|>|<=|<|!=|~=|=|~]+"; 
+    public static final String SELECTION_OPERATOR = "(>=|>|<=|<|=~|=|!=|~)"; 
 
     /**
      * Regular expression matching an OPeNDAP constraint expression selection clause.
