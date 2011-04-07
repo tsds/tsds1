@@ -166,7 +166,7 @@ public class TimeSeriesDataset {
      *    May also have a hyperslab (index range) definition which will be treated as a unique HyperslabConstraint.
      *    Immediately after the "?" and up to the first "&".
      * 2) SelectionConstraint:
-     *    Compares a variable's values for acceptance by applying operators: >, >=, <, <=, =, ~= (pattern match)
+     *    Compares a variable's values for acceptance by applying operators: >, >=, <, <=, =, !=, =~ (pattern match)
      *    Also supports non-standard "~" for "almost equals." Currently nearest neighbor.
      * 3) FilterConstraint:
      *    Looks like a function with (optionally) arguments in "()".
