@@ -30,7 +30,7 @@ package lasp.tss.filter;
 
 /**
  * Filter to find strings that match a given string.
- * The string to match could be a regular expression using the "~=" operator.
+ * The string to match could be a regular expression using the "=~" operator.
  * 
  * @author Doug Lindholm
  */
@@ -57,7 +57,7 @@ public class MatchFilter extends ExclusionFilter {
         boolean b = false;
         
         if (_operator.equals("=")) b = s.equals(_stringToMatch);
-        else if (_operator.equals("~=")) b = s.matches(_stringToMatch);
+        else if (_operator.equals("=~")) b = s.matches(_stringToMatch);
         
         return b;
     }
