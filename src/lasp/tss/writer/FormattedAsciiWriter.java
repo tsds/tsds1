@@ -107,7 +107,9 @@ public class FormattedAsciiWriter extends TextDataWriter {
                     if (strings == null) return;
                     vstring = format(format, strings);
                 } else if (var instanceof TimeVariable) {
-                    double d = (var.getValues(timeIndex))[0];
+                    double[] dd = var.getValues(timeIndex);
+                    if (dd == null) return; //Skip writing this time sample if there are no time values
+                    double d = dd[0];
                     if (Double.isNaN(d)) return; //Skip writing this time sample if the time value is undefined, a little trick to exclude samples
                     vstring = formatTime(format, d);
                 } else { 
