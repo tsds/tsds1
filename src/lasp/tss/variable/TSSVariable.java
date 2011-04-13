@@ -38,6 +38,7 @@ import lasp.tss.filter.Filter;
 import org.apache.log4j.Logger;
 
 import ucar.ma2.Array;
+import ucar.ma2.DataType;
 import ucar.ma2.Range;
 import ucar.nc2.Attribute;
 import ucar.nc2.Variable;
@@ -252,7 +253,9 @@ public abstract class TSSVariable {
      * Is this Variable a String?
      */
     public boolean isString() {
-        return (this instanceof StringVariable);
+        DataType type = getNetcdfVariable().getDataType();
+        return type.isString();
+        //return (this instanceof StringVariable);
     }
     
     /**
@@ -351,13 +354,18 @@ public abstract class TSSVariable {
     
     /**
      * Get a time sample and return as an array of Strings.
+     * Will return null if no samples satisfy this request.
      */
     public String[] getStringValues(int timeIndex) {
+        String[] ss = null;
+        
         double[] values = getValues(timeIndex);
-        int n = values.length;
-        String[] ss = new String[n];
-        int i=0;
-        for (double d : values) ss[i++] = ""+d;
+        if (values != null) {
+            int n = values.length;
+            ss = new String[n];
+            int i=0;
+            for (double d : values) ss[i++] = ""+d;
+        }
         
         return ss;
     }

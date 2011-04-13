@@ -59,14 +59,16 @@ public class TimeVariable extends IndependentVariable {
     private static final Logger _logger = Logger.getLogger(TimeVariable.class);
     
     /**
+     * The units from the native data.
+     */
+    private String _origUnits;
+    
+    private String _origFormat;
+    
+    /**
      * Keep a cached copy of the DateUnit so we don't have to remake it
      */
     private DateUnit _dateUnit; 
-    
-    /**
-     * Hack to support Julian Date since the netCDF DateUnit does not support it.
-     */
-    private boolean _isJulianDate = false;
     
     /**
      * The format for the string representation of the time, if defined.
@@ -74,6 +76,12 @@ public class TimeVariable extends IndependentVariable {
      * in Java/Unix time: milliseconds since 1970-01-01 00:00 GMT.
      */
     private String _format;
+    
+    /**
+     * Is the time in units of Julian Date.
+     * Hack since DateUnit doesn't support Julian Date.
+     */
+    private boolean _isJulian;
 
     /**
      * Keep a collection of DateFormat-s mapped to by its String representation.
@@ -81,6 +89,7 @@ public class TimeVariable extends IndependentVariable {
      */
     private HashMap<String,DateFormat> _dateFormatMap;
 
+    public static String DEFAULT_TIME_UNIT = "milliseconds since 1970-01-01T00:00";
     
     /**
      * Construct a TimeVariable based on its nc2.Variable.
@@ -91,10 +100,10 @@ public class TimeVariable extends IndependentVariable {
         _dateFormatMap = new HashMap<String,DateFormat>();
         parseTimeUnits();
         
-        //Hack to convert formatted times to doubles and replace the internal nc Variable
-        if (isFormatted()) {
-            getValues();
-        }
+//        //Hack to convert formatted times to doubles and replace the internal nc Variable
+//        if (isFormatted()) {
+//            getValues();
+//        }
     }
 
     /**
@@ -105,30 +114,26 @@ public class TimeVariable extends IndependentVariable {
     }
     
     /**
+     * Is the time in units of Julian Date.
+     */
+    private boolean isJulian() {
+        return _isJulian;
+    }
+    
+    /**
      * Make sense of the time units.
+     * Three cases: Julian Date, formatted, duration since epoch
      */
     private void parseTimeUnits() {
-        Variable ncvar = getNetcdfVariable();
-        String timeUnit = ncvar.getUnitsString(); 
-        if (timeUnit == null) timeUnit = "milliseconds since 1970-01-01T00:00";  //default to Unix/Java time, 
-
-        //Support JulianDate units which DateUnit does not support.
-        if (timeUnit.toLowerCase().startsWith("julian")) {
-            _isJulianDate = true;
-        } else {
-            //Handle formatted times (e.g. yyyy-MM-dd)
-            if (timeUnit.equals("formatted")) {
-                _format = ncvar.findAttribute("format").getStringValue();
-                
-                //change to default units, reformatting will happen during read
-                timeUnit = "milliseconds since 1970-01-01";
-                //change variable attributes
-                Attribute att = new Attribute("units", timeUnit);
-                ncvar.addAttribute(att);
-                ncvar.removeAttribute("format");
-            }
-            
-            //Manage units with NetCDF DateUnit
+        String timeUnit = getUnits(); 
+        if (timeUnit == null) timeUnit = DEFAULT_TIME_UNIT;  //default to Unix/Java time, 
+        
+        //Keep the original units since the "units" attribute might change
+        //to express the units to be served.
+        _origUnits = timeUnit;
+        
+        if (timeUnit.contains("since")) {
+            //numeric unit, manage units with NetCDF DateUnit
             try {
                 _dateUnit = new DateUnit("0 "+timeUnit);
             } catch (Exception e) {
@@ -136,7 +141,51 @@ public class TimeVariable extends IndependentVariable {
                 _logger.error(msg, e);
                 throw new TSSException(msg, e);
             }
+        } else if (timeUnit.toLowerCase().startsWith("julian")) {
+            _isJulian = true;
+        } else {
+            //formatted time stamp
+            _format = timeUnit;
+            _origFormat = timeUnit;
         }
+            
+//            //Handle formatted times (e.g. yyyy-MM-dd)
+//            if (timeUnit.equals("formatted")) {
+//                timeUnit = DEFAULT_TIME_UNIT;
+//    //need for parsing but triggers formatted output            _format = ncvar.findAttribute("format").getStringValue();
+//                //TODO: error if null
+//                //change to the default numeric units
+//                Attribute att = new Attribute("units", timeUnit);
+//                ncvar.addAttribute(att);
+//                ncvar.removeAttribute("format");
+//            }
+            
+    }
+    
+    /**
+     * Allow the format to be set (e.g. by format_time filter).
+     * The underlying data won't be modified.
+     * Formatting will happen as data are requested via getStringValues().
+     */
+    public void setFormat(String format) {
+        //TODO: validate
+        _format = format;
+        
+        //change units attribute
+        Variable ncvar = getNetcdfVariable();
+        Attribute att = new Attribute("units", format);
+        ncvar.addAttribute(att);
+        //change variable type to String
+        ncvar.setDataType(DataType.STRING);
+    }
+    
+    /**
+     * Return the format string for this Time variable.
+     * It should be the same as the units attribute if it is formatted,
+     * otherwise it will return null.
+     */
+    public String getFormat() {
+        return _format;
     }
     
     /**
@@ -154,19 +203,73 @@ public class TimeVariable extends IndependentVariable {
     }
     
     /**
-     * Return the given value as a Date, making use of the units.
+     * Return the given value as a java.util.Date, making use of the units.
      */
     public Date getValueAsDate(double time) {
         Date date = null;
         
-        if (_isJulianDate) {
+        if (isJulian()) {
             JulianDate jd = new JulianDate(time);
             date = jd.getDate();
+        } else if (isFormatted()) {
+            date = new Date((long) time); //Unix/Java time
         } else {
             date = _dateUnit.makeDate(time);
         }
         
         return date;
+    }
+    
+    /**
+     * Override to support formatted times.
+     */
+    public String[] getStringValues(int timeIndex) {
+        String[] ss = new String[1]; //only one time value per time index
+       
+        if (_origFormat == _format) {
+            //format unchanged, or both null if numbers
+            Array array = getTimeSample(timeIndex);
+            ss[0] = array.getObject(0).toString();
+        }
+        else {
+            double[] times = getValues(timeIndex);
+            double time = times[0];
+            
+            if (isFormatted()) {
+                ss[0] = format(_format, time);
+            } else {
+                ss[0] = ""+time;
+            }
+        }
+        
+        return ss;
+    }
+    
+    /**
+     * Override to deal with formatted native time.
+     */
+    public double[] getValues(int timeIndex) {
+        double[] dd = new double[1];
+        
+        //If the native data are formatted, convert to Java time
+        if (_origFormat != null) {
+            try {
+                Array array = getTimeSample(timeIndex);
+                String s = (String) array.getObject(0);
+                //String s = array.next().toString();
+                DateFormat dateFormat = getDateFormat(_origFormat);
+                Date date = dateFormat.parse(s);
+                dd[0] = date.getTime();
+            } catch (ParseException e) {
+                String msg = "Unable to parse native time format: " + _origFormat;
+                _logger.error(msg, e);
+                throw new TSSException(msg, e);
+            }
+        } else {
+            dd = super.getValues(timeIndex);
+        }
+        
+        return dd;
     }
     
     /**
@@ -190,26 +293,25 @@ public class TimeVariable extends IndependentVariable {
             int i = 0;
             while(array.hasNext()) {
                 String s = array.next().toString(); //could be string or number
-                Date date = null;
                 try {
-                    date = dateFormat.parse(s);
+                    Date date = dateFormat.parse(s);
+                    d[i++] = date.getTime();
                 } catch (ParseException e) {
                     String msg = "Failed to parse time unit: " + s;
                     _logger.error(msg, e);
                     throw new TSSException(msg, e);
                 }
-                d[i++] = date.getTime();
             }
 
-            //Replace the internal nc Variable (containing formatted time strings) with one with numbers.
-            Variable ncvar = getNetcdfVariable();
-            int[] shape = ncvar.getShape();
-            Array arr = Array.factory(DataType.DOUBLE, shape, d);
-            Variable ncvar2 = new Variable(ncvar);
-            ncvar2.setDataType(DataType.DOUBLE);
-            ncvar2.setCachedData(arr, false);
-            
-            _format = null; //no longer formatted
+//            //Replace the internal nc Variable (containing formatted time strings) with one with numbers.
+//            Variable ncvar = getNetcdfVariable();
+//            int[] shape = ncvar.getShape();
+//            Array arr = Array.factory(DataType.DOUBLE, shape, d);
+//            Variable ncvar2 = new Variable(ncvar);
+//            ncvar2.setDataType(DataType.DOUBLE);
+//            ncvar2.setCachedData(arr, false);
+//            
+//            _format = null; //no longer formatted
 
         } else d = super.getValues();
         
@@ -224,10 +326,12 @@ public class TimeVariable extends IndependentVariable {
         
         Date date = DateUnit.getStandardOrISO(isoTime);
 
-        //special handling for JuianDate since DateUnit does not suport it.
-        if (_isJulianDate) {
+        //special handling for JuianDate since DateUnit does not support it.
+        if (isJulian()) {
             JulianDate jd = new JulianDate(date);
             value = jd.getJulianDate();
+        } else if (isFormatted()) {
+            value = date.getTime(); //Unix/Java time
         } else {
             value = _dateUnit.makeValue(date);
         }
@@ -268,23 +372,17 @@ public class TimeVariable extends IndependentVariable {
 
         return dateFormat;
     }
-
+    
     /**
-     * Deal with time's special case of a formatted representation of time.
-     * If units is "formatted" then the "format" attribute is used.
+     * Return the data type for the DDS.
      */
-    public String getUnits() {
-        String units = super.getUnits();
+    public String getDodsType() {
+        String type = null;
         
-        if ("formatted".equals(units)) {
-            units = getAttributeValue("format");
-            if (units == null) {
-                String msg = "The formatted time variable does not define its format.";
-                _logger.error(msg);
-                throw new TSSException(msg);
-            }
-        }
+        if (isFormatted()) type = "String";
+        else type = super.getDodsType();
         
-        return units;
+        return type;
     }
+    
 }

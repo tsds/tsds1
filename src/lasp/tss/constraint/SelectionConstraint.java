@@ -29,6 +29,8 @@
 package lasp.tss.constraint;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.TreeSet;
 
 import lasp.tss.TSSPublicException;
 import lasp.tss.TimeSeriesDataset;
@@ -114,19 +116,37 @@ public class SelectionConstraint extends Constraint {
             Filter filter = null;
             if (isNE) filter = new ExcludeValueFilter(_value);
             else if (variable.isString()) filter = new MatchFilter(_operator, _value);
+              //Note, TimeVariable may be a String but it should be handled above
             else filter = new ThresholdFilter(_operator, _value);
             
             variable.addFilter(filter);
         }
    
     }
-    
+
+    private Range makeRange(TSSVariable variable) {
+        //return makeRangeWithTreeSet(variable);
+        return makeRangeWithBinarySearch(variable);
+    }
+
+//    private Range makeRangeWithTreeSet(TSSVariable variable) {
+//        Range range = null;
+//        
+//        //TODO: Need to deal with Strings or Doubles
+//        double[] values = variable.getValues();
+//        List list = Arrays.asList(values);
+//        TreeSet set = new TreeSet(list);
+//        //...but need index for Range
+//        
+//        return range;
+//    }
 
     /**
      * Define the index range of values that satisfy the expression.
      * Assumes the data are sorted. Intended for Independentvariable-s.
      */
-    private Range makeRange(TSSVariable variable) {
+    private Range makeRangeWithBinarySearch(TSSVariable variable) {
+        //TODO: support formatted times?
 
         Range range = null;
 

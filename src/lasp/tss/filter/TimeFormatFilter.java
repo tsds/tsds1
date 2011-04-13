@@ -38,16 +38,17 @@ import lasp.tss.variable.TimeVariable;
  * @author Doug Lindholm
  */
 public class TimeFormatFilter extends AbstractFilter {
+    //TODO: use to format any Variable?
     
     private String _format;
     
     public void setArguments(String args) throws IllegalArgumentException {
         _format = args;
+        //TODO: validate format, here or in TimeVariable?
         
         TSSVariable var = getVariable();
         if (var instanceof TimeVariable) {
-            var.addAttribute("units", "formatted");
-            var.addAttribute("format", _format); //will replace
+            ((TimeVariable) var).setFormat(_format);
         }
     }
     

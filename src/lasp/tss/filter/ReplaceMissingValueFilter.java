@@ -31,9 +31,9 @@ package lasp.tss.filter;
 import lasp.tss.variable.TSSVariable;
 
 /**
- * This filter will replace data values that equal the "missing_value"
+ * This filter will replace data values that equal the "_FillValue"
  * as defined in the ncml. Otherwise, the default missing value is NaN.
- * This will change the "missing_value" Attribute.
+ * This will change the "_FillValue" Attribute.
  * 
  * @author Doug Lindholm
  */
@@ -62,8 +62,8 @@ public class ReplaceMissingValueFilter extends ReplacementFilter {
     private void resetAttribute(double value) {
         //Change the attribute if it exists
         TSSVariable var = getVariable();
-        String s = var.getAttributeValue("missing_value");
-        if (s != null) var.addAttribute("missing_value", ""+value);
+        String s = var.getAttributeValue("_FillValue");
+        if (s != null) var.addAttribute("_FillValue", ""+value);
     }
     
     /**
@@ -74,7 +74,7 @@ public class ReplaceMissingValueFilter extends ReplacementFilter {
         double d = Double.NaN;
         TSSVariable var = getVariable();
         
-        String s = var.getAttributeValue("missing_value");
+        String s = var.getAttributeValue("_FillValue");
         if (s != null) d = Double.parseDouble(s);
         
         return d;

@@ -30,8 +30,8 @@ package lasp.tss.constraint;
 
 import org.apache.log4j.Logger;
 
-import lasp.tss.TSSException;
 import lasp.tss.TSSProperties;
+import lasp.tss.TSSPublicException;
 import lasp.tss.TimeSeriesDataset;
 import lasp.tss.filter.Filter;
 import lasp.tss.filter.SubsetFilter;
@@ -108,7 +108,7 @@ public class FilterConstraint extends Constraint {
         String className = TSSProperties.getProperty("filter."+filterName+".class"); 
         if (className == null) {
             String msg = "No filter definition found for: " + ex;
-            throw new TSSException(msg);
+            throw new TSSPublicException(msg);
         }
         
         try {

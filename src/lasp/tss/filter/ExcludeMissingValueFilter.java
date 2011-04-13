@@ -31,7 +31,7 @@ package lasp.tss.filter;
 import lasp.tss.variable.TSSVariable;
 
 /**
- * This filter will exclude data values (entire time sample) that match the Variable's "missing_value" attribute.
+ * This filter will exclude data values (entire time sample) that match the Variable's "_FillValue" attribute.
  * 
  * @author Doug Lindholm
  */
@@ -65,7 +65,7 @@ public class ExcludeMissingValueFilter extends ExclusionFilter {
         
         if (_missingValue == null) {
             TSSVariable var = getVariable();
-            String s = var.getAttributeValue("missing_value");
+            String s = var.getAttributeValue("_FillValue");
             if (s != null) {
                 _missingValue = new Double(s);
                 d = _missingValue.doubleValue();

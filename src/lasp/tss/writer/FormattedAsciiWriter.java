@@ -107,6 +107,7 @@ public class FormattedAsciiWriter extends TextDataWriter {
                     if (strings == null) return;
                     vstring = format(format, strings);
                 } else if (var instanceof TimeVariable) {
+                    //TODO: if already formatted, get String value, but let Writer override format?
                     double[] dd = var.getValues(timeIndex);
                     if (dd == null) return; //Skip writing this time sample if there are no time values
                     double d = dd[0];
@@ -216,6 +217,7 @@ public class FormattedAsciiWriter extends TextDataWriter {
             //Look for an explicit format definition. 
             if (variable instanceof TimeVariable) format = getProperty("time.format");
             if (format == null) format = getProperty("format"); //from Writer's config (tsds.properties)
+            if (format == null && variable instanceof TimeVariable) format = ((TimeVariable) variable).getFormat();
             if (format == null) format = variable.getAttributeValue("format"); //from ncml variable attributes
             if (format == null) format = variable.getAttributeValue("cformatstring"); //Bob's request
             
