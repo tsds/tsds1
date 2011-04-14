@@ -99,11 +99,6 @@ public class TimeVariable extends IndependentVariable {
         
         _dateFormatMap = new HashMap<String,DateFormat>();
         parseTimeUnits();
-        
-//        //Hack to convert formatted times to doubles and replace the internal nc Variable
-//        if (isFormatted()) {
-//            getValues();
-//        }
     }
 
     /**
@@ -148,18 +143,6 @@ public class TimeVariable extends IndependentVariable {
             _format = timeUnit;
             _origFormat = timeUnit;
         }
-            
-//            //Handle formatted times (e.g. yyyy-MM-dd)
-//            if (timeUnit.equals("formatted")) {
-//                timeUnit = DEFAULT_TIME_UNIT;
-//    //need for parsing but triggers formatted output            _format = ncvar.findAttribute("format").getStringValue();
-//                //TODO: error if null
-//                //change to the default numeric units
-//                Attribute att = new Attribute("units", timeUnit);
-//                ncvar.addAttribute(att);
-//                ncvar.removeAttribute("format");
-//            }
-            
     }
     
     /**
@@ -197,6 +180,17 @@ public class TimeVariable extends IndependentVariable {
         
         if (s.matches(RegEx.TIME)) {
             d = convertIsoTime(s);
+        } else if (_origFormat != null) {
+            //native formatted time, return default time
+            try {
+                DateFormat dateFormat = getDateFormat(_origFormat);
+                Date date = dateFormat.parse(s);
+                d = date.getTime();
+            } catch (ParseException e) {
+                String msg = "Unable to parse \""+s+"\" using the native time format: " + _origFormat;
+                _logger.error(msg, e);
+                throw new TSSPublicException(msg, e);
+            }
         } else d = Double.parseDouble(s);
         
         return d;
@@ -302,16 +296,6 @@ public class TimeVariable extends IndependentVariable {
                     throw new TSSException(msg, e);
                 }
             }
-
-//            //Replace the internal nc Variable (containing formatted time strings) with one with numbers.
-//            Variable ncvar = getNetcdfVariable();
-//            int[] shape = ncvar.getShape();
-//            Array arr = Array.factory(DataType.DOUBLE, shape, d);
-//            Variable ncvar2 = new Variable(ncvar);
-//            ncvar2.setDataType(DataType.DOUBLE);
-//            ncvar2.setCachedData(arr, false);
-//            
-//            _format = null; //no longer formatted
 
         } else d = super.getValues();
         
