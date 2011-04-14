@@ -144,22 +144,24 @@ public class AsciiIOSP extends AbstractIOSP {
     }
     
     /**
-     * If the time unit is "formatted", create a regular expression to parse that format.
+     * If the time unit is formatted, create a regular expression to parse that format.
      */
     private String getTimeRegEx() {
         String regex = null;
         
         String timeUnit = getTimeUnit();
-        if ("formatted".equals(timeUnit)) {
-            String timeFormat = getTimeFormat();
-            if (timeFormat == null) {
-                String msg = "The formatted time variable does not define its format.";
-                _logger.error(msg);
-                throw new TSSException(msg);
-            }
+        boolean isnum = timeUnit.contains("since");
+        boolean isjul = timeUnit.toLowerCase().startsWith("julian");
+        if (!isnum && !isjul) {
+//            String timeFormat = getTimeFormat();
+//            if (timeFormat == null) {
+//                String msg = "The formatted time variable does not define its format.";
+//                _logger.error(msg);
+//                throw new TSSException(msg);
+//            }
             
             //Simply match the number of characters in the format
-            int n = timeFormat.length();
+            int n = timeUnit.length();
             regex = ".{"+n+"}";
         }
         

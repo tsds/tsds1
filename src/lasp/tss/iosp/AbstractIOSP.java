@@ -399,13 +399,6 @@ public abstract class AbstractIOSP extends AbstractIOServiceProvider {
     }
     
     /**
-     * Return the time variable's "format" nc2.Attribute value.
-     */
-    protected String getTimeFormat() {
-        return getTimeAttribute("format");
-    }
-    
-    /**
      * Return the value of the named nc2.Attribute from the time variable.
      */
     protected String getTimeAttribute(String attName) {
