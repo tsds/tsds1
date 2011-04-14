@@ -79,20 +79,20 @@ public class HelpWriter extends HtmlWriter {
         
         //present the available datasets from the THREDDS catalog
         if (_catalog != null) {
-            println("<H2>Available Data Sets</H2>");
+            println("<H2><A name=\"dataset\">Available Datasets</A></H2>");
             println("<blockquote>");
             writeCatalog();
             println("</blockquote>");
         }
         
         //present the suffix (output) options
-        println("<H2>Output Options (<i>suffix</i>)</H2>");
+        println("<H2><A name=\"suffix\">Output Options (<i>suffix</i>)</A></H2>");
         println("<blockquote>");
         writeOptions("writer");
         println("</blockquote>");
         
         //present the filter options
-        println("<H2>Filter Options</H2>");
+        println("<H2><A name=\"filter\">Filter Options</A></H2>");
         println("<blockquote>");
         writeOptions("filter");
         println("</blockquote>");
@@ -105,11 +105,18 @@ public class HelpWriter extends HtmlWriter {
     protected void writeUsage() {
         String burl = getServerUrl();
         println("<blockquote>");
-        println("<b><i>Usage:</i></b> " + burl + "/dataset.<i>suffix</i>?<i>projection</i>&<i>selection</i>&<i>filter</i><br/><br/>");
-        println("<b><i>suffix:</i></b> Type of output (see below)<br/>");
-        println("<b><i>projection:</i></b> List of variables to return with optional <i>hyperslab</i> (index subset) definitions<br/>");
-        println("<b><i>selection:</i></b> relative constraint (e.g. time>=2010-01-01)<br/>");
-        println("<b><i>filter:</i></b> One or more functions to be applied to the data (see below)<br/>");
+        println("<b><i>Usage:</i></b> " + burl + "/<i>dataset</i>.<i>suffix</i>?<i>projection</i>&<i>selection</i>&<i>filter</i><br/><br/>");
+        println("<b><i>dataset:</i></b> Name of dataset (see <A href=\"#dataset\">Available Datasets</A>)<br/>");
+        println("<b><i>suffix:</i></b> Type of output (see <A href=\"#suffix\">Output Options</A>)<br/>");
+        
+        StringBuilder proj_usage = new StringBuilder("<b><i>projection:</i></b> List of variables to return");
+        proj_usage.append(" with optional <i>hyperslab</i> (index subset) definitions. Default to all.<br/>");
+        proj_usage.append(" The Dataset Descriptor Structure (DDS) will describe the variables for each dataset.");
+        proj_usage.append(" Use the <i>dds</i> suffix to get a dataset's DDS. <br/>");
+        println(proj_usage.toString());
+        
+        println("<b><i>selection:</i></b> Zero or more relative constraints on a variable (e.g. time>=2010-01-01). Each must be preceded by a '&'.<br/>");
+        println("<b><i>filter:</i></b> Zero or more filters to be applied to the data (see <A href=\"#filter\">Filter Options</A>). Each must be preceded by a '&'.<br/>");
         println("</blockquote>");
     }
     
