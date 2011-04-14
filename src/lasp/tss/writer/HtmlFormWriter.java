@@ -146,7 +146,10 @@ public class HtmlFormWriter extends InfoWriter implements DatasetWriter {
             else units = "";
         }
         else {
-            if (var instanceof TimeVariable) units = "(yyyy-mm-dd or "+units+")";
+            if (var instanceof TimeVariable && !units.equals("yyyy-mm-dd")) {
+                //don't be redundant
+                units = "(yyyy-mm-dd or "+units+")";
+            } 
             else units = "("+units+")";
         }
         
