@@ -149,6 +149,7 @@ public class SelectionConstraint extends Constraint {
         //TODO: support formatted times?
 
         Range range = null;
+        String name = variable.getName();
 
         try {
             double comparison = variable.parseValue(_value);
@@ -158,6 +159,12 @@ public class SelectionConstraint extends Constraint {
             int i2 = -1;
 
             double[] values = variable.getValues(); //TODO: avoid having to read all values, performance concern
+            //If none then return an empty range
+            if (values == null) {
+                range = new Range(name, Range.EMPTY);
+                return range;
+            }
+            
             int n = values.length;
             int index = Arrays.binarySearch(values, comparison);
 
@@ -195,7 +202,6 @@ public class SelectionConstraint extends Constraint {
 
 
             //Make a Range for this selection, named for the indep var (i.e. coord var, name=dim)
-            String name = variable.getName();
             if (i1 != -1 && i2 != -1) range = new Range(name, i1, i2); 
             else range = new Range(name, Range.EMPTY);
         } catch (Exception e) {
