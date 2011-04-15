@@ -253,9 +253,15 @@ public abstract class TSSVariable {
      * Is this Variable a String?
      */
     public boolean isString() {
-        DataType type = getNetcdfVariable().getDataType();
-        return type.isString();
-        //return (this instanceof StringVariable);
+        boolean b = false;
+        
+        Variable ncvar = getNetcdfVariable();
+        if (ncvar != null) {
+            DataType type = ncvar.getDataType();
+            b = type.isString();
+        }
+        
+        return b;
     }
     
     /**
