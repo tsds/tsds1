@@ -38,6 +38,7 @@ import org.apache.log4j.Logger;
 
 import lasp.tss.TSSException;
 import lasp.tss.TSSProperties;
+import lasp.tss.util.CatalogUtils;
 import thredds.catalog.InvAccess;
 import thredds.catalog.InvCatalogFactory;
 import thredds.catalog.InvCatalogImpl;
@@ -198,24 +199,6 @@ public class HelpWriter extends HtmlWriter {
         //Get the full URL to the catalog file.
         String curl = getServerUrl() + "/catalog.thredds";
         
-        URI catalogURI = null;
-        try {
-            catalogURI = new URI(curl);
-
-            boolean validate = true; //TODO:  doesn't work?
-            InvCatalogFactory factory = new InvCatalogFactory("default", validate);
-            _catalog = (InvCatalogImpl) factory.readXML(catalogURI);
-            
-            if (_catalog.hasFatalError()) {
-                String msg = _catalog.getLog();
-                _logger.warn("Error reading catalog " + catalogURI + ": " + msg);
-            }
-            
-        } catch (Throwable t) {
-            String msg = "Unable to read the catalog: " + catalogURI;
-            _logger.warn(msg, t);
-            throw new TSSException(msg, t);
-        }
-
+        _catalog = CatalogUtils.readCatalog(curl);
     }
 }
