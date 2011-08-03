@@ -28,6 +28,8 @@
  */
 package lasp.tss;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -137,6 +139,19 @@ public class TimeSeriesDataset {
         String curl = TSSProperties.getProperty("catalog.url");
         //TODO: support relative URL (to dataset.dir)?
         if (curl != null) {
+            try {
+                //resolve relative catalog URL
+                URI uri = new URI(curl);
+                if (! uri.isAbsolute()) {
+                    //look in dataset.dir
+                    String datadir = TSSProperties.getDatasetDir();
+                    curl = "file:" + datadir + "/" + curl;
+                }
+            } catch (URISyntaxException e) {
+                // TODO Auto-generated catch block
+                //e.printStackTrace();
+            }
+            
             InvCatalogImpl catalog = CatalogUtils.readCatalog(curl);
             if (catalog != null) {
                 InvDataset ds = CatalogUtils.findDataset(catalog, dsname);
