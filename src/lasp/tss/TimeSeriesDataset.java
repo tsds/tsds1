@@ -34,6 +34,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import lasp.tss.constraint.Constraint;
 import lasp.tss.constraint.ConstraintExpression;
+import lasp.tss.util.CatalogUtils;
 import lasp.tss.util.NestedText;
 import lasp.tss.variable.CompositeVariable;
 import lasp.tss.variable.TSSVariable;
@@ -43,6 +44,10 @@ import lasp.tss.variable.VariableFactory;
 
 import org.apache.log4j.Logger;
 
+import thredds.catalog.InvAccess;
+import thredds.catalog.InvCatalogImpl;
+import thredds.catalog.InvDataset;
+import thredds.catalog.ServiceType;
 import ucar.ma2.DataType;
 import ucar.nc2.Attribute;
 import ucar.nc2.Group;
@@ -122,13 +127,34 @@ public class TimeSeriesDataset {
      * Construct the NcML file URL.
      */
     private String getNcmlURL() {
+        String url = null;
+            
         String path = _request.getPathInfo(); 
         int index = path.lastIndexOf(".");
+        String dsname = path.substring(1, index); //exclude leading "/"
         
-        String datadir = TSSProperties.getDatasetDir();
-        String filename = datadir + path.substring(0, index) + ".ncml";
+        //Look for dataset in catalog if the catalog.url property is set.
+        String curl = TSSProperties.getProperty("catalog.url");
+        //TODO: support relative URL (to dataset.dir)?
+        if (curl != null) {
+            InvCatalogImpl catalog = CatalogUtils.readCatalog(curl);
+            if (catalog != null) {
+                InvDataset ds = CatalogUtils.findDataset(catalog, dsname);
+                if (ds != null) {
+                    //InvAccess access = ds.getAccess(ServiceType.NCML); //need 4.2?
+                    List<InvAccess> accesses = ds.getAccess();
+                    InvAccess access = accesses.get(0); //assume only one for now
+                    url = access.getStandardUrlName();
+                }
+            }
+        } 
         
-        String url = "file:"+filename;
+        if (url == null) {
+            //look in dataset.dir
+            String datadir = TSSProperties.getDatasetDir();
+            url = "file:" + datadir + "/" + dsname + ".ncml";
+        }
+
         return url;
     }
 
