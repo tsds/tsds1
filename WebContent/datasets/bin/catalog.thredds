@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog name="Test Data"
+        xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0"
+        xmlns:xlink="http://www.w3.org/1999/xlink">
+
+  <service name="tss" serviceType="OpenDAP" base="" />
+  <service name="ncml" serviceType="NCML" base="" />
+
+  <dataset name="Scalar" >
+    <access serviceName="tss" urlPath="Scalar" />
+    <access serviceName="ncml" urlPath="Scalar.ncml" />
+    <documentation type="summary">
+      Single variable time series from one binary file
+    </documentation>
+  </dataset>
+  <dataset name="Scalar2" >
+    <access serviceName="tss" urlPath="Scalar2" />
+    <access serviceName="ncml" urlPath="Scalar2.ncml" />
+    <documentation type="summary">
+      Single variable time series from two binary file
+    </documentation>
+  </dataset>
+
+  <dataset name="Structure" >
+    <access serviceName="tss" urlPath="Structure" />
+    <access serviceName="ncml" urlPath="Structure.ncml" />
+    <documentation type="summary">
+      Vector (three component) time series from one binary file
+    </documentation>
+  </dataset>
+  <dataset name="Structure2" >
+    <access serviceName="tss" urlPath="Structure2" />
+    <access serviceName="ncml" urlPath="Structure2.ncml" />
+    <documentation type="summary">
+      Vector (three component) time series from two binary file
+    </documentation>
+  </dataset>
+  
+  <dataset name="Sequence" >
+    <access serviceName="tss" urlPath="Sequence" />
+    <access serviceName="ncml" urlPath="Sequence.ncml" />
+    <documentation type="summary">
+      Spectrum time series from one binary file
+    </documentation>
+  </dataset>
+  <dataset name="Sequence2" >
+    <access serviceName="tss" urlPath="Sequence2" />
+    <access serviceName="ncml" urlPath="Sequence2.ncml" />
+    <documentation type="summary">
+      Spectrum time series from two binary files
+    </documentation>
+  </dataset>
+
+</catalog>
