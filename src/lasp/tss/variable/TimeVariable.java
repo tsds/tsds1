@@ -205,12 +205,12 @@ public class TimeVariable extends IndependentVariable {
         if (isJulian()) {
             JulianDate jd = new JulianDate(time);
             date = jd.getDate();
-        } else if (isFormatted()) {
-            date = new Date((long) time); //Unix/Java time
-        } else {
+        } else if (_dateUnit != null) {
             date = _dateUnit.makeDate(time);
+        } else {
+            date = new Date((long) time); //assume Unix/Java time
         }
-        
+            
         return date;
     }
     
