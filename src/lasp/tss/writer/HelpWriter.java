@@ -43,6 +43,7 @@ import thredds.catalog.InvAccess;
 import thredds.catalog.InvCatalogFactory;
 import thredds.catalog.InvCatalogImpl;
 import thredds.catalog.InvDataset;
+import thredds.catalog.ServiceType;
 
 /**
  * Part of DAP spec. This will be the response if there is no "dataset" in the request
@@ -151,7 +152,11 @@ public class HelpWriter extends HtmlWriter {
                 sb.append("<blockquote>" + s + "</blockquote>");
             } else {
                 //add link for each dataset
-                for (InvAccess access : ds.getAccess()) {
+                InvAccess access= ds.getAccess(ServiceType.OPENDAP);
+                //for (InvAccess access : ds.getAccess()) {
+                if (access != null) {
+                    //String sname = access.getService().getName();
+                    //if (! sname.equals("tss")) continue; 
                     String url = access.getStandardUrlName();
                     String summary = ds.getDocumentation("summary");
                     sb.append("<dt><b><i><a href=\"" + url + ".html\">" + name + "</a></i></b></dt>\n");
