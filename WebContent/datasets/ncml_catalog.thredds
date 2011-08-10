@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<catalog name="TimeSeriesServer THREDDS Catalog"
-        xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0"
-        xmlns:xlink="http://www.w3.org/1999/xlink">
-
-  <catalogRef xlink:title="local" xlink:href="test/ncml_catalog.thredds"/>
-  <catalogRef xlink:title="remote" xlink:href="http://virbo.org/metamag/viewDataFile.jsp?docname=C6D5623A-ADEC-8397-88A7-DD62A37BA490&amp;filetype=data" />
-
-</catalog>
