@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog name="Test Data"
+        xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0"
+        xmlns:xlink="http://www.w3.org/1999/xlink">
+
+  <service name="tss" serviceType="OpenDAP" base="" />
+  <service name="ncml" serviceType="NCML" base="" />
+
+  <dataset name="p11_gtt_daily_local" >
+    <access serviceName="tss" urlPath="p11_gtt_daily_local" />
+    <access serviceName="ncml" urlPath="p11_gtt_daily_local.ncml" />
+    <documentation type="summary">
+      Daily Average Interplanetary Cosmic Ray (and 3 Dec 1974 and 1 Sep 1979 Planetary Encounter) 
+      Data from the Pioneer 11 Geiger Tube Telescope (GTT) Experiment of U. Iowa - Acquired from local ASCII file.
+    </documentation>
+  </dataset>
+
+  <dataset name="p11_gtt_daily_http" >
+    <access serviceName="tss" urlPath="p11_gtt_daily_http" />
+    <access serviceName="ncml" urlPath="p11_gtt_daily_http.ncml" />
+    <documentation type="summary">
+      Daily Average Interplanetary Cosmic Ray (and 3 Dec 1974 and 1 Sep 1979 Planetary Encounter) 
+      Data from the Pioneer 11 Geiger Tube Telescope (GTT) Experiment of U. Iowa - Acquired from remote http server.
+    </documentation>
+  </dataset>
+  
+  <dataset name="p11_gtt_daily_ftp" >
+    <access serviceName="tss" urlPath="p11_gtt_daily_ftp" />
+    <access serviceName="ncml" urlPath="p11_gtt_daily_ftp.ncml" />
+    <documentation type="summary">
+      Daily Average Interplanetary Cosmic Ray (and 3 Dec 1974 and 1 Sep 1979 Planetary Encounter) 
+      Data from the Pioneer 11 Geiger Tube Telescope (GTT) Experiment of U. Iowa - Acquired from remote ftp server.
+    </documentation>
+  </dataset>
+
+
+  <dataset name="p11tr_hr_noag" >
+    <access serviceName="tss" urlPath="p11tr_hr_noag" />
+    <access serviceName="ncml" urlPath="p11tr_hr_noag.ncml" />
+    <documentation type="summary">
+      Pioneer 11 UCSD Trapped Radiation Detector Experiment (TRD): Hourly Averaged Interplanetary Cosmic Ray Data - 
+      Acquired from a single local ASCII file.
+    </documentation>
+  </dataset>
+  
+  <dataset name="p11tr_hr" >
+    <access serviceName="tss" urlPath="p11tr_hr" />
+    <access serviceName="ncml" urlPath="p11tr_hr.ncml" />
+    <documentation type="summary">
+      [VERY SLOW] Pioneer 11 UCSD Trapped Radiation Detector Experiment (TRD): Hourly Averaged Interplanetary Cosmic Ray Data - 
+      Acquired via NcML aggregation of two local ASCII files.
+    </documentation>
+  </dataset>
+  
+  <dataset name="p11tr_hr_med" >
+    <access serviceName="tss" urlPath="p11tr_hr_med" />
+    <access serviceName="ncml" urlPath="p11tr_hr_med.ncml" />
+    <documentation type="summary">
+      [SLOW] Pioneer 11 UCSD Trapped Radiation Detector Experiment (TRD): Hourly Averaged Interplanetary Cosmic Ray Data - 
+      Acquired via NcML aggregation of two local ASCII files reduced to 10% of the original number of samples.
+    </documentation>
+  </dataset>
+  
+  <dataset name="p11tr_hr_small" >
+    <access serviceName="tss" urlPath="p11tr_hr_small" />
+    <access serviceName="ncml" urlPath="p11tr_hr_small.ncml" />
+    <documentation type="summary">
+      Pioneer 11 UCSD Trapped Radiation Detector Experiment (TRD): Hourly Averaged Interplanetary Cosmic Ray Data - 
+      Acquired via NcML aggregation of two local ASCII files reduced to 1% of the original number of samples.
+    </documentation>
+  </dataset>
+  
+
+</catalog>

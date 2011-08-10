@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2" >
+
+  <attribute name="title" value="Pioneer 11 UCSD Trapped Radiation Detector Experiment (TRD): Hourly Averaged Interplanetary Cosmic Ray Data" />
+  <attribute name="source" value="ftp://nssdcftp.gsfc.nasa.gov/spacecraft_data/pioneer/pioneer11/particle/trd/ip_1hour_ascii/"/>
+    
+ <aggregation dimName="time" type="joinExisting">
+
+  <netcdf iosp="lasp.tss.iosp.AsciiIOSP" location="../data/p11tr_hr_data/p11tr_hr1990_small.asc">
+    <dimension name="time" isUnlimited="true"/> 
+    <variable name="time" orgName="v0" shape="time" type="String">
+      <attribute name="units" value="yyyy DDD HH"/>
+    </variable>
+    <variable name="M3L" orgName="v3" shape="time" type="double">
+      <attribute name="long_name" value="80-300 MeV Protons (50%)and >80 MeV/n Z>1 Ions"/>
+      <attribute name="units" value="counts/second"/>
+      <attribute name="_FillValue" value="1e31"/>
+    </variable>
+    <variable name="M1L" orgName="v4" shape="time" type="double">
+      <attribute name="long_name" value=">80 MeV/n Protons (90%) and Z>1 Ions"/>
+      <attribute name="units" value="counts/second"/>
+      <attribute name="_FillValue" value="1e31"/>
+    </variable>
+    <variable name="C1" orgName="v5" shape="time" type="double">
+      <attribute name="long_name" value=">480 MeV/n Protons (80%)and Z>1 Ions"/>
+      <attribute name="units" value="counts/second"/>
+      <attribute name="_FillValue" value="1e31"/>
+    </variable>
+    <variable name="C3" orgName="v6" shape="time" type="double">
+      <attribute name="long_name" value=">650 MeV/n Protons and Z>1 Ions (70%)"/>
+      <attribute name="units" value="counts/second"/>
+      <attribute name="_FillValue" value="1e31"/>
+    </variable>
+    <variable name="RAD" orgName="v7" shape="time" type="double">
+      <attribute name="long_name" value="Radial distance of spacecraft from Sun"/>
+      <attribute name="units" value="AU"/>
+      <attribute name="_FillValue" value="999.999"/>
+    </variable>
+  </netcdf>
+
+  <netcdf iosp="lasp.tss.iosp.AsciiIOSP" location="../data/p11tr_hr_data/p11tr_hr1991_small.asc">
+    <dimension name="time" isUnlimited="true"/> 
+    <variable name="time" orgName="v0" shape="time" type="String">
+      <attribute name="units" value="yyyy DDD HH"/>
+    </variable>
+    <variable name="M3L" orgName="v3" shape="time" type="double">
+      <attribute name="long_name" value="80-300 MeV Protons (50%)and >80 MeV/n Z>1 Ions"/>
+      <attribute name="units" value="counts/second"/>
+      <attribute name="_FillValue" value="1e31"/>
+    </variable>
+    <variable name="M1L" orgName="v4" shape="time" type="double">
+      <attribute name="long_name" value=">80 MeV/n Protons (90%) and Z>1 Ions"/>
+      <attribute name="units" value="counts/second"/>
+      <attribute name="_FillValue" value="1e31"/>
+    </variable>
+    <variable name="C1" orgName="v5" shape="time" type="double">
+      <attribute name="long_name" value=">480 MeV/n Protons (80%)and Z>1 Ions"/>
+      <attribute name="units" value="counts/second"/>
+      <attribute name="_FillValue" value="1e31"/>
+    </variable>
+    <variable name="C3" orgName="v6" shape="time" type="double">
+      <attribute name="long_name" value=">650 MeV/n Protons and Z>1 Ions (70%)"/>
+      <attribute name="units" value="counts/second"/>
+      <attribute name="_FillValue" value="1e31"/>
+    </variable>
+    <variable name="RAD" orgName="v7" shape="time" type="double">
+      <attribute name="long_name" value="Radial distance of spacecraft from Sun"/>
+      <attribute name="units" value="AU"/>
+      <attribute name="_FillValue" value="999.999"/>
+    </variable>
+  </netcdf>
+
+ </aggregation>
+    
+</netcdf>
