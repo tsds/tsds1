@@ -28,6 +28,7 @@
  */
 package lasp.tss;
 
+import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -145,7 +146,7 @@ public class TimeSeriesDataset {
                 if (! uri.isAbsolute()) {
                     //look in dataset.dir
                     String datadir = TSSProperties.getDatasetDir();
-                    curl = "file:" + datadir + "/" + curl;
+                    curl = "file:" + datadir + File.separator + curl;
                 }
             } catch (URISyntaxException e) {
                 // TODO Auto-generated catch block
@@ -158,8 +159,13 @@ public class TimeSeriesDataset {
                 if (ds != null) {
                     //InvAccess access = ds.getAccess(ServiceType.NCML); //need 4.2?
                     List<InvAccess> accesses = ds.getAccess();
-                    InvAccess access = accesses.get(0); //assume only one for now
-                    url = access.getStandardUrlName();
+                    for (InvAccess access : accesses) {
+                        String sname = access.getService().getName();
+                        if (sname.equals("ncml")) {
+                            url = access.getStandardUrlName();
+                            break;
+                        }
+                    }
                 }
             }
         } 
@@ -167,7 +173,7 @@ public class TimeSeriesDataset {
         if (url == null) {
             //look in dataset.dir
             String datadir = TSSProperties.getDatasetDir();
-            url = "file:" + datadir + "/" + dsname + ".ncml";
+            url = "file:" + datadir + File.separator + dsname + ".ncml";
         }
 
         return url;
