@@ -4,9 +4,11 @@
         xmlns:xlink="http://www.w3.org/1999/xlink">
 
   <service name="tss" serviceType="OpenDAP" base="" />
+  <service name="ncml" serviceType="NCML" base="" />
 
   <dataset name="Scalar" >
     <access serviceName="tss" urlPath="Scalar" />
+    <access serviceName="ncml" urlPath="Scalar.ncml" />
     <documentation type="summary">
       Single variable time series
     </documentation>
@@ -14,6 +16,7 @@
 
   <dataset name="Structure" >
     <access serviceName="tss" urlPath="Structure" />
+    <access serviceName="ncml" urlPath="Structure.ncml" />
     <documentation type="summary">
       Vector (three component) time series
     </documentation>
@@ -21,6 +24,7 @@
   
   <dataset name="Sequence" >
     <access serviceName="tss" urlPath="Sequence" />
+    <access serviceName="ncml" urlPath="Sequence.ncml" />
     <documentation type="summary">
       Spectrum time series
     </documentation>
