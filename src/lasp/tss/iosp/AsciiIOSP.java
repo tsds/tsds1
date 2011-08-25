@@ -94,6 +94,7 @@ public class AsciiIOSP extends AbstractIOSP {
      * Read all the rows into a List of Strings. Parse later.
      */
     private void readAllData() { 
+        
         _dataStrings = new ArrayList<String[]>();
         
         //See if we need to use a regular expression to read a formatted time.
@@ -161,6 +162,7 @@ public class AsciiIOSP extends AbstractIOSP {
 //            }
             
             //Simply match the number of characters in the format
+            //TODO: be more forgiving of white space?
             int n = timeUnit.length();
             regex = ".{"+n+"}";
         }
@@ -214,7 +216,7 @@ public class AsciiIOSP extends AbstractIOSP {
     public Array readData(Variable variable, Section section) throws IOException, InvalidRangeException {
         Array array = null;
         
-        String vname = variable.getName(); //This will be the original name we gave it here.
+        String vname = variable.getShortName(); //This will be the original name we gave it here.
         DataType type = variable.getDataType();
         
         //get index from var name suffix: v#
