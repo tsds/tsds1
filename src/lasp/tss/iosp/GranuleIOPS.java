@@ -291,6 +291,21 @@ public abstract class GranuleIOPS extends AbstractIOServiceProvider {
         return null;
     }
 
+    /**
+     * Release resources used by this IOSP.
+     * IMPORTANT: Override this if you use resources in addition to the "location" file.
+     *   Note that NetCDF has already opened the "location" file so it needs to be closed.
+     *   Otherwise, you may see "too many open files" type errors in your Servlet container.
+     */
+    public void close() throws IOException {
+        try {
+            getFile().close();
+        } catch (IOException e) {
+            String msg = "Failed closing data source: " + getFile().getLocation();
+            _logger.warn(msg, e);
+            throw e;
+        }
+    }
     
     //----- Implement interface methods so the Reader author doesn't have to. -----//
 
