@@ -25,10 +25,10 @@ import ucar.unidata.io.RandomAccessFile;
  * container, caching the data to satisfy reads without having to delegate
  * to the data source. 
  */
-public abstract class GranuleIOPS extends AbstractIOServiceProvider {
+public abstract class GranuleIOSP extends AbstractIOServiceProvider {
 
     // Initialize a logger.
-    private static final Logger _logger = Logger.getLogger(GranuleIOPS.class);
+    private static final Logger _logger = Logger.getLogger(GranuleIOSP.class);
     
     //private HashMap<String,Object> _data = new HashMap<String,Object>();
     

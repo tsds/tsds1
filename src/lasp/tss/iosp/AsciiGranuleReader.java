@@ -14,7 +14,7 @@ import ucar.ma2.DataType;
 import ucar.nc2.Variable;
 import ucar.unidata.io.RandomAccessFile;
 
-public class AsciiGranuleReader extends GranuleIOPS {
+public class AsciiGranuleReader extends GranuleIOSP {
 
     // Initialize a logger.
     private static final Logger _logger = Logger.getLogger(AsciiGranuleReader.class);
