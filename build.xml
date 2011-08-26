@@ -44,6 +44,7 @@
       <lib dir="${lib.dir}" description="include the 3rd party libs excluding the servlet-api">
         <exclude name="servlet-api.jar" />
       </lib>
+      <classes dir="${class.dir}" includes="ucar/**" description="overriding netcdf classes, need to be earlier in classpath"/>
       <classes file="${log.conf}" description="include the log config, in the classpath"/>
       <fileset dir="${web.dir}" excludes="WEB-INF/**" description="copy the web content"/>
     </war>
