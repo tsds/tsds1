@@ -1,6 +1,9 @@
 package lasp.tss.iosp;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
@@ -15,6 +18,9 @@ public class AsciiGranuleReader extends GranuleIOPS {
 
     // Initialize a logger.
     private static final Logger _logger = Logger.getLogger(AsciiGranuleReader.class);
+    
+    private URL _url;
+    private BufferedReader _input;
     
     private ArrayList<String[]> _dataStrings = new ArrayList<String[]>();
     
@@ -58,6 +64,10 @@ public class AsciiGranuleReader extends GranuleIOPS {
     
     @Override
     protected void readAllData() {
+        //If the NcML defines a url to use instead of the "location"
+        //manage the reader
+        String surl = getProperty("url");
+        if (surl != null) openUrl(surl);
         
         //skip header
         String headerLength = getProperty("headerLength");
@@ -84,6 +94,18 @@ public class AsciiGranuleReader extends GranuleIOPS {
             line = readLine();
         }
         
+    }
+
+    private void openUrl(String surl) {
+        try {
+            _url = new URL(surl);
+            _input = new BufferedReader(new InputStreamReader(_url.openStream()));
+
+        } catch (IOException e) {
+            String msg = "Failed to connect to the URL: " + _url;
+            _logger.error(msg, e);
+            throw new TSSException(msg, e);
+        }
     }
 
     /**
@@ -124,12 +146,20 @@ public class AsciiGranuleReader extends GranuleIOPS {
         RandomAccessFile file = getFile();
         String line;
         try {
-            line = file.readLine();
+            if (_input != null) line = _input.readLine();
+            else line = file.readLine();
         } catch (IOException e) {
             String msg = "Unable to read line from file: " + file.getLocation();
             _logger.error(msg, e);
             throw new TSSException(msg, e);
         }
         return line;
+    }
+    
+    public void close() throws IOException {
+        super.close();
+        
+        //if we are managing our own URL, close the reader
+        if (_input != null) _input.close();
     }
 }
