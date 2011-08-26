@@ -52,22 +52,8 @@ public abstract class GranuleIOPS extends AbstractIOServiceProvider {
     public void open(RandomAccessFile raf, NetcdfFile ncfile, CancelTask cancelTask) throws IOException {
         _raFile = raf;
         _ncFile = ncfile;
-
-        /*
-         * TODO: still trying to open for every read when aggregating
-         * VariableDS hasCachedData() is false for TBR
-         *   this var appears to be the agregated var, not the 2 we cached in
-         * delegates to proxy reader (AggregationExisting)
-         * 
-         * NetcdfDataset.acquireFile
-         *   looks for file cache, none, so reads ncml
-         *   NetcdfDataset.initNetcdfFileCache
-         *      * Enable file caching. call this before calling acquireFile().
-         *      * When application terminates, call NetcdfDataset.shutdown().
-         */
         
         try {
-
             readAllData();
 
             Element ncElement = ncfile.getNetcdfElement();
@@ -86,6 +72,7 @@ public abstract class GranuleIOPS extends AbstractIOServiceProvider {
         
     }
     
+//explore other ways for subclasses to load the data
 //    protected void addData(String varName, String value) {
 //        Object o = _data.get(varName);
 //        if (o == null) {
@@ -132,22 +119,13 @@ public abstract class GranuleIOPS extends AbstractIOServiceProvider {
     }
     
 
-
-
     /**
      * Return the NetcdfFile that was given to us and populated by in in the "open" method.
      */
     protected NetcdfFile getNetcdfFile() {
         return _ncFile;
     }
-    
-//    protected List<Variable> getVariables() {
-//        return _ncFile.getRootGroup().getVariables();
-//    }
-//    
-//    protected Variable getVariable(String varName) {
-//        return _ncFile.findVariable(varName);
-//    }
+
 
     /**
      * Return the name of a variable from the NcML element that defines it.
