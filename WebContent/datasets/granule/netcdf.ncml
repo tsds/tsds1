@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2"  
-    location="/dev/null" iosp="lasp.tss.iosp.NetcdfGranuleReader"
-    url="ts.nc">
-
+    location="ts.nc" iosp="lasp.tss.iosp.NetcdfGranuleReader">
 
     <attribute name="title" value="Test NetCDF time series" />
 

@@ -5,7 +5,7 @@
 
     <attribute name="title" value="Single variable time series" />
 
-    <dimension name="time" length="10" /> 
+    <dimension name="time" isUnlimited="true"/> 
 
     <variable name="time" shape="time" type="String" column="1 2">
         <attribute name="units" type="String" value="yy MM" />
