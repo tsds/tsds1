@@ -3,6 +3,7 @@ package lasp.tss.iosp;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import org.apache.log4j.Logger;
@@ -27,6 +28,7 @@ public class AsciiGranuleReader extends GranuleIOSP {
     protected Array getData(Variable var) {
         DataType type = var.getDataType();
         int[] shape = var.getShape();
+        int n = shape[0];
 
         String col = getVariableXmlAttribute(var.getShortName(), "column");
         
@@ -38,7 +40,6 @@ public class AsciiGranuleReader extends GranuleIOSP {
             cols[icol++] = Integer.parseInt(s) - 1; //first column is 1, indexed as 0
         }
         
-        int n = shape[0];
         Array array = Array.factory(type, shape);
         for (int i=0; i<n; i++) {
             String[] ss = _dataStrings.get(i); //ith row of data as array of strings
@@ -66,8 +67,8 @@ public class AsciiGranuleReader extends GranuleIOSP {
     protected void readAllData() {
         //If the NcML defines a url to use instead of the "location"
         //manage the reader
-        String surl = getProperty("url");
-        if (surl != null) openUrl(surl);
+        String url = getURL();
+        openUrl(url);
         
         //skip header
         String headerLength = getProperty("headerLength");
@@ -98,10 +99,16 @@ public class AsciiGranuleReader extends GranuleIOSP {
 
     private void openUrl(String surl) {
         try {
+            URI uri = new URI (surl);
+            if (uri.getScheme() == null) {
+                //add file scheme
+                surl = "file://" + surl;
+            }
+            
             _url = new URL(surl);
             _input = new BufferedReader(new InputStreamReader(_url.openStream()));
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             String msg = "Failed to connect to the URL: " + _url;
             _logger.error(msg, e);
             throw new TSSException(msg, e);
@@ -115,7 +122,7 @@ public class AsciiGranuleReader extends GranuleIOSP {
     protected int getLength() {
         int length = super.getLength(); //from ncml def
         
-        if (length < 0) { //not yet defined
+        if (length <= 0) { //not yet defined
             length = _dataStrings.size();
         }
         

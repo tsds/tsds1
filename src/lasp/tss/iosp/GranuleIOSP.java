@@ -36,14 +36,15 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
     private NetcdfFile _ncFile;
     
     /**
-     * Number of time samples defined in the time Dimension. "-1" implies undefined.
-     * If not defined, the subclass must override getLength() to indicate the number
+     * Number of time samples defined in the time Dimension.
+     * If not defined in the NcML, the subclass must override getLength() to indicate the number
      * of time samples, presumably after reading them all.
      */
-    private int _length = -1;
+    private int _length = 0;
     
     protected abstract void readAllData();
     protected abstract Array getData(Variable var);
+    //TODO; double[] getData(varName)
     
     protected int getLength() {
         return _length;
@@ -54,12 +55,27 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
         _ncFile = ncfile;
         
         try {
-            readAllData();
-
             Element ncElement = ncfile.getNetcdfElement();
             makeDimensions(null, ncElement);
             makeVariables(null, ncElement);
             //makeGroups(null, ncElement);
+            
+            readAllData();
+            
+            //set the length of the time dimension and cache the data
+            Dimension tdim = _ncFile.getRootGroup().findDimension("time");
+            int n = getLength();
+            tdim.setLength(n);
+
+            List<Variable> vars = _ncFile.getRootGroup().getVariables();
+            for (Variable var : vars) {
+                var.setDimensions("time"); //can't do until we've set the size of the Dimension
+                //TODO: support multi-dimension vars
+
+                Array array = getData(var);
+                var.setCachedData(array, false);
+            }
+            
             ncfile.finish(); //doesn't seem to matter
             
         } catch (Throwable t) {
@@ -114,10 +130,23 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
     /**
      * Return the file that NetCDF handed us in the call to "open" (already open).
      */
-    public RandomAccessFile getFile() {
+    protected RandomAccessFile getFile() {
         return _raFile;
     }
-    
+
+    /**
+     * Return the URL for the data granule.
+     * Try looking for a "url" definition,
+     * else get it from the "location".
+     */
+    protected String getURL() {
+        String url = getProperty("url");
+        if (url == null) {
+            url = getFile().getLocation();
+        }
+        //TODO: error if still null
+        return url;
+    }
 
     /**
      * Return the NetcdfFile that was given to us and populated by in in the "open" method.
@@ -165,26 +194,14 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
         String varlen = element.getAttributeValue("isVariableLength");
         if (varlen != null) isVariableLength = Boolean.parseBoolean(varlen);
         
-        int n = 0; //default to zero length, 
         String length = element.getAttributeValue("length");
-        if (length != null) n = Integer.parseInt(length);
+        if (length != null) _length = Integer.parseInt(length);
 
         String name = element.getAttributeValue("name");
-        //if (isUnlimited && n == 0) n = getLength();
-        
-        //If length is not defined and this is the time dimension,
-        //  delegate to getLength() to get the number of time samples.
-        //This may involve reading all the time data.
-        if ("time".equals(name)) {
-            if (isVariableLength) {
-                n = -1; //unlimited (or unknown?), not used/tested
-            } else if (n == 0) { //not variable length and not defined in ncml
-                n = getLength(); //get length from other method (e.g. read times) and save it
-                _length = n;
-            }
-        }
 
-        dim = new Dimension(name, n, isShared, isUnlimited, isVariableLength);
+        //TODO: error if length 0 and not unlimited?
+
+        dim = new Dimension(name, _length, isShared, isUnlimited, isVariableLength);
 
         return dim;
     }
@@ -209,13 +226,13 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
         Variable var = null;
         
         String vname = getVariableName(element);
-        String shape = element.getAttributeValue("shape"); //may be null for scalar
+        //String shape = element.getAttributeValue("shape"); //may be null for scalar
         String type = element.getAttributeValue("type");
         //TODO: do we need to worry about Structure type?
 
         var = new Variable(_ncFile, parent, null, vname);
         var.setDataType(DataType.getType(type));
-        var.setDimensions(shape); //Var gets shape (int[]) set here, changing dim size later won't change it
+        //var.setDimensions(shape); do after we know the time dim length, can't reset var's shape
         
         //add attributes
         List<Element> atts = element.getChildren("attribute", element.getNamespace());
@@ -225,10 +242,6 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
             Attribute att = new Attribute(name, value);
             var.addAttribute(att);
         }
-        
-        //cache the data
-        Array array = getData(var);
-        var.setCachedData(array, false);
         
         return var;
     }
