@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2"  
-    iosp="lasp.tss.iosp.AsciiGranuleReader"
+    iosp="lasp.tss.iosp.TabularAsciiReader"
     location="/dev/null"
     url="http://vmo.igpp.ucla.edu/data1/CRRES/MAG/PT2S/CRRES_MAG_2s_0192.dat">
 
     <attribute name="title" value="VMO CRRES test" />
 
-    <dimension name="time" unlimited="true"/> 
+    <dimension name="time" isUnlimited="true"/> 
 
     <variable name="time" shape="time" type="String" column="1 2 3 4 5 6">
         <attribute name="units" value="yyyy MM dd HH mm ss.SSSS" />
