@@ -1,6 +1,7 @@
 package lasp.tss.iosp;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -46,6 +47,11 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
     protected abstract Array getData(Variable var);
     //TODO; double[] getData(varName)
     
+    /**
+     * Hook to allow subclasses to do some initialization before reading data.
+     */
+    protected void init() {}
+    
     protected int getLength() {
         return _length;
     }
@@ -55,6 +61,8 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
         _ncFile = ncfile;
         
         try {
+            init();
+            
             Element ncElement = ncfile.getNetcdfElement();
             makeDimensions(null, ncElement);
             makeVariables(null, ncElement);
@@ -155,6 +163,26 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
         return _ncFile;
     }
 
+    protected List<Variable> getVariables() {
+        //assumes model has been defined
+        List<Variable> vars = _ncFile.getRootGroup().getVariables();
+        
+        return vars;
+    }    
+    
+    protected List<String> getVariableNames() {
+        List<String> names = new ArrayList<String>();
+        
+        Element element = _ncFile.getNetcdfElement();
+        List<Element> vars = element.getChildren("variable", element.getNamespace());
+
+        for (Element e : vars) {
+            String name = e.getAttributeValue("name");
+            names.add(name);
+        }   
+        
+        return names;
+    }
 
     /**
      * Return the name of a variable from the NcML element that defines it.

@@ -6,9 +6,6 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 
 import lasp.tss.TSSException;
@@ -18,30 +15,63 @@ import ucar.ma2.DataType;
 import ucar.nc2.Variable;
 import ucar.unidata.io.RandomAccessFile;
 
-public class AsciiGranuleReader extends GranuleIOSP {
+public class TabularAsciiReader extends AsciiGranuleReader {
 
+    /*
+     * TODO: reuse readAllData and getData, override parseLine only 
+     */
+    
     // Initialize a logger.
-    private static final Logger _logger = Logger.getLogger(AsciiGranuleReader.class);
-
-    private HashMap<String, Array> _dataMap = new HashMap<String, Array>();
+    private static final Logger _logger = Logger.getLogger(TabularAsciiReader.class);
     
     private URL _url;
     private BufferedReader _input;
     
-    private ArrayList<String[]> _dataStrings = new ArrayList<String[]>();
+    protected ArrayList<String[]> _dataStrings = new ArrayList<String[]>();
     
+    
+    protected Array getData(Variable var) {
+        DataType type = var.getDataType();
+        int[] shape = var.getShape();
+        int n = shape[0];
+
+        String col = getVariableXmlAttribute(var.getShortName(), "column");
+        
+        String[] scols = col.split(RegEx.DELIMITER);
+        int ncol = scols.length;
+        int[] cols = new int[ncol];
+        int icol = 0;
+        for (String s : scols) {
+            cols[icol++] = Integer.parseInt(s) - 1; //first column is 1, indexed as 0
+        }
+        
+        Array array = Array.factory(type, shape);
+        for (int i=0; i<n; i++) {
+            String[] ss = _dataStrings.get(i); //ith row of data as array of strings
+            String s = ss[cols[0]]; //data as string from desired column
+            
+            if (var.getDataType().isString()) {
+                if (ncol > 1) { //combine multiple columns into one string, e.g. formatted time
+                    StringBuilder sb = new StringBuilder(s);
+                    for (int ic=1; ic<ncol; ic++) {
+                        sb.append(" ").append(ss[cols[ic]]);
+                    }
+                    s = sb.toString();
+                }
+                array.setObject(i, s);
+            } else {
+                double d = Double.parseDouble(s);
+                array.setDouble(i, d);
+            }
+        }
+        
+        return array;   
+    }
 
     protected String[] parseLine(String line) {
         String[] ss = line.split(RegEx.DELIMITER);
         return ss;
     }
-    
-    protected Array getData(Variable var) {
-        String vname = var.getShortName();
-        Array array = _dataMap.get(vname);
-        return array;
-    }
-
     
     @Override
     protected void readAllData() {
@@ -75,34 +105,8 @@ public class AsciiGranuleReader extends GranuleIOSP {
             line = readLine();
         }
         
-        //make empty Arrays and put in data map
-        List<Variable> vars = getVariables();
-        int length = getLength();
-        for (Variable var : vars) {
-            String vname = var.getShortName();
-            DataType type = var.getDataType();
-            int[] shape = new int[] {length};
-            Array array = Array.factory(type, shape);
-            _dataMap.put(vname, array);
-        }
         
-        //fills Arrays with data
-        int itim = 0;
-        for (String[] ss : _dataStrings) {
-            int ivar = 0;
-            for (Variable var : vars) {
-                String s = ss[ivar];
-                String vname = var.getShortName();
-                Array array = _dataMap.get(vname);
-                if (var.getDataType().isString()) array.setObject(itim, s);
-                else {
-                    double d = Double.parseDouble(s);
-                    array.setDouble(itim, d);
-                }
-                ivar++;
-            }
-            itim++;
-        }
+        
     }
 
 
