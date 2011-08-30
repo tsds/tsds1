@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2"  
+    location="regex.dat" iosp="lasp.tss.iosp.RegExAsciiReader"
+    regex="(\S+)\s+(\S+)">
+
+
+    <attribute name="title" value="Test of RegExAsciiReader" />
+
+    <dimension name="time" isUnlimited="true"/> 
+
+    <variable name="time" shape="time" type="String" >
+        <attribute name="units" type="String" value="yyyy" />
+    </variable>
+
+    <variable name="v5" shape="time" type="String"/>
+    
+</netcdf>
