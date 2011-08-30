@@ -28,7 +28,7 @@ public class AsciiGranuleReader extends GranuleIOSP {
     private URL _url;
     private BufferedReader _input;
     
-    private ArrayList<String[]> _dataStrings = new ArrayList<String[]>();
+    protected ArrayList<String[]> _dataStrings = new ArrayList<String[]>();
     
 
     protected String[] parseLine(String line) {
@@ -106,7 +106,7 @@ public class AsciiGranuleReader extends GranuleIOSP {
     }
 
 
-    private void openUrl(String surl) {
+    protected void openUrl(String surl) {
         try {
             URI uri = new URI (surl);
             if (uri.getScheme() == null) {
@@ -142,7 +142,7 @@ public class AsciiGranuleReader extends GranuleIOSP {
     /**
      * Determine if the given line is a comment.
      */
-    private boolean isComment(String line) {
+    protected boolean isComment(String line) {
         String comment = getProperty("commentCharacter");
         boolean b = (comment != null) && (line.startsWith(comment));
         return b;
@@ -151,7 +151,7 @@ public class AsciiGranuleReader extends GranuleIOSP {
     /**
      * Skip the given number of lines in the data file (e.g. header).
      */
-    private void skipLines(int n) {
+    protected void skipLines(int n) {
         for (int i=0; i<n; i++) readLine();
     }
 
