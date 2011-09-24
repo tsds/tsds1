@@ -12,6 +12,7 @@ public class TabularAsciiReader extends AsciiGranuleReader {
 
     /*
      * TODO: reuse readAllData and getData, override parseLine only 
+     * Don't use _dataStrings from superclass
      */
     
     // Initialize a logger.

@@ -2,11 +2,15 @@ package lasp.tss.iosp;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.Namespace;
+import org.jdom.xpath.XPath;
 
 import ucar.ma2.Array;
 import ucar.ma2.DataType;
@@ -31,7 +35,7 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
     // Initialize a logger.
     private static final Logger _logger = Logger.getLogger(GranuleIOSP.class);
     
-    //private HashMap<String,Object> _data = new HashMap<String,Object>();
+    private HashMap<String, Array> _dataMap = new HashMap<String, Array>();
     
     private RandomAccessFile _raFile;
     private NetcdfFile _ncFile;
@@ -44,8 +48,13 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
     private int _length = 0;
     
     protected abstract void readAllData();
-    protected abstract Array getData(Variable var);
-    //TODO; double[] getData(varName)
+
+    //TODO; double[] getData(varName)    
+    protected Array getData(Variable var) {
+        String vname = var.getShortName();
+        Array array = _dataMap.get(vname);
+        return array;
+    }
     
     /**
      * Hook to allow subclasses to do some initialization before reading data.
@@ -56,9 +65,17 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
         return _length;
     }
     
+    //TODO: setLength?
+    
     public void open(RandomAccessFile raf, NetcdfFile ncfile, CancelTask cancelTask) throws IOException {
         _raFile = raf;
         _ncFile = ncfile;
+        
+        /*
+         * TODO: try caching the dataMap?
+         * need to worry about expiration...
+         * Does FileCache persist between requests?
+         */
         
         try {
             init();
@@ -66,19 +83,22 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
             Element ncElement = ncfile.getNetcdfElement();
             makeDimensions(null, ncElement);
             makeVariables(null, ncElement);
-            //makeGroups(null, ncElement);
+            makeGroups(null, ncElement);
             
             readAllData();
             
-            //set the length of the time dimension and cache the data
+            //Set the length of the time dimension.
             Dimension tdim = _ncFile.getRootGroup().findDimension("time");
             int n = getLength();
             tdim.setLength(n);
 
-            List<Variable> vars = _ncFile.getRootGroup().getVariables();
+            //Tell each Variable what it's shape is.
+            //This has to be done after the Dimension lengths have been set.
+            //Then put the data in the Variable cache.
+            List<Variable> vars = getVariables();
             for (Variable var : vars) {
-                var.setDimensions("time"); //can't do until we've set the size of the Dimension
-                //TODO: support multi-dimension vars
+                String shape = getVariableXmlAttribute(var.getShortName(), "shape");
+                var.setDimensions(shape);
 
                 Array array = getData(var);
                 var.setCachedData(array, false);
@@ -94,6 +114,15 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
             throw new IOException(msg, t);
         }
         
+    }
+    
+
+    protected Array getArray(String varName) {
+        return _dataMap.get(varName);
+    }
+    
+    protected void setArray(String varName, Array array) {
+        _dataMap.put(varName, array);
     }
     
 //explore other ways for subclasses to load the data
@@ -164,11 +193,24 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
     }
 
     protected List<Variable> getVariables() {
+        
         //assumes model has been defined
-        List<Variable> vars = _ncFile.getRootGroup().getVariables();
+        List<Variable> vars = new ArrayList<Variable>(); //start with empty List
+        vars = gatherVariables(_ncFile.getRootGroup(), vars); //recursively get Variables in all Groups
         
         return vars;
-    }    
+    }
+    
+    private List<Variable> gatherVariables(Group group, List<Variable> variables) {
+        List<Variable> vars = group.getVariables();
+        variables.addAll(vars);
+        
+        for (Group g : group.getGroups()) {
+            variables = gatherVariables(g, variables); //recursive
+        }
+        
+        return variables;
+    }
     
     protected List<String> getVariableNames() {
         List<String> names = new ArrayList<String>();
@@ -274,33 +316,62 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
         return var;
     }
     
+    /**
+     * Look for group definitions in the ncml. Create them (without data) and add them to ncfile.
+     */
+    protected void makeGroups(Group parent, Element element) {
+        List<Element> groups = element.getChildren("group", element.getNamespace());
+        for (Element e : groups) {
+            Group group = makeGroup(parent, e);
+            _ncFile.addGroup(parent, group);
+        }
+    }
     
     /**
-     * Return the value of a given named attribute from the variable with the given name.
+     * Create a Group with the given parent and the XML element that defines it.
+     */
+    protected Group makeGroup(Group parent, Element element) {
+        Group group = null;
+        
+        String name = element.getAttributeValue("name");
+        group = new Group(_ncFile, parent, name);
+
+        makeDimensions(group, element);
+        makeVariables(group, element);
+        makeGroups(group, element);
+        
+        return group;
+    }
+    
+
+    /**
+     * Return the value of the "attName" XML attribute for the first variable
+     * Element with the "name" XML attribute = varName.
      */
     protected String getVariableXmlAttribute(String varName, String attName) {
         String s = null;
-        
-        Element element = getNetcdfFile().getNetcdfElement();
-        Iterator it = (Iterator) element.getDescendants();
-        while (it.hasNext()) {
-            Object o = it.next();
-            if (! (o instanceof Element)) continue;
-            Element e = (Element) o;
-            String ename = e.getName();
-            if (! ename.equals("variable")) continue;
-            
-            String vname = e.getAttributeValue("name");
-            if (vname.equals(varName)) {
-                s = e.getAttributeValue(attName);
-                break;
-            }
+
+        try {
+            //Use XPath query
+            Element element = getNetcdfFile().getNetcdfElement();
+            Namespace ns = element.getNamespace();
+            String ns_prefix = ns.getPrefix();
+            if (ns_prefix.equals("")) ns_prefix = "dummy"; //XPath doesn't support a default namespace
+            String ns_uri = ns.getURI();
+
+            String q = "//" + ns_prefix + ":variable[@name=\"" + varName + "\"]";
+            XPath x = XPath.newInstance(q);
+            x.addNamespace(ns_prefix, ns_uri);
+            Element e = (Element) x.selectSingleNode(element);
+            if (e != null) s = e.getAttributeValue(attName);
+
+        } catch (JDOMException e1) {
+            e1.printStackTrace();
         }
-        
+
         return s;
     }
-    
-    
+
     /**
      * No-op. Shouldn't be needed since we are using the Variable cache.
      */

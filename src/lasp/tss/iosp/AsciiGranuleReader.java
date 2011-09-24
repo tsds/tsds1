@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -22,8 +21,6 @@ public class AsciiGranuleReader extends GranuleIOSP {
 
     // Initialize a logger.
     private static final Logger _logger = Logger.getLogger(AsciiGranuleReader.class);
-
-    private HashMap<String, Array> _dataMap = new HashMap<String, Array>();
     
     private URL _url;
     private BufferedReader _input;
@@ -34,12 +31,6 @@ public class AsciiGranuleReader extends GranuleIOSP {
     protected String[] parseLine(String line) {
         String[] ss = line.split(RegEx.DELIMITER);
         return ss;
-    }
-    
-    protected Array getData(Variable var) {
-        String vname = var.getShortName();
-        Array array = _dataMap.get(vname);
-        return array;
     }
 
     
@@ -83,7 +74,7 @@ public class AsciiGranuleReader extends GranuleIOSP {
             DataType type = var.getDataType();
             int[] shape = new int[] {length};
             Array array = Array.factory(type, shape);
-            _dataMap.put(vname, array);
+            setArray(vname, array);
         }
         
         //fills Arrays with data
@@ -93,7 +84,7 @@ public class AsciiGranuleReader extends GranuleIOSP {
             for (Variable var : vars) {
                 String s = ss[ivar];
                 String vname = var.getShortName();
-                Array array = _dataMap.get(vname);
+                Array array = getArray(vname);
                 if (var.getDataType().isString()) array.setObject(itim, s);
                 else {
                     double d = Double.parseDouble(s);
