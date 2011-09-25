@@ -1,10 +1,7 @@
 package lasp.tss.iosp;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import ucar.nc2.Variable;
 
 /**
  * Read an ASCII granule one line at a time using a regular expression
@@ -23,14 +20,14 @@ public class RegExAsciiReader extends AsciiGranuleReader {
         String regex = getProperty("regex");
         _pattern = Pattern.compile(regex);
         
-        List<String> vars = getVariableNames();
-        _nvar = vars.size();
+        _nvar = getVariableCount();
     }
 
-    protected String[] parseLine(String line) {
+    @Override
+    protected String[] parseRecord(String record) {
         String[] strings = null;
         
-        Matcher m = _pattern.matcher(line);
+        Matcher m = _pattern.matcher(record);
         if (m.matches()) {
             strings = new String[_nvar];
             for (int i=0; i<_nvar; i++) {

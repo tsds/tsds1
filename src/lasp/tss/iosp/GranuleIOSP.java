@@ -3,7 +3,6 @@ package lasp.tss.iosp;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -77,6 +76,7 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
          * Does FileCache persist between requests?
          */
         
+        
         try {
             init();
             
@@ -117,13 +117,13 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
     }
     
 
-    protected Array getArray(String varName) {
-        return _dataMap.get(varName);
-    }
-    
-    protected void setArray(String varName, Array array) {
-        _dataMap.put(varName, array);
-    }
+//    protected Array getArray(String varName) {
+//        return _dataMap.get(varName);
+//    }
+//    
+//    protected void setArray(String varName, Array array) {
+//        _dataMap.put(varName, array);
+//    }
     
 //explore other ways for subclasses to load the data
 //    protected void addData(String varName, String value) {
@@ -212,18 +212,51 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
         return variables;
     }
     
-    protected List<String> getVariableNames() {
-        List<String> names = new ArrayList<String>();
+//    /**
+//     * Return a List of Variable names to be used as keys in the data Map.
+//     * Get them from the NcML since the NetcdfFile might not be defined yet.
+//     */
+//    protected List<String> getVariableNames() {
+//        //TODO: only used by RegEx reader to get nvar, just make getVariableCount?
+//        List<String> names = new ArrayList<String>();
+//        
+//        Element element = _ncFile.getNetcdfElement();
+//        List<Element> vars = element.getChildren("variable", element.getNamespace());
+//
+//        for (Element e : vars) {
+//            String name = e.getAttributeValue("name");
+//            names.add(name);
+//        }   
+//        
+//        return names;
+//    }
+    
+    protected List<Element> getVariableElements() {
+        List<Element> vars = null;
         
-        Element element = _ncFile.getNetcdfElement();
-        List<Element> vars = element.getChildren("variable", element.getNamespace());
+        try {
+            //Use XPath query
+            Element element = getNetcdfFile().getNetcdfElement();
+            Namespace ns = element.getNamespace();
+            String ns_prefix = ns.getPrefix();
+            if (ns_prefix.equals("")) ns_prefix = "dummy"; //XPath doesn't support a default namespace
+            String ns_uri = ns.getURI();
 
-        for (Element e : vars) {
-            String name = e.getAttributeValue("name");
-            names.add(name);
-        }   
+            String q = "//" + ns_prefix + ":variable";
+            XPath x = XPath.newInstance(q);
+            x.addNamespace(ns_prefix, ns_uri);
+            vars = x.selectNodes(element);
+
+        } catch (JDOMException e) {
+            e.printStackTrace();
+        }
         
-        return names;
+        return vars;
+    }    
+    
+    protected int getVariableCount() {
+        int nvar = getVariableElements().size();
+        return nvar;
     }
 
     /**
@@ -365,8 +398,8 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
             Element e = (Element) x.selectSingleNode(element);
             if (e != null) s = e.getAttributeValue(attName);
 
-        } catch (JDOMException e1) {
-            e1.printStackTrace();
+        } catch (JDOMException e) {
+            e.printStackTrace();
         }
 
         return s;
