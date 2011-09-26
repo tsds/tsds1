@@ -51,7 +51,7 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
     //TODO; double[] getData(varName)    
     protected Array getData(Variable var) {
         String vname = var.getShortName();
-        Array array = _dataMap.get(vname);
+        Array array = getArray(vname);
         return array;
     }
     
@@ -117,13 +117,13 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
     }
     
 
-//    protected Array getArray(String varName) {
-//        return _dataMap.get(varName);
-//    }
-//    
-//    protected void setArray(String varName, Array array) {
-//        _dataMap.put(varName, array);
-//    }
+    protected Array getArray(String varName) {
+        return _dataMap.get(varName);
+    }
+    
+    protected void setArray(String varName, Array array) {
+        _dataMap.put(varName, array);
+    }
     
 //explore other ways for subclasses to load the data
 //    protected void addData(String varName, String value) {
