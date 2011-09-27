@@ -1,38 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2" 
-iosp="lasp.tss.iosp.AsciiIOSP" location="../data/p11tr_hr_data/p11tr_hr1990-1.asc">
+iosp="lasp.tss.iosp.ColumnarAsciiReader" columns="1,2,3;4;5;6;7;8;9;10"
+location="../data/p11tr_hr_data/p11tr_hr1990-1.asc">
 
   <attribute name="title" value="Pioneer 11 UCSD Trapped Radiation Detector Experiment (TRD): Hourly Averaged Interplanetary Cosmic Ray Data" />
   <attribute name="source" value="ftp://nssdcftp.gsfc.nasa.gov/spacecraft_data/pioneer/pioneer11/particle/trd/ip_1hour_ascii/"/>
     
 	<dimension name="time" isUnlimited="true"/> 
-	<variable name="time" orgName="v0" shape="time" type="String">
+	<variable name="time" shape="time" type="String">
 	  <attribute name="units" value="yyyy DDD HH"/>
-	</variable>
-	<variable name="M3L" orgName="v3" shape="time" type="double">
-	  <attribute name="long_name" value="80-300 MeV Protons (50%)and >80 MeV/n Z>1 Ions"/>
-	  <attribute name="units" value="counts/second"/>
-	  <attribute name="_FillValue" value="1e31"/>
-	</variable>
-	<variable name="M1L" orgName="v4" shape="time" type="double">
-	  <attribute name="long_name" value=">80 MeV/n Protons (90%) and Z>1 Ions"/>
-	  <attribute name="units" value="counts/second"/>
-	  <attribute name="_FillValue" value="1e31"/>
-	</variable>
-	<variable name="C1" orgName="v5" shape="time" type="double">
-	  <attribute name="long_name" value=">480 MeV/n Protons (80%)and Z>1 Ions"/>
-	  <attribute name="units" value="counts/second"/>
-	  <attribute name="_FillValue" value="1e31"/>
-	</variable>
-	<variable name="C3" orgName="v6" shape="time" type="double">
-	  <attribute name="long_name" value=">650 MeV/n Protons and Z>1 Ions (70%)"/>
-	  <attribute name="units" value="counts/second"/>
-	  <attribute name="_FillValue" value="1e31"/>
-	</variable>
-	<variable name="RAD" orgName="v7" shape="time" type="double">
-	  <attribute name="long_name" value="Radial distance of spacecraft from Sun"/>
-	  <attribute name="units" value="AU"/>
-	  <attribute name="_FillValue" value="999.999"/>
-	</variable>
+	</variable>    
+	<variable name="TBR" shape="time" type="double">
+      <attribute name="long_name" value="Code for Telemetry Bit Rate"/>
+      <attribute name="units" value="bits/second = 2**(3+TBR)"/>
+      <attribute name="_FillValue" value="9"/>
+      <attribute name="precision" value="0"/>
+    </variable>
+    <variable name="TDF" shape="time" type="String">
+      <attribute name="long_name" value="Telemetry Data Format"/>
+      <attribute name="units" value="A, A/D, B, B/D"/>
+      <attribute name="_FillValue" value="999"/>
+    </variable>
+    <variable name="M3L" shape="time" type="double">
+      <attribute name="long_name" value="80-300 MeV Protons (50%)and >80 MeV/n Z>1 Ions"/>
+      <attribute name="units" value="counts/second"/>
+      <attribute name="_FillValue" value="1e31"/>
+      <attribute name="sigfig" value="5"/>
+    </variable>
+    <variable name="M1L" shape="time" type="double">
+      <attribute name="long_name" value=">80 MeV/n Protons (90%) and Z>1 Ions"/>
+      <attribute name="units" value="counts/second"/>
+      <attribute name="_FillValue" value="1e31"/>
+      <attribute name="sigfig" value="5"/>
+    </variable>
+    <variable name="C1" shape="time" type="double">
+      <attribute name="long_name" value=">480 MeV/n Protons (80%)and Z>1 Ions"/>
+      <attribute name="units" value="counts/second"/>
+      <attribute name="_FillValue" value="1e31"/>
+      <attribute name="sigfig" value="5"/>
+    </variable>
+    <variable name="C3" shape="time" type="double">
+      <attribute name="long_name" value=">650 MeV/n Protons and Z>1 Ions (70%)"/>
+      <attribute name="units" value="counts/second"/>
+      <attribute name="_FillValue" value="1e31"/>
+      <attribute name="sigfig" value="5"/>
+    </variable>
+    <variable name="RAD" shape="time" type="double">
+      <attribute name="long_name" value="Radial distance of spacecraft from Sun"/>
+      <attribute name="units" value="AU"/>
+      <attribute name="_FillValue" value="999.999"/>
+      <attribute name="sigfig" value="5"/>
+    </variable>
     
 </netcdf>

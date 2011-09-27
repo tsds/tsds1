@@ -6,8 +6,9 @@
     
  <aggregation dimName="time" type="joinExisting">
 
-  <netcdf iosp="lasp.tss.iosp.AsciiGranuleReader" location="../data/p11tr_hr_data/p11tr_hr1990.asc">
-    <dimension name="time" isUnlimited="true"/> 
+  <netcdf iosp="lasp.tss.iosp.ColumnarAsciiReader" columns="1,2,3;4;5;6;7;8;9;10"
+          location="../data/p11tr_hr_data/p11tr_hr1990.asc">
+    <dimension name="time" isUnlimited="true" /> 
     <variable name="time" shape="time" type="String" column="1 2 3">
       <attribute name="units" value="yyyy DDD HH"/>
     </variable>
@@ -54,8 +55,9 @@
     </variable>
   </netcdf>
 
-  <netcdf iosp="lasp.tss.iosp.AsciiGranuleReader" location="../data/p11tr_hr_data/p11tr_hr1991.asc">
-    <dimension name="time" isUnlimited="true"/> 
+  <netcdf iosp="lasp.tss.iosp.ColumnarAsciiReader" columns="1,2,3;4;5;6;7;8;9;10"
+          location="../data/p11tr_hr_data/p11tr_hr1991.asc">
+    <dimension name="time" isUnlimited="true" /> 
     <variable name="time" shape="time" type="String" column="1 2 3">
       <attribute name="units" value="yyyy DDD HH"/>
     </variable>

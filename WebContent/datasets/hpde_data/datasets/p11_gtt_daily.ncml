@@ -20,6 +20,7 @@ iosp="lasp.tss.iosp.AsciiIOSP" location="../data/p11_gtt_daily.txt">
         <attribute name="long_name" value="Effective Counts"/>
       </variable>
       
+      <!--TODO: model as spectrum-->
     <!--group name="Spectrum" >
       <dimension name="detector" length="12" isUnlimited="false"/> 
   
