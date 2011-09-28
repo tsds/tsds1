@@ -38,11 +38,17 @@ public class ColumnarAsciiReader extends AsciiGranuleReader {
         int nvar = _varColumns.size();
         String[] ss = new String[nvar];
 
-        for (int ivar=0; ivar<nvar; ivar++) {
-            for (int i : _varColumns.get(ivar)) {
-                if (ss[ivar] == null) ss[ivar] = columns[i-1]; //columns start at 1
-                else ss[ivar] += " " + columns[i-1]; 
+        try {
+            for (int ivar=0; ivar<nvar; ivar++) {
+                for (int i : _varColumns.get(ivar)) {
+                    if (ss[ivar] == null) ss[ivar] = columns[i-1]; //columns start at 1
+                    else ss[ivar] += " " + columns[i-1]; 
+                }
             }
+        } catch (Exception e) {
+            String msg = "Unable to parse record: " + record;
+            _logger.warn(msg, e);
+            e.printStackTrace();
         }
         
         return ss;
