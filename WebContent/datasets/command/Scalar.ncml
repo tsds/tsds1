@@ -11,10 +11,10 @@
         <attribute name="units" value="yy" />
     </variable>
 
-    <variable name="v1" shape="time" type="double" column="2"/>
-    <variable name="v2" shape="time" type="double" column="3"/>
-    <variable name="v3" shape="time" type="double" column="4"/>
-    <variable name="v4" shape="time" type="double" column="5"/>
-    <variable name="v5" shape="time" type="String" column="6"/>
+    <variable name="v1" shape="time" type="double" />
+    <variable name="v2" shape="time" type="double" />
+    <variable name="v3" shape="time" type="double" />
+    <variable name="v4" shape="time" type="double" />
+    <variable name="v5" shape="time" type="String" />
     
 </netcdf>
