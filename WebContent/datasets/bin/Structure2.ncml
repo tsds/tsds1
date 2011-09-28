@@ -19,7 +19,7 @@
     
       <dimension name="time" length="365" /> 
 
-      <group name="Vector" tsdsType="Structure" shape="time">
+      <group name="Vector" shape="time">
         <variable name="x" shape="time" type="double" />
         <variable name="y" shape="time" type="double" />
         <variable name="z" shape="time" type="double" />

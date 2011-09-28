@@ -10,7 +10,7 @@
         <attribute name="units" type="String" value="days since 1970-01-01" />
     </variable>
     
-    <group name="Vector" tsdsType="Structure" shape="time">
+    <group name="Vector" shape="time">
         <variable name="x" shape="time" type="double" />
         <variable name="y" shape="time" type="double" />
         <variable name="z" shape="time" type="double" />
