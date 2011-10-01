@@ -33,6 +33,8 @@ import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import lasp.tss.util.ServerUtils;
+
 /**
  * Base class for Writers which are responsible for writing the Servlet response.
  * 
@@ -99,19 +101,10 @@ public abstract class AbstractWriter implements Writer {
     public void setResponse(HttpServletResponse response) {_response = response;}
 
     /**
-     * Get the base URL (up through TSS servlet mapping) from the request
+     * Get the base URL (up through TSS servlet mapping) from the request.
      */
     protected String getServerUrl() {
-        String url = _request.getRequestURL().toString(); //full url (without query) 
-        String pinfo = _request.getPathInfo(); // data set name + suffix
-        
-        //Remove the path info from the url.
-        //The test accounts for hitting just the servlet with no ending "/"
-        if (pinfo != null && url.endsWith(pinfo)) {
-            int index = url.lastIndexOf(pinfo);
-            url = url.substring(0,index);
-        }
-        
+        String url = ServerUtils.getServerUrl(_request);        
         return url;
     }
     

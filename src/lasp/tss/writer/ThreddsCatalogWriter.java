@@ -38,12 +38,12 @@ import lasp.tss.TSSProperties;
  * was for this file. It is designed so that the catalog file can
  * live relative to the dataset (NcML) files. Both are hidden
  * within the dataset.dir as opposed to being directly accessible.
- * The catalog file needs to have a ".thredds" suffix.
+ * The catalog file needs to have a ".thredds" suffix to match the
+ * default mapping in the tss.properties file.
  * 
  * @author Doug Lindholm
  */
 public class ThreddsCatalogWriter extends TextWriter {
-
 
     public String getContentType() { return "text/xml"; }
     

@@ -136,42 +136,19 @@ public class TimeSeriesDataset {
         int index = path.lastIndexOf(".");
         String dsname = path.substring(1, index); //exclude leading "/"
         
-        //Look for dataset in catalog if the catalog.url property is set.
-        String curl = TSSProperties.getProperty("catalog.url");
-        //TODO: support relative URL (to dataset.dir)?
-        if (curl != null) {
-            try {
-                //resolve relative catalog URL
-                URI uri = new URI(curl);
-                if (! uri.isAbsolute()) {
-                    //look in dataset.dir
-                    String datadir = TSSProperties.getDatasetDir();
-                    curl = "file:" + datadir + File.separator + curl;
-                }
-            } catch (URISyntaxException e) {
-                // TODO Auto-generated catch block
-                //e.printStackTrace();
+        //Look for the dataset in the catalog.
+        String curl = TSSProperties.getCatalogUrl();
+        InvCatalogImpl catalog = CatalogUtils.readCatalog(curl);
+        if (catalog != null) {
+            InvDataset ds = CatalogUtils.findDataset(catalog, dsname);
+            if (ds != null) {
+                InvAccess access = ds.getAccess(ServiceType.NCML);
+                url = access.getStandardUrlName();
             }
-            
-            InvCatalogImpl catalog = CatalogUtils.readCatalog(curl);
-            if (catalog != null) {
-                InvDataset ds = CatalogUtils.findDataset(catalog, dsname);
-                if (ds != null) {
-                    //InvAccess access = ds.getAccess(ServiceType.NCML); //need 4.2?
-                    List<InvAccess> accesses = ds.getAccess();
-                    for (InvAccess access : accesses) {
-                        String sname = access.getService().getName();
-                        if (sname.equals("ncml")) {
-                            url = access.getStandardUrlName();
-                            break;
-                        }
-                    }
-                }
-            }
-        } 
+        }
         
+        //If not found in the catalog, look for ncml in the dataset.dir
         if (url == null) {
-            //look in dataset.dir
             String datadir = TSSProperties.getDatasetDir();
             url = "file:" + datadir + File.separator + dsname + ".ncml";
         }

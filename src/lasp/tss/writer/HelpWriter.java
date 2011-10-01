@@ -153,10 +153,7 @@ public class HelpWriter extends HtmlWriter {
             } else {
                 //add link for each dataset
                 InvAccess access= ds.getAccess(ServiceType.OPENDAP);
-                //for (InvAccess access : ds.getAccess()) {
                 if (access != null) {
-                    //String sname = access.getService().getName();
-                    //if (! sname.equals("tss")) continue; 
                     String url = access.getStandardUrlName();
                     String summary = ds.getDocumentation("summary");
                     sb.append("<dt><b><i><a href=\"" + url + ".html\">" + name + "</a></i></b></dt>\n");
@@ -197,13 +194,11 @@ public class HelpWriter extends HtmlWriter {
     }
 
     /**
-     * Read the top level THREDDS catalog file.
-     * Assumes that it exists as "catalog.thredds" in the dataset.dir.
+     * Read the top level THREDDS catalog.
+     * Need to do this via the server URL so relative paths in the catalog will work.
      */
     private void readCatalog() {
-        //Get the full URL to the catalog file.
-        String curl = getServerUrl() + "/catalog.thredds";
-        
+        String curl = TSSProperties.getCatalogHttpUrl(_request);
         _catalog = CatalogUtils.readCatalog(curl);
     }
 }

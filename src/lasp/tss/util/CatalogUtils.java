@@ -3,9 +3,10 @@ package lasp.tss.util;
 import java.net.URI;
 import java.util.List;
 
+import lasp.tss.TSSException;
+
 import org.apache.log4j.Logger;
 
-import lasp.tss.TSSException;
 import thredds.catalog.InvCatalog;
 import thredds.catalog.InvCatalogFactory;
 import thredds.catalog.InvCatalogImpl;
@@ -16,6 +17,7 @@ public class CatalogUtils {
 
     // Initialize a logger.
     private static final Logger _logger = Logger.getLogger(CatalogUtils.class);
+    
     
     public static InvCatalogImpl readCatalog(String url) {
         InvCatalogImpl catalog = null;

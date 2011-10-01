@@ -30,15 +30,22 @@ package lasp.tss;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Properties;
 
 import javax.servlet.ServletConfig;
+import javax.servlet.http.HttpServletRequest;
+
+import lasp.tss.util.ServerUtils;
 
 import org.apache.log4j.Logger;
 
 /**
  * Provide global access to server properties.
  * Single instance constructed during Servlet init.
+ * There are no "set" methods so we don't need to
+ * worry about concurrency issues.
  * 
  * @author Doug Lindholm
  */
@@ -147,10 +154,54 @@ public class TSSProperties {
     }
     
     /**
+     * Return a URL to the catalog for the catalog reader.
+     * This could be a local file URL or remote service.
+     */
+    public static String getCatalogUrl() {
+        //Look for the catalog.url property.
+        String curl = TSSProperties.getProperty("catalog.url", "catalog.thredds");
+        try {
+            //If the URL is not absolute, assume it is relative to dataset.dir.
+            URI uri = new URI(curl);
+            if (! uri.isAbsolute()) {
+                //look in dataset.dir
+                String datadir = TSSProperties.getDatasetDir();
+                curl = "file:" + datadir + File.separator + curl;
+            }
+        } catch (URISyntaxException e) {
+            String msg = "Failed to parse the catalog URL: " + curl;
+            _logger.warn(msg, e);
+        }
+        
+        return curl;
+    }
+
+    public static String getCatalogHttpUrl(HttpServletRequest _request) {
+        //Look for the catalog.url property.
+        String curl = TSSProperties.getProperty("catalog.url", "catalog.thredds");
+        try {
+            //If the URL is not absolute, assume it is relative to dataset.dir.
+            URI uri = new URI(curl);
+            if (! uri.isAbsolute()) {
+                //prepend server URL
+                String baseUrl = ServerUtils.getServerUrl(_request);
+                curl = baseUrl + File.separator + curl;
+            }
+        } catch (URISyntaxException e) {
+            String msg = "Failed to parse the catalog URL: " + curl;
+            _logger.warn(msg, e);
+        }
+        
+        return curl;
+    }
+
+    /**
      * Get the file system path for the given URL path.
      */
     public static String getRealPath(String path) {
         return _config.getServletContext().getRealPath(path);
     }
+
+
 
 }
