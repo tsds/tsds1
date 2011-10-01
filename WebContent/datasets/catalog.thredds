@@ -3,6 +3,7 @@
         xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0"
         xmlns:xlink="http://www.w3.org/1999/xlink">
 
+  <catalogRef xlink:title="command" xlink:href="command/catalog.thredds"/>
   <catalogRef xlink:title="test" xlink:href="test/catalog.thredds"/>
   <catalogRef xlink:title="bin" xlink:href="bin/catalog.thredds"/>
   <catalogRef xlink:title="hpde" xlink:href="hpde_data/datasets/catalog.thredds"/>
