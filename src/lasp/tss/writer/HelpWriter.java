@@ -42,6 +42,7 @@ import lasp.tss.util.CatalogUtils;
 import thredds.catalog.InvAccess;
 import thredds.catalog.InvCatalogFactory;
 import thredds.catalog.InvCatalogImpl;
+import thredds.catalog.InvCatalogRef;
 import thredds.catalog.InvDataset;
 import thredds.catalog.ServiceType;
 
@@ -60,6 +61,8 @@ public class HelpWriter extends HtmlWriter {
      * THREDDS catalog
      */
     private InvCatalogImpl _catalog;
+    
+    private String _replaceTitle;
     
     /**
      * Initialize the Writer.
@@ -141,15 +144,28 @@ public class HelpWriter extends HtmlWriter {
     private String getCatalogDatasetsAsString(List<InvDataset> datasets) {
         StringBuilder sb = new StringBuilder();
         
-        sb.append("<dl>");
         for (InvDataset ds : datasets) {
             String name = ds.getName();
             
+
             if (ds.hasNestedDatasets()) {
-                sb.append("<h3>" + name + "</h3>\n");
-                List<InvDataset> dss = ds.getDatasets();
+                List<InvDataset> dss = null;
+                //If this is a CatalogRef, effectively skip to the referenced catalog.
+                //Use the name of the reference instead of the referenced catalog.
+                if (ds instanceof InvCatalogRef) {
+                    InvCatalogRef catref = (InvCatalogRef) ds;
+                    InvDataset pds = catref.getProxyDataset();
+                    //TODO: if ref'd catalog has just one dataset, we get that instead of a proxy for the catalog itself
+                    dss = pds.getDatasets();
+                } else {
+                    dss = ds.getDatasets();
+                }
+                    
+                sb.append("<dl>");
+                sb.append("<dt><b>" + name + "</b></dt>\n");
                 String s = getCatalogDatasetsAsString(dss);
                 sb.append("<blockquote>" + s + "</blockquote>");
+                sb.append("</dl>\n");
             } else {
                 //add link for each dataset
                 InvAccess access= ds.getAccess(ServiceType.OPENDAP);
@@ -161,7 +177,6 @@ public class HelpWriter extends HtmlWriter {
                 }
             }
         }
-        sb.append("</dl>\n");
         
         return sb.toString();
     }
