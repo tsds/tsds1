@@ -6,6 +6,14 @@
   <service name="tss" serviceType="OpenDAP" base="" />
   <service name="ncml" serviceType="NCML" base="" />
 
+  <dataset name="crres" >
+    <access serviceName="tss" urlPath="crres" />
+    <access serviceName="ncml" urlPath="crres.ncml" />
+    <documentation type="summary">
+      CRRES 2s magnetic field data. Sample file via http.
+    </documentation>
+  </dataset>
+  
   <dataset name="p11_gtt_daily_local" >
     <access serviceName="tss" urlPath="p11_gtt_daily_local" />
     <access serviceName="ncml" urlPath="p11_gtt_daily_local.ncml" />

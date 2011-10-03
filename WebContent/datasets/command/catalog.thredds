@@ -13,5 +13,13 @@
       Data is result of system command pipe.
     </documentation>
   </dataset>
-
+  
+  <dataset name="dummy" >
+    <access serviceName="tss" urlPath="" />
+    <access serviceName="ncml" urlPath=".ncml" />
+    <documentation type="summary">
+      Placeholder
+    </documentation>
+  </dataset>
+  
 </catalog>
