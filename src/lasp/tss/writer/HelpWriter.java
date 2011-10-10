@@ -28,19 +28,17 @@
  */
 package lasp.tss.writer;
 
-import java.net.URI;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-
-import lasp.tss.TSSException;
 import lasp.tss.TSSProperties;
 import lasp.tss.util.CatalogUtils;
+
+import org.apache.log4j.Logger;
+
 import thredds.catalog.InvAccess;
-import thredds.catalog.InvCatalogFactory;
 import thredds.catalog.InvCatalogImpl;
 import thredds.catalog.InvCatalogRef;
 import thredds.catalog.InvDataset;
@@ -61,8 +59,6 @@ public class HelpWriter extends HtmlWriter {
      * THREDDS catalog
      */
     private InvCatalogImpl _catalog;
-    
-    private String _replaceTitle;
     
     /**
      * Initialize the Writer.
@@ -146,7 +142,6 @@ public class HelpWriter extends HtmlWriter {
         
         for (InvDataset ds : datasets) {
             String name = ds.getName();
-            
 
             if (ds.hasNestedDatasets()) {
                 List<InvDataset> dss = null;
