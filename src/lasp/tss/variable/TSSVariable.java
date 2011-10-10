@@ -398,17 +398,11 @@ public abstract class TSSVariable {
             Range trange = new Range(timeIndex, timeIndex);
             ranges.set(0, trange); //Time is first dimension
             array = ncvar.read(ranges);
-            /*
-             * TODO:
-             * Even though we are reading a single time sample, ncetcdf seems
-             * to be passing the complete range to the IOSP on the first read
-             * then managing the rest itself, at least for the BinIOSP.
-             */
             
             array = applyFilters(array);
             
         } catch (Exception e) {
-            String msg = "Failed to read data for variable: " + ncvar.getName();
+            String msg = "Failed to read data for variable: " + ncvar.getShortName();
             _logger.error(msg, e);
             throw new TSSPublicException(msg, e);
         }
