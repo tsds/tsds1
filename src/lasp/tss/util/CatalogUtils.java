@@ -66,22 +66,25 @@ public class CatalogUtils {
         InvDataset dataset = null;
 
         /*
-         * TODO: catalog ref children is catalog
-         * 
+         * TODO: try alias, thredds API doesn't expose the name or alias attribute!?
+         * use "ID"
          */
         //Split nested dataset name on first "/".
         //If the dataset is not nested (i.e. no "/") then names will be of length 1.
         //TODO: see getFullName, but won't know about refs
-        String[] names = dsname.split("/", 2);
+        String[] names = dsname.split("/", 2); //apply split at first match only
         
         for (InvDataset ds : datasets) {
             //does the ds match the highest level name
-            if (ds.getName().equals(names[0])) {
+            String name = ds.getID();
+            if (name == null) name = ds.getName();
+            if (name.equals(names[0])) {
                 dataset = ds;
             }
             if (dataset != null && names.length == 2) {
                 //we matched but still need to dig deeper
                 //if this is a catalog ref, pass over the referenced catalog node
+                //TODO: ref'd cat with one dataset won't preserve catalog layer
                 if (dataset instanceof InvCatalogRef) dataset = dataset.getDatasets().get(0);
                 List<InvDataset> dss = dataset.getDatasets();
                 dataset = findDataset(dss, names[1]); //recursive
