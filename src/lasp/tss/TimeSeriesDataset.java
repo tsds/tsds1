@@ -162,11 +162,13 @@ public class TimeSeriesDataset {
         try {
             CancelTask cancelTask = null; //not used
             NetcdfDataset.initNetcdfFileCache(10,100,600);
-            //TODO: NetcdfDataset.shutdown()?
             dataset = NcMLReader.readNcML(ncmlURL, cancelTask);
         } catch(Exception e) { 
             String msg = "Unable to construct the Dataset: " + getName();
             throw new TSSPublicException(msg, e);
+        } finally {
+            //Shut down the FileCache to see if it reduces Tomcat PermGen memory problems
+            //NetcdfDataset.shutdown();
         }
         
         return dataset;
