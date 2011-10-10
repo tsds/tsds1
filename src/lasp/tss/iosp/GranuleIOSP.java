@@ -287,6 +287,8 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
      */
     protected Dimension makeDimension(Element element) {
         Dimension dim = null;
+        String name = element.getAttributeValue("name");
+        
         boolean isShared = true; 
        
         boolean isUnlimited = false;
@@ -297,14 +299,16 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
         String varlen = element.getAttributeValue("isVariableLength");
         if (varlen != null) isVariableLength = Boolean.parseBoolean(varlen);
         
+        int n = 0;
         String length = element.getAttributeValue("length");
-        if (length != null) _length = Integer.parseInt(length);
-
-        String name = element.getAttributeValue("name");
-
+        if (length != null) {
+            n = Integer.parseInt(length);
+            if (name.equals("time")) _length = n;
+        }
+        
         //TODO: error if length 0 and not unlimited?
 
-        dim = new Dimension(name, _length, isShared, isUnlimited, isVariableLength);
+        dim = new Dimension(name, n, isShared, isUnlimited, isVariableLength);
 
         return dim;
     }

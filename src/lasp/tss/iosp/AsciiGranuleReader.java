@@ -20,7 +20,7 @@ import ucar.nc2.Variable;
  * Class for reading data from ASCII sources.
  * Parsing assumes one variable per column.
  * Subclasses may override parseLine to support more complex formatting.
- * Assumes one line per time sample.
+ * Assumes one line per time sample ("flattened").
  */
 public class AsciiGranuleReader extends GranuleIOSP {
 
@@ -53,21 +53,58 @@ public class AsciiGranuleReader extends GranuleIOSP {
     }
        
     protected Array getData(Variable var) {
-        int ivar = getVariables().indexOf(var);
+        List<Variable> vars = getVariables();
+        int ivar = vars.indexOf(var);
         DataType type = var.getDataType();
         int[] shape = var.getShape();
         Array array = Array.factory(type, shape);
         
-        //fills Arrays with data
-        int itim = 0;
-        for (String[] ss : _dataStrings) {
-            String s = ss[ivar];
-            if (var.getDataType().isString()) {
-                array.setObject(itim++, s);
+        //compute the starting index (column) for this variable
+        int icol = 0;
+        for (int i=0; i<ivar; i++) {
+            Variable v = vars.get(i);
+            if (v.getRank() > 1) {
+                //length of one time sample, assume 2D
+                icol += v.getShape(1);
+            } else if (! v.getShortName().equals("time") && v.isCoordinateVariable()) {
+                //no time dimension
+                icol += v.getShape(0);
             } else {
-                double d = Double.parseDouble(s);
-                array.setDouble(itim++, d);
+                icol += 1;
             }
+        }
+        
+        //get the number of samples for one time sample of this variable
+        int n = 1;
+        if (var.getRank() > 1) n = var.getShape(1); //second dimension is a nested Sequence
+        if (! var.getShortName().equals("time") && var.isCoordinateVariable()) n = var.getShape(0); //no time dimension
+        
+        //fill Arrays with data
+        int index = 0;
+        String s = null;
+        for (String[] ss : _dataStrings) { //loop over time samples
+            for (int i=0; i<n; i++) {
+                s = ss[icol+i];
+            
+                if (var.getDataType().isString()) {
+                    array.setObject(index++, s); //TODO: will s=null break this?
+                } else {
+                    double d = Double.NaN;
+                    try {
+                        //If we can't parse a number, log a warning and put NaN in the array
+                        if (s != null) d = Double.parseDouble(s);
+                    } catch (Exception e) {
+                        String msg = "Unable to parse value for variable ";
+                        msg += var.getShortName() + ": '" + s + "'";
+                        _logger.warn(msg);
+                    }
+                    array.setDouble(index++, d);
+                }
+            }
+            
+            //A nested Sequence's independent variable is assumed to be the same for all time samples.
+            //It has no time dimension so its Array is full after one pass.
+            if (! var.getShortName().equals("time") && var.isCoordinateVariable()) break;
         }
         
         return array;
