@@ -3,10 +3,10 @@
         xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0"
         xmlns:xlink="http://www.w3.org/1999/xlink">
 
-  <catalogRef xlink:title="Data from System Command" xlink:href="command/catalog.thredds"/>
-  <catalogRef xlink:title="Basic Test Datasets" xlink:href="test/catalog.thredds"/>
-  <catalogRef xlink:title="Sample Binary Datasets" xlink:href="bin/catalog.thredds"/>
-  <catalogRef xlink:title="HPDE Sample Datasets" xlink:href="hpde_data/datasets/catalog.thredds"/>
+  <catalogRef ID="command" xlink:title="TEST Data from System Command" xlink:href="command/catalog.thredds"/>
+  <catalogRef ID="test" xlink:title="Basic Test Datasets" xlink:href="test/catalog.thredds"/>
+  <catalogRef ID="bin" xlink:title="Sample Binary Datasets" xlink:href="bin/catalog.thredds"/>
+  <catalogRef ID="hpde" xlink:title="HPDE Sample Datasets" xlink:href="hpde_data/datasets/catalog.thredds"/>
   
   <!--catalogRef xlink:title="local" xlink:href="test/ncml_catalog.thredds"/-->
   <!--catalogRef xlink:title="remote" xlink:href="http://virbo.org/metamag/viewDataFile.jsp?docname=C6D5623A-ADEC-8397-88A7-DD62A37BA490&amp;filetype=data" /-->
