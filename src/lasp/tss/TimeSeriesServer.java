@@ -154,6 +154,7 @@ public class TimeSeriesServer extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_OK);
             response.flushBuffer();
             if (dataset != null) dataset.close(); //Make sure Dataset resources are closed.
+            //TODO: NetcdfDataset.shutdown() to shut down FileCache?
             _logger.info("Response is complete.");
         }
         
