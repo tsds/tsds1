@@ -41,7 +41,7 @@ public class ReplaceMissingValueFilter extends ReplacementFilter {
     
     public ReplaceMissingValueFilter(double newValue) {
         setNewValue(newValue);
-        double oldValue = getMissingValue();
+        double oldValue = getVariable().getMissingValue();
         setOldValue(oldValue);
 
         resetAttribute(newValue);
@@ -53,7 +53,7 @@ public class ReplaceMissingValueFilter extends ReplacementFilter {
         //args should be replacement value
         double d = Double.parseDouble(args);   
         setNewValue(d);
-        double oldValue = getMissingValue();
+        double oldValue = getVariable().getMissingValue();
         setOldValue(oldValue);
 
         resetAttribute(d);
@@ -64,20 +64,6 @@ public class ReplaceMissingValueFilter extends ReplacementFilter {
         TSSVariable var = getVariable();
         String s = var.getAttributeValue("_FillValue");
         if (s != null) var.addAttribute("_FillValue", ""+value);
-    }
-    
-    /**
-     * Get missing value from Variable attributes.
-     * Default is NaN.
-     */
-    private double getMissingValue() {
-        double d = Double.NaN;
-        TSSVariable var = getVariable();
-        
-        String s = var.getAttributeValue("_FillValue");
-        if (s != null) d = Double.parseDouble(s);
-        
-        return d;
     }
     
 }

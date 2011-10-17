@@ -37,7 +37,8 @@ import lasp.tss.variable.TSSVariable;
  */
 public class ExcludeMissingValueFilter extends ExclusionFilter {
     
-    private Double _missingValue; 
+    private double _missingValue; //cache it so we don't have to get it for each time sample
+    private boolean cached = false;
     
     protected boolean excludeValue(double value) {
         boolean b = false;
@@ -61,22 +62,13 @@ public class ExcludeMissingValueFilter extends ExclusionFilter {
      * Default is NaN.
      */
     private double getMissingValue() {
-        double d = Double.NaN;
         
-        if (_missingValue == null) {
-            TSSVariable var = getVariable();
-            String s = var.getAttributeValue("_FillValue");
-            if (s != null) {
-                _missingValue = new Double(s);
-                d = _missingValue.doubleValue();
-            } else {
-                _missingValue = new Double(d); //missing value not defined, default to NaN
-            }
-        } else {
-            d = _missingValue.doubleValue();
+        if (! cached) {
+            _missingValue = getVariable().getMissingValue();
+            cached = true;
         }
         
-        return d;
+        return _missingValue;
     }
 
 }
