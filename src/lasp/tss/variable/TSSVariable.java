@@ -144,6 +144,19 @@ public abstract class TSSVariable {
     }
 
     /**
+     * Get missing value from Variable attributes.
+     * Default is NaN.
+     */
+    public double getMissingValue() {
+        double d = Double.NaN;
+        
+        String s = getAttributeValue("_FillValue");
+        if (s != null) d = Double.parseDouble(s);
+        
+        return d;
+    }
+    
+    /**
      * Return the NetCDF Attributes from the internal NetCDF Variable,
      * ultimately from the NcML. These will be preserved in the OPeNDAP DAS output.
      */
@@ -353,8 +366,14 @@ public abstract class TSSVariable {
         Array array = getTimeSample(timeIndex);
         if (array == null) return null;
         
-        d = (double[]) array.get1DJavaArray(double.class);
-
+        //d = (double[]) array.get1DJavaArray(double.class);
+        int n = (int) array.getSize();
+        d = new double[n];
+        int i = 0;
+        while (array.hasNext()) {
+            d[i++] = array.nextDouble();
+        }
+        
         return d;
     }
     
