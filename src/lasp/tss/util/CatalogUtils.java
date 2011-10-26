@@ -60,18 +60,14 @@ public class CatalogUtils {
     /**
      * Find the Dataset within the given list of datasets with the given name.
      * Nested datasets will have names delimited by "/". Recurse to find nested
-     * datasets.
+     * datasets. This will try to match based on "ID"s first then "name" (or "title"
+     * in the case of catalogRefs).
      */
     private static InvDataset findDataset(List<InvDataset> datasets, String dsname) {
         InvDataset dataset = null;
-
-        /*
-         * TODO: try alias, thredds API doesn't expose the name or alias attribute!?
-         * use "ID"
-         */
+        
         //Split nested dataset name on first "/".
         //If the dataset is not nested (i.e. no "/") then names will be of length 1.
-        //TODO: see getFullName, but won't know about refs
         String[] names = dsname.split("/", 2); //apply split at first match only
         
         for (InvDataset ds : datasets) {
