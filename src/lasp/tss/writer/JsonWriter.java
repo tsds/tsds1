@@ -110,6 +110,7 @@ public class JsonWriter extends TextDataWriter {
             
             //Get data values for all projected components
             double[] values = seq.getValues(timeIndex);  //variable dim varies fastest
+            if (values == null) return null;
 
             //start sequence as a JSON array
             sb.append("[");
