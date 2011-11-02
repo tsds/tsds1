@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -175,6 +176,7 @@ public class AsciiGranuleReader extends GranuleIOSP {
                 surl = "file://" + surl;
             }
             
+            surl = URLDecoder.decode(surl, "ISO-8859-1");
             url = new URL(surl);
             reader = new BufferedReader(new InputStreamReader(url.openStream()));
 
