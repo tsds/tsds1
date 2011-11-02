@@ -256,8 +256,9 @@ public class TimeVariable extends IndependentVariable {
                 dd[0] = date.getTime();
             } catch (ParseException e) {
                 String msg = "Unable to parse native time format: " + _origFormat;
-                _logger.error(msg, e);
-                throw new TSSException(msg, e);
+                _logger.warn(msg);
+                //throw new TSSException(msg, e);
+                dd = null;
             }
         } else {
             dd = super.getValues(timeIndex);
@@ -289,12 +290,14 @@ public class TimeVariable extends IndependentVariable {
                 String s = array.next().toString(); //could be string or number
                 try {
                     Date date = dateFormat.parse(s);
-                    d[i++] = date.getTime();
+                    d[i] = date.getTime();
                 } catch (ParseException e) {
-                    String msg = "Failed to parse time unit: " + s;
-                    _logger.error(msg, e);
-                    throw new TSSException(msg, e);
+                    String msg = "Failed to parse time value: " + s;
+                    _logger.warn(msg);
+                    //throw new TSSException(msg, e);
+                    d[i] = Double.NaN;
                 }
+                i++;
             }
 
         } else d = super.getValues();
