@@ -47,7 +47,7 @@
     <access serviceName="tss" urlPath="p11tr_hr" />
     <access serviceName="ncml" urlPath="p11tr_hr.ncml" />
     <documentation type="summary">
-      [VERY SLOW] Pioneer 11 UCSD Trapped Radiation Detector Experiment (TRD): Hourly Averaged Interplanetary Cosmic Ray Data - 
+      Pioneer 11 UCSD Trapped Radiation Detector Experiment (TRD): Hourly Averaged Interplanetary Cosmic Ray Data - 
       Acquired via NcML aggregation of two local ASCII files.
     </documentation>
   </dataset>
