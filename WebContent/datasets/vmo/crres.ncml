@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2"  
+    iosp="lasp.tss.iosp.ColumnarAsciiReader" columns="1,2,3,4,5,6;7;8;9;10;11;12"
+    location="/dev/null"
+    url="http://vmo.igpp.ucla.edu/data1/CRRES/MAG/PT2S/CRRES_MAG_2s_0192.dat">
+
+    <attribute name="title" value="VMO CRRES test" />
+
+    <dimension name="time" isUnlimited="true"/> 
+
+    <variable name="time" shape="time" type="String" >
+        <attribute name="units" value="yyyy MM dd HH mm ss.SSSS" />
+    </variable>
+
+    <variable name="BX-VDH" shape="time" type="double" >
+        <attribute name="long_name" value="Magnetic Field Vector, X-component"/>
+        <attribute name="units" value="nT"/>
+        <attribute name="_FillValue" value="99999"/>
+        <attribute name="precision" value="4"/>
+    </variable>
+    <variable name="BY-VDH" shape="time" type="double" >
+        <attribute name="long_name" value="Magnetic Field Vector, Y-component"/>
+        <attribute name="units" value="nT"/>
+        <attribute name="_FillValue" value="99999"/>
+        <attribute name="precision" value="4"/>
+    </variable>
+    <variable name="BZ-VDH" shape="time" type="double" >
+        <attribute name="long_name" value="Magnetic Field Vector, Z-component"/>
+        <attribute name="units" value="nT"/>
+        <attribute name="_FillValue" value="99999"/>
+        <attribute name="precision" value="4"/>
+    </variable>
+    <variable name="B" shape="time" type="double" >
+        <attribute name="long_name" value="Magnetic Field"/>
+        <attribute name="units" value="nT"/>
+        <attribute name="_FillValue" value="99999"/>
+        <attribute name="precision" value="4"/>
+    </variable>
+    <variable name="BTHETA" shape="time" type="double" >
+        <attribute name="long_name" value="Magnetic Field Angle Vector, theta-component"/>
+        <attribute name="units" value="deg"/>
+        <attribute name="_FillValue" value="99999"/>
+        <attribute name="precision" value="4"/>
+    </variable>
+    <variable name="BPHI" shape="time" type="double" >
+        <attribute name="long_name" value="Magnetic Field Angle Vector, phi-component"/>
+        <attribute name="units" value="deg"/>
+        <attribute name="_FillValue" value="99999"/>
+        <attribute name="precision" value="4"/>
+    </variable>
+    
+</netcdf>
