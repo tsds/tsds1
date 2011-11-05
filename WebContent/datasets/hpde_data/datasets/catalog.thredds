@@ -6,14 +6,6 @@
   <service name="tss" serviceType="OpenDAP" base="" />
   <service name="ncml" serviceType="NCML" base="" />
 
-  <dataset name="crres" >
-    <access serviceName="tss" urlPath="crres" />
-    <access serviceName="ncml" urlPath="crres.ncml" />
-    <documentation type="summary">
-      CRRES 2s magnetic field data. Sample file via http.
-    </documentation>
-  </dataset>
-  
   <dataset name="p11_gtt_daily_local" >
     <access serviceName="tss" urlPath="p11_gtt_daily_local" />
     <access serviceName="ncml" urlPath="p11_gtt_daily_local.ncml" />
@@ -64,7 +56,7 @@
     <access serviceName="tss" urlPath="p11tr_hr_med" />
     <access serviceName="ncml" urlPath="p11tr_hr_med.ncml" />
     <documentation type="summary">
-      [SLOW] Pioneer 11 UCSD Trapped Radiation Detector Experiment (TRD): Hourly Averaged Interplanetary Cosmic Ray Data - 
+      Pioneer 11 UCSD Trapped Radiation Detector Experiment (TRD): Hourly Averaged Interplanetary Cosmic Ray Data - 
       Acquired via NcML aggregation of two local ASCII files reduced to 10% of the original number of samples.
     </documentation>
   </dataset>
