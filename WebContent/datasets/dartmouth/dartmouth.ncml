@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2" iosp="lasp.tss.iosp.AsciiWebServiceIOSP" location="file:/dev/null" url="http://www.dartmouth.edu/~rdenton/Data/DentonTakahashiGOES1980-1991MassDensityWithHeader.txt">
+    <attribute name="title" value="ACE Low Energy Electron and Proton data" />
+    <attribute name="source" value="Stuff" />
+    <dimension name="time" isUnlimited="true" />
+    <variable name="time" orgName="v0" shape="time" type="String">
+        <attribute name="units" value="yyyy D HH mm" />
+    </variable>
+    <variable name="SC" orgName="v1" shape="time" type="double">
+        <attribute name="long_name" value="spacecraft number (2 for GOES 2)" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%1.0f" />
+    </variable>
+    <variable name="FractionlYear" orgName="v2" shape="time" type="double">
+        <attribute name="long_name" value="Fractional Year (DOY 1 + 0000 UT -&gt; year, DOY 365 + 2400 -&gt; year + 1 in a non-leap year, DOY 366 + 2400 -&gt; year + 1 in a leap year)" />
+        <attribute name="units" value="year" />
+        <attribute name="cformatstring" value="%4.8f" />
+    </variable>
+    <variable name="E-Long" orgName="v3" shape="time" type="double">
+        <attribute name="long_name" value="east geographic longitude" />
+        <attribute name="units" value="degree" />
+        <attribute name="cformatstring" value="%.5f" />
+    </variable>
+    <variable name="MLT" orgName="v4" shape="time" type="double">
+        <attribute name="long_name" value="magnetic local time in SM hours" />
+        <attribute name="units" value="SM hour" />
+        <attribute name="cformatstring" value="%.5f" />
+    </variable>
+    <variable name="MLAT" orgName="v5" shape="time" type="double">
+        <attribute name="long_name" value="magnetic latitude (SM) in degrees" />
+        <attribute name="units" value="degree" />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="f107" orgName="v6" shape="time" type="double">
+        <attribute name="long_name" value="F10.7 EUV index" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="af107" orgName="v7" shape="time" type="double">
+        <attribute name="long_name" value="average at time t of previous F10.7 values at time t` weighted by exp(-(t-t`)/(3 days))" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="AE" orgName="v8" shape="time" type="double">
+        <attribute name="long_name" value="AE index" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="Dst" orgName="v9" shape="time" type="double">
+        <attribute name="long_name" value="Dst in nT" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+    <variable name="dDst" orgName="v10" shape="time" type="double">
+        <attribute name="long_name" value="change in Dst in last hour" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.2f" />
+    </variable>
+    <variable name="AsyD" orgName="v11" shape="time" type="double">
+        <attribute name="long_name" value="ground magnetometer sym/a-sym magnetic field indices in nT" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="AsyH" orgName="v12" shape="time" type="double">
+        <attribute name="long_name" value="ground magnetometer sym/a-sym magnetic field indices in nT" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="SymD" orgName="v13" shape="time" type="double">
+        <attribute name="long_name" value="ground magnetometer sym/a-sym magnetic field indices in nT" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="SymH" orgName="v14" shape="time" type="double">
+        <attribute name="long_name" value="ground magnetometer sym/a-sym magnetic field indices in nT" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="Kp" orgName="v15" shape="time" type="double">
+        <attribute name="long_name" value="Kp" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+    <variable name="Kp3s" orgName="v16" shape="time" type="double">
+        <attribute name="long_name" value="weighted average of previous Kp values using exp(-(t-t`)/(5 days)) - in my studies, this has been better than Kp for describing the distribution of density in the plasmasphere and plasma trough" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+    <variable name="Kp3" orgName="v17" shape="time" type="double">
+        <attribute name="long_name" value="weighted average of previous Kp values using exp(-(t-t`)/(3 days)) - in my studies, this has been better than Kp for describ ing the distribution of density in the plasmasphere and plasma trough" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+    <variable name="Kp31" orgName="v18" shape="time" type="double">
+        <attribute name="long_name" value="Kp3 contributions broken up into 8 parts for 21 previous days.  The integral of exp(-(t2-t1)/(3 days)) is the same for each interval, where t1 is the staring time and t2 is the ending time (these numbers give a history of Kp)" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+    <variable name="Kp32" orgName="v19" shape="time" type="double">
+        <attribute name="long_name" value="Kp3 contributions broken up into 8 parts for 21 previous days.  The integral of exp(-(t2-t1)/(3 days)) is the same for each interval, where t1 is the staring time and t2 is the ending time (these numbers give a history of Kp)" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+    <variable name="Kp33" orgName="v20" shape="time" type="double">
+        <attribute name="long_name" value="Kp3 contributions broken up into 8 parts for 21 previous days.  The integral of exp(-(t2-t1)/(3 days)) is the same for each interval, where t1 is the staring time and t2 is the ending time (these numbers give a history of Kp)" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+    <variable name="Kp34" orgName="v21" shape="time" type="double">
+        <attribute name="long_name" value="Kp3 contributions broken up into 8 parts for 21 previous days.  The integral of exp(-(t2-t1)/(3 days)) is the same for each interval, where t1 is the staring time and t2 is the ending time (these numbers give a history of Kp)" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+    <variable name="Kp35" orgName="v22" shape="time" type="double">
+        <attribute name="long_name" value="Kp3 contributions broken up into 8 parts for 21 previous days.  The integral of exp(-(t2-t1)/(3 days)) is the same for each interval, where t1 is the staring time and t2 is the ending time (these numbers give a history of Kp)" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+    <variable name="Kp36" orgName="v23" shape="time" type="double">
+        <attribute name="long_name" value="Kp3 contributions broken up into 8 parts for 21 previous days.  The integral of exp(-(t2-t1)/(3 days)) is the same for each interval, where t1 is the staring time and t2 is the ending time (these numbers give a history of Kp)" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+    <variable name="Kp37" orgName="v24" shape="time" type="double">
+        <attribute name="long_name" value="Kp3 contributions broken up into 8 parts for 21 previous days.  The integral of exp(-(t2-t1)/(3 days)) is the same for each interval, where t1 is the staring time and t2 is the ending time (these numbers give a history of Kp)" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+    <variable name="Kp38" orgName="v25" shape="time" type="double">
+        <attribute name="long_name" value="Kp3 contributions broken up into 8 parts for 21 previous days.  The integral of exp(-(t2-t1)/(3 days)) is the same for each interval, where t1 is the staring time and t2 is the ending time (these numbers give a history of Kp)" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+    <variable name="By-sw" orgName="v26" shape="time" type="double">
+        <attribute name="long_name" value="solar wind B in GSM in nT" />
+        <attribute name="units" value="nT" />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+    <variable name="Bz-sw" orgName="v27" shape="time" type="double">
+        <attribute name="long_name" value="solar wind B in GSM in nT" />
+        <attribute name="units" value="nT" />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+    <variable name="Vsw" orgName="v28" shape="time" type="double">
+        <attribute name="long_name" value="solar wind velocity in km/s" />
+        <attribute name="units" value="km/s" />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="Np-sw" orgName="v29" shape="time" type="double">
+        <attribute name="long_name" value="solar wind proton density (cm^-3)" />
+        <attribute name="units" value="cm^-3" />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+    <variable name="Pdynsw" orgName="v30" shape="time" type="double">
+        <attribute name="long_name" value="solar wind dynamic pressure (nPa)" />
+        <attribute name="units" value="nPa" />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+    <variable name="STAsw_1" orgName="v31" shape="time" type="double">
+        <attribute name="long_name" value="five independent quality factors for the previous five quantities (solar wind parameter inputs) strung together in one string as described by Qin, Denton, et al., 2007.  Basically, 2 means the quantity is from measured values, 0 means it's no better than an average, and 1 means it's an interpolated value that's better than an average but not as good as a directly measured value" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%5.0f" />
+    </variable>
+    <variable name="G1" orgName="v32" shape="time" type="double">
+        <attribute name="long_name" value="input parameters to Tsyganenko magnetic field models between T01 and TS05" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+    <variable name="G2" orgName="v33" shape="time" type="double">
+        <attribute name="long_name" value="input parameters to Tsyganenko magnetic field models between T01 and TS05" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="G3" orgName="v34" shape="time" type="double">
+        <attribute name="long_name" value="input parameters to Tsyganenko magnetic field models between T01 and TS05" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="W1" orgName="v35" shape="time" type="double">
+        <attribute name="long_name" value="input parameters to Tsyganenko magnetic field models between T01 and TS05" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="W2" orgName="v36" shape="time" type="double">
+        <attribute name="long_name" value="input parameters to Tsyganenko magnetic field models between T01 and TS05" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="W3" orgName="v37" shape="time" type="double">
+        <attribute name="long_name" value="input parameters to Tsyganenko magnetic field models between T01 and TS05" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="W4" orgName="v38" shape="time" type="double">
+        <attribute name="long_name" value="input parameters to Tsyganenko magnetic field models between T01 and TS05" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="W5" orgName="v39" shape="time" type="double">
+        <attribute name="long_name" value="input parameters to Tsyganenko magnetic field models between T01 and TS05" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="W6" orgName="v40" shape="time" type="double">
+        <attribute name="long_name" value="input parameters to Tsyganenko magnetic field models between T01 and TS05" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="STAT_GW_1" orgName="v41" shape="time" type="double">
+        <attribute name="long_name" value="9 quality factors for the previous 9 quantities strung together into one string similar to 5stat described above" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%9f" />
+    </variable>
+    <variable name="amp_bx" orgName="v42" shape="time" type="double">
+        <attribute name="long_name" value="amplitude of oscillation (nT) in radial, azimuthal, and field aligned directions" />
+        <attribute name="units" value="nT" />
+        <attribute name="cformatstring" value="%.5f" />
+    </variable>
+    <variable name="amp_by" orgName="v43" shape="time" type="double">
+        <attribute name="long_name" value="amplitude of oscillation (nT) in radial, azimuthal, and field aligned directions" />
+        <attribute name="units" value="nT" />
+        <attribute name="cformatstring" value="%.5f" />
+    </variable>
+    <variable name="amp_bz" orgName="v44" shape="time" type="double">
+        <attribute name="long_name" value="amplitude of oscillation (nT) in radial, azimuthal, and field aligned directions" />
+        <attribute name="units" value="nT" />
+        <attribute name="cformatstring" value="%.5f" />
+    </variable>
+    <variable name="f1" orgName="v45" shape="time" type="double">
+        <attribute name="long_name" value="Alfven frequency observed (mHz)" />
+        <attribute name="units" value="mHz" />
+        <attribute name="cformatstring" value="%.5f" />
+    </variable>
+    <variable name="df1" orgName="v46" shape="time" type="double">
+        <attribute name="long_name" value="standard deviation of frequency observed" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.5f" />
+    </variable>
+    <variable name="N" orgName="v47" shape="time" type="double">
+        <attribute name="long_name" value="N" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%1.0f" />
+    </variable>
+    <variable name="fNorm" orgName="v48" shape="time" type="double">
+        <attribute name="long_name" value="f/fT3 = 1 for this data file" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.6f" />
+    </variable>
+    <variable name="dfNorm" orgName="v49" shape="time" type="double">
+        <attribute name="long_name" value="standard deviation of f/fT3 using error in f and fT3" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.6f" />
+    </variable>
+    <variable name="TBsc" orgName="v50" shape="time" type="double">
+        <attribute name="long_name" value="model (Tsyganenko) B field at spacecraft in nT" />
+        <attribute name="units" value="nT" />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="RBmn" orgName="v51" shape="time" type="double">
+        <attribute name="long_name" value="radius (R_E) value at the point on the field line where B is a minimum" />
+        <attribute name="units" value="R_E" />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+    <variable name="LatBmn" orgName="v52" shape="time" type="double">
+        <attribute name="long_name" value="MLAT value at the point on the field line where B is a minimum" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+    <variable name="MLTBmn" orgName="v53" shape="time" type="double">
+        <attribute name="long_name" value="MLT value at the point on the field line where B is a minimum" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+    <variable name="Bmn" orgName="v54" shape="time" type="double">
+        <attribute name="long_name" value="B value at the point on the field line where B is a minimum" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="Rmx" orgName="v55" shape="time" type="double">
+        <attribute name="long_name" value="radius (R_E) value at the point on the field line where B is a maximum" />
+        <attribute name="units" value="R_E" />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+    <variable name="LatRmx" orgName="v56" shape="time" type="double">
+        <attribute name="long_name" value="MLAT value at the point on the field line where B is a maximum" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+    <variable name="MLTRmx" orgName="v57" shape="time" type="double">
+        <attribute name="long_name" value="MLT value at the point on the field line where B is a maximum" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="BRmx" orgName="v58" shape="time" type="double">
+        <attribute name="long_name" value="B value at the point on the field line where B is a maximum" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="slen" orgName="v59" shape="time" type="double">
+        <attribute name="long_name" value="length of field line divided by RBmn" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="MLAT_n" orgName="v60" shape="time" type="double">
+        <attribute name="long_name" value="MLAT at northern footpoint of field line" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="MLT_n" orgName="v61" shape="time" type="double">
+        <attribute name="long_name" value="MLT at northern footpoint of field line" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="hF2_n" orgName="v62" shape="time" type="double">
+        <attribute name="long_name" value="height of F2 peak (km) " />
+        <attribute name="units" value="km" />
+        <attribute name="cformatstring" value="%.5f" />
+    </variable>
+    <variable name="neF2_n" orgName="v63" shape="time" type="double">
+        <attribute name="long_name" value="density in cm^{-3} at the F2 peak" />
+        <attribute name="units" value="cm^-3" />
+        <attribute name="cformatstring" value="%1.3e" />
+    </variable>
+    <variable name="nei_n" orgName="v64" shape="time" type="double">
+        <attribute name="long_name" value="electron density at topside ionosphere and percent of indicated ions" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%1.3e" />
+    </variable>
+    <variable name="%O+_n" orgName="v65" shape="time" type="double">
+        <attribute name="long_name" value="electron density at topside ionosphere and percent of indicated ions" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="%He+_n" orgName="v66" shape="time" type="double">
+        <attribute name="long_name" value="electron density at topside ionosphere and percent of indicated ions" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="%H+_n" orgName="v67" shape="time" type="double">
+        <attribute name="long_name" value="electron density at topside ionosphere and percent of indicated ions" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="Ti_n" orgName="v68" shape="time" type="double">
+        <attribute name="long_name" value="ion and electron temperature at topside ionosphere" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.5f" />
+    </variable>
+    <variable name="Te_n" orgName="v69" shape="time" type="double">
+        <attribute name="long_name" value="ion and electron temperature at topside ionosphere" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.5f" />
+    </variable>
+    <variable name="TEC_n" orgName="v70" shape="time" type="double">
+        <attribute name="long_name" value="total electron content in 1.e16 m^{-2} (still IRI) and %TEC above hf2" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="%hi_n" orgName="v71" shape="time" type="double">
+        <attribute name="long_name" value="total electron content in 1.e16 m^{-2} (still IRI) and %TEC above hf2" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="MLAT_s" orgName="v72" shape="time" type="double">
+        <attribute name="long_name" value="MLAT at southern footpoint of field line" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="MLT_s" orgName="v73" shape="time" type="double">
+        <attribute name="long_name" value="MLT at southern footpoint of field line" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="hF2_s" orgName="v74" shape="time" type="double">
+        <attribute name="long_name" value="height of F2 peak (km)" />
+        <attribute name="units" value="km" />
+        <attribute name="cformatstring" value="%.5f" />
+    </variable>
+    <variable name="neF2_s" orgName="v75" shape="time" type="double">
+        <attribute name="long_name" value="density in cm^{-3} at the F2 peak" />
+        <attribute name="units" value="cm^-3" />
+        <attribute name="cformatstring" value="%1.4e" />
+    </variable>
+    <variable name="nei_s" orgName="v76" shape="time" type="double">
+        <attribute name="long_name" value="electron density at southern ionosphere and percent of indicated ions" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%1.4e" />
+    </variable>
+    <variable name="%O+_s" orgName="v77" shape="time" type="double">
+        <attribute name="long_name" value="electron density at southern ionosphere and percent of indicated ions" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.5f" />
+    </variable>
+    <variable name="%He+_s" orgName="v78" shape="time" type="double">
+        <attribute name="long_name" value="electron density at southern ionosphere and percent of indicated ions" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="%H+_s" orgName="v79" shape="time" type="double">
+        <attribute name="long_name" value="electron density at southern ionosphere and percent of indicated ions" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="Ti_s" orgName="v80" shape="time" type="double">
+        <attribute name="long_name" value="ion temperature at southern ionosphere" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.5f" />
+    </variable>
+    <variable name="Te_s" orgName="v81" shape="time" type="double">
+        <attribute name="long_name" value="Electron temperature at southern ionosphere" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.5f" />
+    </variable>
+    <variable name="TEC_s" orgName="v82" shape="time" type="double">
+        <attribute name="long_name" value="total electron content in 1.e16 m^{-2} (still IRI) and %TEC above hf2" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.5f" />
+    </variable>
+    <variable name="%hi_s" orgName="v83" shape="time" type="double">
+        <attribute name="long_name" value="total electron content in 1.e16 m^{-2} (still IRI) and %TEC above hf2" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="rho1" orgName="v84" shape="time" type="double">
+        <attribute name="long_name" value="mass density at magnetic equator based on 3rd harmonic frequency" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="+" orgName="v85" shape="time" type="double">
+        <attribute name="long_name" value="mass density at equator using frequency f - df" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+    <variable name="-" orgName="v86" shape="time" type="double">
+        <attribute name="long_name" value="mass density at equator using  frequency f + df - rho1" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+    <variable name="rho1_sc" orgName="v87" shape="time" type="double">
+        <attribute name="long_name" value="mass density at spacecraft location" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.4f" />
+    </variable>
+    <variable name="+sc" orgName="v88" shape="time" type="double">
+        <attribute name="long_name" value="mass density at spacecraft location using frequency f - df" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+    <variable name="-sc" orgName="v89" shape="time" type="double">
+        <attribute name="long_name" value="mass density at spacecraft location using  frequency f + df - rho1" />
+        <attribute name="units" value=" " />
+        <attribute name="cformatstring" value="%.3f" />
+    </variable>
+</netcdf>
