@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2" iosp="lasp.tss.iosp.AsciiWebServiceIOSP" location="/dev/null" url="http://goes.ngdc.noaa.gov/data/avg/1998/A0859801.TXT" headerLength="25">
+  <!-- aggregation dimName="time" type="joinExisting">
+<scan location="" dateFormatMark="A085#yymm" suffix=".TXT" subdirs="false"/ -->
+    <attribute name="title" value="GOES-8 SPACE ENVIRONMENT MONITOR (5-Min Avgs)" />
+    <attribute name="source" value="http://goes.ngdc.noaa.gov/data/avg/1998/A0859801.TXT" />
+    <dimension name="time" isUnlimited="true" />
+    <variable name="time" orgName="v0" shape="time" type="String">
+        <attribute name="units" value="yymmdd hhmm" />
+    </variable>
+    <variable name="XL" orgName="v2" shape="time" type="double">
+        <attribute name="long_name" value="1-8 Ang X-ray Flux" />
+        <attribute name="units" value="Watts/Meter^2" />
+        <attribute name="sigfig" value="3" />
+    </variable>
+    <variable name="XS" orgName="v3" shape="time" type="double">
+        <attribute name="long_name" value="0.5 - 3 Ang X-ray Flux" />
+        <attribute name="units" value="Watts/Meter^2" />
+        <attribute name="sigfig" value="3" />
+    </variable>
+    <variable name="Hp" orgName="v4" shape="time" type="double">
+        <attribute name="long_name" value="(parallel) Northward Magnetic Flux" />
+        <attribute name="units" value="nT" />
+        <attribute name="precision" value="2" />
+    </variable>
+    <variable name="He" orgName="v5" shape="time" type="double">
+        <attribute name="long_name" value="Earthward Magnetic Flux" />
+        <attribute name="units" value="nT" />
+        <attribute name="precision" value="2" />
+    </variable>
+    <variable name="He" orgName="v6" shape="time" type="double">
+        <attribute name="long_name" value="(normal) Eastward Magnetic Flux" />
+        <attribute name="units" value="nT" />
+        <attribute name="precision" value="2" />
+    </variable>
+    <variable name="Ht" orgName="v7" shape="time" type="double">
+        <attribute name="long_name" value="Total Magnetic Flux" />
+        <attribute name="units" value="nT" />
+        <attribute name="precision" value="2" />
+    </variable>
+    <variable name="E1" orgName="v8" shape="time" type="double">
+        <attribute name="long_name" value="&gt;= 2 MeV electrons Corrected, but remain unreliable during ion storms" />
+        <attribute name="units" value="Counts/cm2 sec sr" />
+        <attribute name="sigfig" value="3" />
+    </variable>
+    <variable name="A1" orgName="v9" shape="time" type="double">
+        <attribute name="long_name" value="4.0 - 10.0 MeV alpha-particles Uncorrected" />
+        <attribute name="units" value="Counts/cm2 sec sr MeV" />
+        <attribute name="sigfig" value="3" />
+    </variable>
+    <variable name="A2" orgName="v10" shape="time" type="double">
+        <attribute name="long_name" value="10.0 - 21.0 MeV alpha-particles Uncorrected" />
+        <attribute name="units" value="Counts/cm2 sec sr MeV" />
+        <attribute name="sigfig" value="3" />
+    </variable>
+    <variable name="A3" orgName="v11" shape="time" type="double">
+        <attribute name="long_name" value="21.0 - 60.0 MeV alpha-particles Uncorrected" />
+        <attribute name="units" value="Counts/cm2 sec sr MeV" />
+        <attribute name="sigfig" value="3" />
+    </variable>
+    <variable name="A4" orgName="v12" shape="time" type="double">
+        <attribute name="long_name" value="60.0 - 150.0 MeV alpha-particles Uncorrected" />
+        <attribute name="units" value="Counts/cm2 sec sr MeV" />
+        <attribute name="sigfig" value="3" />
+    </variable>
+    <variable name="A5" orgName="v13" shape="time" type="double">
+        <attribute name="long_name" value="150.0 - 250.0 MeV alpha-particles Uncorrected" />
+        <attribute name="units" value="Counts/cm2 sec sr MeV" />
+        <attribute name="sigfig" value="3" />
+    </variable>
+    <variable name="A6" orgName="v14" shape="time" type="double">
+        <attribute name="long_name" value="300.0 - 500.0 MeV alpha-particles Uncorrected" />
+        <attribute name="units" value="Counts/cm2 sec sr MeV" />
+        <attribute name="sigfig" value="3" />
+    </variable>
+  <!-- /aggregation -->
+</netcdf>
