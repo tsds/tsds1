@@ -3,13 +3,16 @@
         xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0"
         xmlns:xlink="http://www.w3.org/1999/xlink">
 
-  <catalogRef ID="command" xlink:title="TEST Data from System Command" xlink:href="command/catalog.thredds"/>
-  <catalogRef ID="test" xlink:title="Basic Test Datasets" xlink:href="test/catalog.thredds"/>
+  <catalogRef ID="VMO" xlink:title="VMO CRRES" xlink:href="vmo/catalog.thredds"/>
+  <catalogRef ID="NGDC" xlink:title="NGDC GOES 8" xlink:href="ngdc/catalog.thredds"/>
+  <catalogRef ID="Dartmouth" xlink:title="Mass density data set" xlink:href="dartmouth/catalog.thredds"/>
+  <catalogRef ID="ViRBO" xlink:title="ViRBO Remote" xlink:href="http://virbo.org/meta/viewDataFile.jsp?docname=C6D5623A-ADEC-8397-88A7-DD62A37BA490&amp;filetype=data" />
+    
+  <catalogRef ID="NSSDC" xlink:title="NSSDC Pioneer 11" xlink:href="hpde_data/datasets/catalog.thredds"/>
+  <catalogRef ID="test" xlink:title="Basic Test Datasets" xlink:href="test2/catalog.thredds"/>
   <catalogRef ID="bin" xlink:title="Sample Binary Datasets" xlink:href="bin/catalog.thredds"/>
-  <catalogRef ID="hpde" xlink:title="HPDE Sample Datasets" xlink:href="hpde_data/datasets/catalog.thredds"/>
   
-  <!--catalogRef xlink:title="local" xlink:href="test/ncml_catalog.thredds"/-->
-  <!--catalogRef xlink:title="remote" xlink:href="http://virbo.org/metamag/viewDataFile.jsp?docname=C6D5623A-ADEC-8397-88A7-DD62A37BA490&amp;filetype=data" /-->
-  
-
+  <catalogRef ID="regex" xlink:title="Apply regex to file" xlink:href="regex/catalog.thredds"/>
+  <catalogRef ID="command" xlink:title="TEST Data from System Command" xlink:href="command/catalog.thredds"/>
+      
 </catalog>
