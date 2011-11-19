@@ -3,15 +3,22 @@
         xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0"
         xmlns:xlink="http://www.w3.org/1999/xlink">
 
-  <service name="tss" serviceType="OpenDAP" base="" />
+  <service name="tss" serviceType="OpenDAP" base="http://tsds.net/tsdsdev/" />
   <service name="ncml" serviceType="NCML" base="" />
 
   <dataset name="crres" >
-    <access serviceName="tss" urlPath="crres" />
+    <access serviceName="tss" urlPath="vmo/crres" />
     <access serviceName="ncml" urlPath="crres.ncml" />
     <documentation type="summary">
-      CRRES 2s magnetic field data. Sample file via http.
+      CRRES 2s magnetic field data. Sample file via http://vmo.igpp.ucla.edu/data1/CRRES/MAG/PT2S/CRRES_MAG_2s_0192.dat
     </documentation>
   </dataset>
   
+    <dataset name="dummy" >
+    <access serviceName="tss" urlPath="" />
+    <access serviceName="ncml" urlPath=".ncml" />
+    <documentation type="summary">
+      Placeholder
+    </documentation>
+  </dataset>
 </catalog>
