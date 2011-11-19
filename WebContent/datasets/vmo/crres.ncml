@@ -4,7 +4,7 @@
     location="/dev/null"
     url="http://vmo.igpp.ucla.edu/data1/CRRES/MAG/PT2S/CRRES_MAG_2s_0192.dat">
 
-    <attribute name="title" value="VMO CRRES test" />
+    <attribute name="title" value="VMO CRRES testing" />
 
     <dimension name="time" isUnlimited="true"/> 
 
@@ -12,19 +12,19 @@
         <attribute name="units" value="yyyy MM dd HH mm ss.SSSS" />
     </variable>
 
-    <variable name="BX-VDH" shape="time" type="double" >
+    <variable name="BX_VDH" shape="time" type="double" >
         <attribute name="long_name" value="Magnetic Field Vector, X-component"/>
         <attribute name="units" value="nT"/>
         <attribute name="_FillValue" value="99999"/>
         <attribute name="precision" value="4"/>
     </variable>
-    <variable name="BY-VDH" shape="time" type="double" >
+    <variable name="BY_VDH" shape="time" type="double" >
         <attribute name="long_name" value="Magnetic Field Vector, Y-component"/>
         <attribute name="units" value="nT"/>
         <attribute name="_FillValue" value="99999"/>
         <attribute name="precision" value="4"/>
     </variable>
-    <variable name="BZ-VDH" shape="time" type="double" >
+    <variable name="BZ_VDH" shape="time" type="double" >
         <attribute name="long_name" value="Magnetic Field Vector, Z-component"/>
         <attribute name="units" value="nT"/>
         <attribute name="_FillValue" value="99999"/>
