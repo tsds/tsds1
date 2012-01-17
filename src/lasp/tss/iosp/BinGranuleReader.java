@@ -65,12 +65,15 @@ public class BinGranuleReader extends GranuleIOSP {
     protected int getLength() {
         int length = super.getLength();
         
-        try {
-            int nvar = getNetcdfFile().getRootGroup().getVariables().size();
-            if (length == 0) length = (int) (getFile().length() / nvar / 8);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        //If the "length" attribute is not defined, compute length.
+        if (length <= 0) {
+            try {
+                int nvar = getNetcdfFile().getRootGroup().getVariables().size();
+                length = (int) (getFile().length() / nvar / 8);
+            } catch (IOException e) {
+                _logger.warn("Failed to get length from data file.", e);
+                //TODO: error? throw exception?
+            }
         }
         
         return length;
