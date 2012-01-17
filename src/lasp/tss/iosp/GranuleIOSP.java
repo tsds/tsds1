@@ -44,7 +44,7 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
      * If not defined in the NcML, the subclass must override getLength() to indicate the number
      * of time samples, presumably after reading them all.
      */
-    private int _length = 0;
+    private int _length = 0; //TODO: -1 ?
     
     protected abstract void readAllData();
 
