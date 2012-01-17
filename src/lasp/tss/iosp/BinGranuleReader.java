@@ -1,7 +1,6 @@
 package lasp.tss.iosp;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -15,8 +14,6 @@ public class BinGranuleReader extends GranuleIOSP {
 
     // Initialize a logger.
     private static final Logger _logger = Logger.getLogger(BinGranuleReader.class);
-
-    private HashMap<String, Array> _dataMap = new HashMap<String, Array>();
     
     @Override
     protected void readAllData() {
@@ -59,7 +56,7 @@ public class BinGranuleReader extends GranuleIOSP {
         for (Variable var : vars) {
             String vname = var.getShortName();
             Array array = Array.factory(DataType.DOUBLE, shape, data[ivar++]);
-            _dataMap.put(vname, array);
+            setArray(vname, array);
         }
         
     }
@@ -78,15 +75,5 @@ public class BinGranuleReader extends GranuleIOSP {
         
         return length;
     }
-
-    @Override
-    protected Array getData(Variable var) {
-        String vname = var.getShortName();
-        Array array = _dataMap.get(vname);
-        return array;
-    }
-
-
-
 
 }
