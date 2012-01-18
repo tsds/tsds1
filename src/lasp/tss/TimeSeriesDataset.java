@@ -46,6 +46,9 @@ import lasp.tss.variable.TimeVariable;
 import lasp.tss.variable.VariableFactory;
 
 import org.apache.log4j.Logger;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.input.SAXBuilder;
 
 import thredds.catalog.InvAccess;
 import thredds.catalog.InvCatalogImpl;
@@ -158,13 +161,25 @@ public class TimeSeriesDataset {
 
     private NetcdfDataset createNetcdfDataset(String ncmlURL) {
         NetcdfDataset dataset = null;
+        
         try {
             CancelTask cancelTask = null; //not used
-            NetcdfDataset.initNetcdfFileCache(10,100,600);
-            _logger.info("Reading " + ncmlURL);
-            dataset = NcMLReader.readNcML(ncmlURL, cancelTask);
+            NetcdfDataset.initNetcdfFileCache(10,100,600); 
+            //needed to make aggregation not slow, other side effects not clear
+            //Should this happen at the server level?
+            
+            _logger.info("Reading NcML: " + ncmlURL);
+            
+            //HACK the request into ncml so the IOSP can see it.
+            SAXBuilder builder = new SAXBuilder(false);
+            Document doc = builder.build(ncmlURL);
+            Element ncel = doc.getRootElement();
+            String req = _request.getQueryString();
+            if (req != null) ncel.setAttribute("query", req);
+            
+            dataset = NcMLReader.readNcML(ncmlURL, ncel, cancelTask);
         } catch(Exception e) { 
-            String msg = "Unable to construct the Dataset: " + getName() + " using " + ncmlURL;
+            String msg = "Unable to construct the Dataset: " + getName();
             throw new TSSPublicException(msg, e);
         } finally {
             //Shut down the FileCache to see if it reduces Tomcat PermGen memory problems
