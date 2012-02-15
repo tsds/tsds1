@@ -159,7 +159,7 @@ public class AsciiGranuleReader extends GranuleIOSP {
     protected BufferedReader openReader() {
         BufferedReader reader = null;
         
-        String url = getProperty("url");
+        String url = getURL();
         if (url != null) reader = openUrl(url);
         
         return reader;
@@ -208,6 +208,7 @@ public class AsciiGranuleReader extends GranuleIOSP {
      * Determine if the given line is a comment.
      */
     protected boolean isComment(String line) {
+        //TODO: support list of comment characters? Do we ever need more than one char?
         String comment = getProperty("commentCharacter");
         boolean b = (comment != null) && (line.startsWith(comment));
         return b;
