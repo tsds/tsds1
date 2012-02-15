@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2"  
+  location="/dev/null" iosp="lasp.tss.iosp.SpidrIOSP" commentCharacter="#" columns="1,2;3"
+  baseURL="http://spidr.ngdc.noaa.gov/spidr/servlet/GetData?format=csv"
+  param="ssn_daily" defaultFrom="19000101" defaultTo="21000101"> 
+
+    <attribute name="title" value="SPIDR Sunspot Number" />
+    <!--Not sure which dataset this is. It's not the American relative sunspot number.-->
+
+    <dimension name="time" isUnlimited="true" /> 
+
+    <variable name="time" shape="time" type="String">
+        <attribute name="units" value="yyyy-MM-dd HH:mm" />
+    </variable>
+
+    <variable name="ssn" shape="time" type="double">
+        <attribute name="long_name" value="Sunspot Number"/>
+        <attribute name="units" value="count" />
+        <attribute name="precision" value="0"/>
+        <attribute name="_FillValue" type="double" value="1e33" />
+    </variable>  
+    
+</netcdf>
