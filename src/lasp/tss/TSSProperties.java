@@ -57,17 +57,20 @@ public class TSSProperties {
     private static TSSProperties _instance;
     private static ServletConfig _config;
     private static Properties _properties;
-
-    private String propertyFile;
     
     
     private TSSProperties(ServletConfig config) {
         _config = config;
         
-        propertyFile = config.getInitParameter("config");
+        String propertyFile = config.getInitParameter("config");
         if (propertyFile == null) propertyFile = "tss.properties"; 
+
+        //Prepend absolute path if propertyFile is relative.
+        if (! propertyFile.startsWith(File.separator)) {
+            propertyFile = getRealPath(propertyFile);
+        }
         
-        loadProperties();
+        loadProperties(propertyFile);
     }
     
 
@@ -83,12 +86,10 @@ public class TSSProperties {
      * Read in the tss properties. 
      * Kept as static for all to use.
      */
-    private void loadProperties() {
+    private void loadProperties(String fname) {
         //TODO: include servlet context attributes?
-        String fname = null;
         try {
             _properties = new Properties();
-            fname = getRealPath(propertyFile);
             FileInputStream in = new FileInputStream(fname);
             _properties.load(in);
         } catch (Exception e) {
