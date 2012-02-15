@@ -1,6 +1,8 @@
 package lasp.tss.iosp;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,7 +46,7 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
      * If not defined in the NcML, the subclass must override getLength() to indicate the number
      * of time samples, presumably after reading them all.
      */
-    private int _length = 0; //TODO: -1 ?
+    private int _length = -1;
     
     protected abstract void readAllData();
 
@@ -64,7 +66,9 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
         return _length;
     }
     
-    //TODO: setLength?
+    protected void setLength(int length) {
+        _length = length;
+    }
     
     public void open(RandomAccessFile raf, NetcdfFile ncfile, CancelTask cancelTask) throws IOException {
         _raFile = raf;
@@ -164,6 +168,17 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
         return prop;
     }
     
+    protected String getQuery() {
+        String query = getProperty("query");
+        try {
+            query = URLDecoder.decode(query, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return query;
+    }
+    
     /**
      * Return the file that NetCDF handed us in the call to "open" (already open).
      */
@@ -178,10 +193,10 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
      */
     protected String getURL() {
         String url = getProperty("url");
-        if (url == null) {
-            url = getFile().getLocation();
+        if (url == null && _raFile != null) {
+            url = _raFile.getLocation();
         }
-        //TODO: error if still null
+
         return url;
     }
 
@@ -255,6 +270,7 @@ public abstract class GranuleIOSP extends AbstractIOServiceProvider {
     }    
     
     protected int getVariableCount() {
+        //TODO: is this consistent with getVariables? i.e. all nested variables
         int nvar = getVariableElements().size();
         return nvar;
     }
