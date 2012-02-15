@@ -91,6 +91,8 @@ public class TimeSeriesServer extends HttpServlet {
                 } 
             }
             
+            //TODO: if url is a directory, display the catalog
+            
             //Error if output type is not determined.
             if (type == null) {
                 String msg = "No data set suffix is defined in the request: " + path;
