@@ -29,7 +29,8 @@ public class BinGranuleReader extends GranuleIOSP {
         raFile.order(bo);
         
         int ntim = getLength();
-        List<Variable> vars = getNetcdfFile().getRootGroup().getVariables();
+        //List<Variable> vars = getNetcdfFile().getRootGroup().getVariables(); //gets only direct children
+        List<Variable> vars = getVariables(); //all Variables, from nested groups...
         int nvar = vars.size();
         int n = ntim * nvar;
         double[] blob = new double[n];
@@ -68,7 +69,8 @@ public class BinGranuleReader extends GranuleIOSP {
         //If the "length" attribute is not defined, compute length.
         if (length <= 0) {
             try {
-                int nvar = getNetcdfFile().getRootGroup().getVariables().size();
+                //int nvar = getNetcdfFile().getRootGroup().getVariables().size();
+                int nvar = getVariableCount();
                 length = (int) (getFile().length() / nvar / 8);
             } catch (IOException e) {
                 _logger.warn("Failed to get length from data file.", e);
