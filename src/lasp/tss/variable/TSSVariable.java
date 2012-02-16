@@ -330,7 +330,7 @@ public abstract class TSSVariable {
         try {
             ncArray = ncvar.read();
         } catch (Exception e) {
-            String msg = "Failed to read variable: " + ncvar.getName();
+            String msg = "Failed to read variable: " + ncvar.getShortName();
             _logger.error(msg, e);
             throw new TSSException(msg, e);
         }
@@ -344,13 +344,19 @@ public abstract class TSSVariable {
      * May be null.
      */
     public double[] getValues() {
-        double[] values = null;
+        double[] d = null;
         Array array = read();
         
-        //makes a copy of the data, but getStorage return entire backing array, unsectioned
-        if (array != null) values = (double[]) array.get1DJavaArray(double.class); 
+        if (array != null) {
+            int n = (int) array.getSize();
+            d = new double[n];
+            int i = 0;
+            while (array.hasNext()) {
+                d[i++] = array.nextDouble();
+            }
+        }
         
-        return values;
+        return d;
     }
 
     /**
@@ -366,7 +372,6 @@ public abstract class TSSVariable {
         Array array = getTimeSample(timeIndex);
         if (array == null) return null;
         
-        //d = (double[]) array.get1DJavaArray(double.class);
         int n = (int) array.getSize();
         d = new double[n];
         int i = 0;
