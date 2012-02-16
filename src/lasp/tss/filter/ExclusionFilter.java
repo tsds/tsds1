@@ -51,12 +51,14 @@ public abstract class ExclusionFilter extends AbstractFilter {
         IndexIterator iit = array.getIndexIterator(); 
         while (iit.hasNext()) {
             boolean excluded = false;
-            if (array instanceof ArrayDouble) {
-                double d = iit.getDoubleNext();
-                excluded = excludeValue(d);
-            } else if (array instanceof ArrayObject) {
+            
+            // Assume an Object array is a String, otherwise get double value.
+            if (array instanceof ArrayObject) {
                 String s = (String) iit.getObjectNext();
                 excluded = excludeString(s);
+            } else {
+                double d = iit.getDoubleNext();
+                excluded = excludeValue(d);
             }
             
             if (excluded) {
