@@ -2,11 +2,11 @@
 <netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2"
 	location="/dev/null" iosp="lasp.tss.iosp.ColumnarAsciiReader"
 		commentCharacter="#" columns="1,2;3"
-		url="http://cdaweb.gsfc.nasa.gov/WS/cdasr/1/dataviews/sp_phys/datasets/AC_H1_MFI/data/20050101T000000Z,20050102T000000Z/Magnitude?format=text">
+		url="http://tsds.net/tmp/ac_h1_mfi.txt">
     <attribute name="title" value="AC_H1_MFI Magnitude" />
     <dimension name="time" isUnlimited="true" />
     <variable name="time" shape="time" type="String">
-        <attribute name="units" value="yyyy-MM-dd HH:mm" />
+        <attribute name="units" value="dd-MM-yyy HH:mm:ss.SS" />
     </variable>
     <variable name="ssn" shape="time" type="double">
         <attribute name="long_name" value="Magnitude" />
