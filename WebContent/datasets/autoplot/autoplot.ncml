@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2"  
   location="/dev/null" iosp="lasp.tss.iosp.AutoplotIOSP" 
-  vapuri="vap+xls:file:///Users/lindholm/Documents/workspace/TSDS/WebContent/datasets/autoplot/autoplot.xls?firstRow=51" >
+  vapuri="vap+xls:file:///home/weigel/svn/workspace-tsds/TSDS/WebContent/datasets/autoplot/autoplot.xls?firstRow=51" >
     
-    <attribute name="title" value="Autoplot Excel Spreadsheet" />
+    <attribute name="title" value="Excel preadsheet read using Autoplot" />
     
     <dimension name="time" isUnlimited="true" /> 
       
