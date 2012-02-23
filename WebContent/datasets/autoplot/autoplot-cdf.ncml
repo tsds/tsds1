@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2"  
+  location="/dev/null" iosp="lasp.tss.iosp.AutoplotIOSP" 
+  vapuri="vap+cdf:file:///home/weigel/svn/workspace-tsds/TSDS/WebContent/datasets/autoplot/autoplot.cdf?Magnitude" >
+    
+    <attribute name="title" value="CDF file read using Autoplot" />
+    
+    <dimension name="time" isUnlimited="true" />
+
+    <variable name="time" srcName="Epoch" shape="time" type="double"> 
+        <attribute name="units" value="days since 2006-01-01" />
+    </variable>
+    
+    <variable name="Magnitude" srcName="Magnitude" shape="time" type="double">
+        <attribute name="units" value="nT" />
+    </variable> 
+    
+</netcdf>
