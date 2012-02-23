@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<catalog name="Test Data"
+<catalog name="Autoplot Data"
         xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0"
         xmlns:xlink="http://www.w3.org/1999/xlink">
 
@@ -10,14 +10,15 @@
     <access serviceName="tss" urlPath="autoplot" />
     <access serviceName="ncml" urlPath="autoplot.ncml" />
     <documentation type="summary">
+    	Data read by passing to URI vap+xls:http://autoplot.org/data/autoplot.xls?firstRow=51 to Autoplot
     </documentation>
   </dataset>
 
-    <dataset name="dummy" >
-    <access serviceName="tss" urlPath="" />
-    <access serviceName="ncml" urlPath=".ncml" />
+  <dataset name="autoplot remote file" >
+    <access serviceName="tss" urlPath="autoplot-remote" />
+    <access serviceName="ncml" urlPath="autoplot-remote.ncml" />
     <documentation type="summary">
-      Placeholder
+    Data read by passing to URI vap+xls:file:///home/weigel/svn/workspace-tsds/TSDS/WebContent/datasets/autoplot/autoplot.xls?firstRow=51 to Autoplot
     </documentation>
   </dataset>
   
