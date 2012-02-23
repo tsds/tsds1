@@ -22,4 +22,11 @@
     </documentation>
   </dataset>
   
+    <dataset name="autoplot cdf file" >
+    <access serviceName="tss" urlPath="autoplot-cdf" />
+    <access serviceName="ncml" urlPath="autoplot-cdf.ncml" />
+    <documentation type="summary">
+    Data read by passing to URI vap+xls:file:///home/weigel/svn/workspace-tsds/TSDS/WebContent/datasets/autoplot/autoplot.cdf to Autoplot
+    </documentation>
+  </dataset>
 </catalog>
