@@ -3,7 +3,7 @@
   location="/dev/null" iosp="lasp.tss.iosp.AutoplotIOSP" 
   vapuri="vap+xls:file:///home/weigel/svn/workspace-tsds/TSDS/WebContent/datasets/autoplot/autoplot.xls?firstRow=51" >
     
-    <attribute name="title" value="Excel preadsheet read using Autoplot" />
+    <attribute name="title" value="Excel spreadsheet read using Autoplot" />
     
     <dimension name="time" isUnlimited="true" /> 
       
