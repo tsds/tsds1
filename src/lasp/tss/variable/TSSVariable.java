@@ -149,8 +149,9 @@ public abstract class TSSVariable {
      */
     public double getMissingValue() {
         double d = Double.NaN;
-        
-        String s = getAttributeValue("_FillValue");
+
+        String s = getAttributeValue("missing_value");
+        if (s == null) s = getAttributeValue("_FillValue");
         if (s != null) d = Double.parseDouble(s);
         
         return d;

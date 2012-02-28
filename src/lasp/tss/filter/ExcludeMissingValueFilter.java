@@ -31,7 +31,8 @@ package lasp.tss.filter;
 import lasp.tss.variable.TSSVariable;
 
 /**
- * This filter will exclude data values (entire time sample) that match the Variable's "_FillValue" attribute.
+ * This filter will exclude data values (entire time sample) that match the 
+ * Variable's "missing_value" or "_FillValue" attribute.
  * 
  * @author Doug Lindholm
  */
