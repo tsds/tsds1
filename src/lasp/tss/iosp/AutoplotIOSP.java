@@ -3,6 +3,9 @@ package lasp.tss.iosp;
 import java.io.IOException;
 import java.util.List;
 
+import lasp.tss.TimeSeriesDataset;
+
+import org.apache.log4j.Logger;
 import org.das2.util.monitor.NullProgressMonitor;
 import org.virbo.dataset.DataSetUtil;
 import org.virbo.dataset.QDataSet;
@@ -16,7 +19,8 @@ public class AutoplotIOSP extends GranuleIOSP {
 
     //TODO: aggregation example:
     //vap:ftp://nssdcftp.gsfc.nasa.gov/spacecraft_data/omni/omni2_$Y.dat?column=field17&timeFormat=$Y+$j+$H&time=field0&validMax=999&timerange=1972
-    
+	   private static final Logger _logger = Logger.getLogger(TimeSeriesDataset.class);
+	   
     @Override
     protected void readAllData() {
         try {
@@ -35,7 +39,10 @@ public class AutoplotIOSP extends GranuleIOSP {
                 if (ovname != null) name = ovname;
                 
                 //Construct vap uri for this variable
-                String uri = base_uri + "&" + "column=" + name;
+                //String uri = base_uri + "&" + "column=" + name;
+                String uri = base_uri + name;
+                _logger.info("Calling getDataSource with URI " + uri);
+                
                 QDataSet result = DataSetURI.getDataSource(uri).getDataSet(new NullProgressMonitor());
                 
                 //capture the length
