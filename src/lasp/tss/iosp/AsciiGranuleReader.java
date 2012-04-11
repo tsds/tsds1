@@ -85,10 +85,12 @@ public class AsciiGranuleReader extends GranuleIOSP {
         String s = null;
         for (String[] ss : _dataStrings) { //loop over time samples
             for (int i=0; i<n; i++) {
-                s = ss[icol+i];
+                int i2 = icol+i;
+                if (i2 < ss.length) s = ss[i2];
+                else s = "";
             
                 if (var.getDataType().isString()) {
-                    array.setObject(index++, s); //TODO: will s=null break this?
+                    array.setObject(index++, s); 
                 } else {
                     double d = Double.NaN;
                     try {
