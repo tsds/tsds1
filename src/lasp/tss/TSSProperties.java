@@ -62,8 +62,10 @@ public class TSSProperties {
     private TSSProperties(ServletConfig config) {
         _config = config;
         
-        String propertyFile = config.getInitParameter("config");
-        if (propertyFile == null) propertyFile = "tss.properties"; 
+        //Get the property file location
+        String propertyFile = System.getProperty("tss.config"); //Try System properties (e.g. command line with "-D")
+        if (propertyFile == null) propertyFile = config.getInitParameter("config"); //Try init param in web.xml
+        if (propertyFile == null) propertyFile = "tss.properties"; //Default
 
         //Prepend absolute path if propertyFile is relative.
         if (! propertyFile.startsWith(File.separator)) {
