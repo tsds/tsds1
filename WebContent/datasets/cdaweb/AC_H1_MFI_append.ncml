@@ -3,9 +3,9 @@
    
    <attribute name="title" value="AC_H1_MFI Parameters" />
 
-  <aggregation dimName="time" type="joinExisting" timeUnitsChange="true"> 
+  <aggregation dimName="time" type="joinExisting" > 
 
-    <netcdf location="ac_h1_mfi.txt" iosp="lasp.tss.iosp.ColumnarAsciiReader" commentCharacter="#" columns="1,2;3">
+    <netcdf location="ac_h1_mfi.txt" iosp="lasp.tss.iosp.ColumnarAsciiReader" headerLength="59" columns="1,2;3">
     <dimension name="time" isUnlimited="true" />
     	<variable name="time" shape="time" type="String">
         	<attribute name="units" value="dd-MM-yyyy HH:mm:ss.SS" />
@@ -18,7 +18,7 @@
     	</variable>        
     </netcdf>
 
-    <netcdf location="ac_h1_mfi2.txt" iosp="lasp.tss.iosp.ColumnarAsciiReader" commentCharacter="#" columns="1,2;3">
+    <netcdf location="ac_h1_mfi2.txt" iosp="lasp.tss.iosp.ColumnarAsciiReader" headerLength="59" columns="1,2;3">
 <dimension name="time" isUnlimited="true" />
     	<variable name="time" shape="time" type="String">
         	<attribute name="units" value="dd-MM-yyyy HH:mm:ss.SS" />
