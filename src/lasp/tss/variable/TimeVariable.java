@@ -247,15 +247,16 @@ public class TimeVariable extends IndependentVariable {
         
         //If the native data are formatted, convert to Java time
         if (_origFormat != null) {
+            String s = null;
             try {
                 Array array = getTimeSample(timeIndex);
-                String s = (String) array.getObject(0);
+                s = (String) array.getObject(0);
                 //String s = array.next().toString();
                 DateFormat dateFormat = getDateFormat(_origFormat);
                 Date date = dateFormat.parse(s);
                 dd[0] = date.getTime();
             } catch (ParseException e) {
-                String msg = "Unable to parse native time format: " + _origFormat;
+                String msg = "Unable to parse \""+s+"\" using the native time format: " + _origFormat;
                 _logger.warn(msg);
                 //throw new TSSException(msg, e);
                 dd = null;
