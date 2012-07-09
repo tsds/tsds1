@@ -48,6 +48,7 @@ public class ColumnarAsciiReader extends AsciiGranuleReader {
         } catch (Exception e) {
             String msg = "Unable to parse record: " + record;
             _logger.warn(msg);
+            ss = null; //drop this record
         }
         
         return ss;
