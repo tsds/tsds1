@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2">
+   
+   <attribute name="title" value="AC_H1_MFI Parameters" />
+
+  <aggregation dimName="time" type="joinExisting" > 
+
+    <netcdf location="file:///tmp/tmp/http%3A%2F%2Fcdaweb.gsfc.nasa.gov%2FWS%2Fcdasr%2F1%2Fdataviews%2Fsp_phys%2Fdatasets%2FAC_H1_MFI%2Fdata%2F20050101T000000Z%2C20050102T000000Z%2FMagnitude%2CBGSEc%3Fformat%3Dtext.data" iosp="lasp.tss.iosp.ColumnarAsciiReader" headerLength="59" columns="1,2;3">
+    <dimension name="time" isUnlimited="true" />
+    	<variable name="time" shape="time" type="String">
+        	<attribute name="units" value="dd-MM-yyyy HH:mm:ss.SS" />
+    	</variable>
+    	<variable name="Magnitude" shape="time" type="double">
+        	<attribute name="long_name" value="Magnitude" />
+        	<attribute name="units" value="nT" />
+        	<attribute name="precision" value="3" />
+        	<attribute name="_FillValue" type="double" value="1e33" />
+    	</variable>        
+    </netcdf>
+
+    <netcdf location="file:///tmp/tmp/http%3A%2F%2Fcdaweb.gsfc.nasa.gov%2FWS%2Fcdasr%2F1%2Fdataviews%2Fsp_phys%2Fdatasets%2FAC_H1_MFI%2Fdata%2F20050102T000000Z%2C20050103T000000Z%2FMagnitude%2CBGSEc%3Fformat%3Dtext.data" iosp="lasp.tss.iosp.ColumnarAsciiReader" headerLength="59" columns="1,2;3">
+	<dimension name="time" isUnlimited="true" />
+    	<variable name="time" shape="time" type="String">
+        	<attribute name="units" value="dd-MM-yyyy HH:mm:ss.SS" />
+    	</variable>
+    	<variable name="Magnitude" shape="time" type="double">
+        	<attribute name="long_name" value="Magnitude" />
+        	<attribute name="units" value="nT" />
+        	<attribute name="precision" value="3" />
+        	<attribute name="_FillValue" type="double" value="1e33" />
+    	</variable>        
+      
+    </netcdf>
+    
+  </aggregation>
+    
+</netcdf>
