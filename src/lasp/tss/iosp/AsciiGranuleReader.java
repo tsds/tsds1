@@ -36,6 +36,8 @@ public class AsciiGranuleReader extends GranuleIOSP {
     @Override
     protected void readAllData() {
         _reader = openReader();
+
+        skipHeader();
         List<String> records = readRecords();
         
         for (String record : records) {
@@ -132,13 +134,6 @@ public class AsciiGranuleReader extends GranuleIOSP {
     private List<String> readRecords() {
         List<String> records = new ArrayList<String>();
         
-        //skip header
-        String headerLength = getProperty("headerLength");
-        if (headerLength != null) {
-            int linesToSkip = Integer.parseInt(headerLength);
-            skipLines(linesToSkip);
-        }
-        
         //Start reading one line at a time.
         String line = readLine();
         while (line != null) {
@@ -156,6 +151,14 @@ public class AsciiGranuleReader extends GranuleIOSP {
         }
 
         return records;
+    }
+
+    protected void skipHeader() {
+        String headerLength = getProperty("headerLength");
+        if (headerLength != null) {
+            int linesToSkip = Integer.parseInt(headerLength);
+            skipLines(linesToSkip);
+        }
     }
 
     protected BufferedReader openReader() {
