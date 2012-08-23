@@ -108,6 +108,14 @@ public class TimeVariable extends IndependentVariable {
         return (_format != null);
     }
     
+//    /**
+//     * Has this variable been reformatted into a new string representation.
+//     * (e.g. by the TimeFormatFilter)
+//     */
+//    public boolean isReFormatted() {
+//        return (_format != null && _origFormat != _format);
+//    }
+    
     /**
      * Is the time in units of Julian Date.
      */
@@ -213,6 +221,19 @@ public class TimeVariable extends IndependentVariable {
             
         return date;
     }
+    
+    /**
+     * Return the requested time sample as a Date.
+     */
+    public Date getValueAsDate(int timeIndex) {
+        Date date = null;
+        
+        double time = getValues(timeIndex)[0];
+        date = getValueAsDate(time);
+
+        return date;
+    }
+    
     
     /**
      * Override to support formatted times.
