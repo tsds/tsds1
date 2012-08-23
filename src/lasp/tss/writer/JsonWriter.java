@@ -17,9 +17,9 @@ import lasp.tss.variable.TimeVariable;
  * 
  * Model the data as an array of JSON objects, one per time sample.
  * [{"time":123,"value":456},...]
+ * The time will be represented in native java units: 
+ *   milliseconds since 1970-01-01 GMT
  * 
- * Seems like a lot of redundancy but better than XML. 
- * And new browsers have native support.
  */
 public class JsonWriter extends TextDataWriter {
     
@@ -144,14 +144,21 @@ public class JsonWriter extends TextDataWriter {
             //get the data value as a string, this should be a leaf data set so only one value
             String s = null;
             
-            String[] values = variable.getStringValues(timeIndex); 
-            //TODO: test for indep var == NaN, skip entire time step
-            if (values == null) return null;
-            s = values[0];
-            if (s.equals("NaN")) s = "null";
-            //String values need to be quoted
-            if (variable.isString()) s = "\""+s+"\"";
-                        
+            //convert to native java time: milliseconds since 1970-01-01
+            //TODO: allow the format_time filter to override this?
+            //TODO: test for time var == NaN, skip entire time step
+            if (variable instanceof TimeVariable) {
+                TimeVariable tvar = (TimeVariable) variable;
+                Date date = tvar.getValueAsDate(timeIndex);
+                s = "" + date.getTime();
+            } else {
+                String[] values = variable.getStringValues(timeIndex); 
+                if (values == null) return null; //no data for this time sample
+                s = values[0];
+                if (s.equals("NaN")) s = "null"; //replace NaN with null in JSON
+                if (variable.isString()) s = "\""+s+"\""; //String values need to be quoted
+            }
+            
             sb.append(s);
         }
 
