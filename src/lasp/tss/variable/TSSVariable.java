@@ -427,14 +427,17 @@ public abstract class TSSVariable {
             array = applyFilters(array);
             
         } catch (Exception e) {
-            String msg = "Failed to read data for variable: " + ncvar.getShortName();
+            String msg = "Failed to read data for variable: " + ncvar.getShortName() + " and time index: " + timeIndex;
             _logger.error(msg, e);
-            
+
             //throw new TSSPublicException(msg, e);
             //At this point, it's too late to present an error to the user. (Unless index = 0?)
             //We may have already started streaming data.
             //TODO: review exception handling to ensure we do not throw TSSPublicException-s,
             //  which result in the creation of an ErrorWriter, if we have already established a Writer.
+            
+            //throw new TSSException(msg, e);
+            //Still ends up getting caught and wrapped with a Public expection.
         }
 
         return array;
