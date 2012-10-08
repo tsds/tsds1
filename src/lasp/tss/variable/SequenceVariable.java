@@ -58,9 +58,9 @@ public class SequenceVariable extends CompositeVariable {
     /**
      * Return the projected variable values.
      * Variable index should vary faster than the independent variable dimension.
+     * This is designed for SequenceVariables that are in the range of a TimeSeries.
      */
     public double[] getValues(int timeIndex) {
-
         List<TSSVariable> vars = getVariables();
         
         int nvar = vars.size();  //number of vars
