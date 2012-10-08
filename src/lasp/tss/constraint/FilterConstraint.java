@@ -34,7 +34,7 @@ import lasp.tss.TSSProperties;
 import lasp.tss.TSSPublicException;
 import lasp.tss.TimeSeriesDataset;
 import lasp.tss.filter.Filter;
-import lasp.tss.filter.SubsetFilter;
+import lasp.tss.filter.TimeSeriesFilter;
 import lasp.tss.util.RegEx;
 import lasp.tss.variable.CompositeVariable;
 import lasp.tss.variable.TSSVariable;
@@ -69,8 +69,8 @@ public class FilterConstraint extends Constraint {
         Filter filter = makeFilter(ts);
         
         //If for a time subset, apply to the TimeSeries Sequence
-        if (filter instanceof SubsetFilter) {
-            ((SubsetFilter) filter).filter(ts);
+        if (filter instanceof TimeSeriesFilter) {
+            ((TimeSeriesFilter) filter).filter(ts);
         } else {
             //hack will ignore the filter we just made
             addFilter(ts); 
