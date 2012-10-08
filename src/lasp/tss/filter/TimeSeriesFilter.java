@@ -28,29 +28,20 @@
  */
 package lasp.tss.filter;
 
-import lasp.tss.variable.IndependentVariable;
 import lasp.tss.variable.TimeSeries;
-import ucar.ma2.Range;
 
 /**
- * Subset a variable for a given Range.
- * Intended for IndependentVariables.
+ * Abstract filter that operates on an entire TimeSeries Variable.
+ * Subclasses have way too much freedom to munge the Dataset, so
+ * this should be used with caution.
  * 
  * @author Doug Lindholm
  */
-public abstract class SubsetFilter extends TimeSeriesFilter {
-    
+public abstract class TimeSeriesFilter extends AbstractFilter {
+        
     /**
-     * Filter a Sequence by making a Range based on its independent variable
-     * and subsetting each variable in that Sequence.
+     * Subclass to munge the TimeSeries as you see fit.
      */
-    public void filter(TimeSeries ts) {
-        Range range = null;
-        IndependentVariable ivar = ts.getIndependentVariable();
-        range = makeRange(ivar);
-        ts.subset(range);
-    }
-    
-    protected abstract Range makeRange(IndependentVariable variable); // throws InvalidRangeException;
-    
+    public abstract void filter(TimeSeries ts);
+
 }
