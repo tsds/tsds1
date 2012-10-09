@@ -141,8 +141,10 @@ public class TimeSeriesDataset {
         
         //Look for the dataset in the catalog.
         String curl = TSSProperties.getCatalogUrl();
+        _logger.info("Catalog URL: " + curl);
         InvCatalogImpl catalog = CatalogUtils.readCatalog(curl);
         if (catalog != null) {
+        	_logger.info("Looking in catalog for data set: " + dsname);
             InvDataset ds = CatalogUtils.findDataset(catalog, dsname);
             if (ds != null) {
                 InvAccess access = ds.getAccess(ServiceType.NCML);
@@ -154,6 +156,8 @@ public class TimeSeriesDataset {
         if (url == null) {
             String datadir = TSSProperties.getDatasetDir();
             url = "file:" + datadir + File.separator + dsname + ".ncml";
+        	_logger.info("URL not found in catalog.  Looking in dataset.dir: " + url);
+
         }
 
         return url;
