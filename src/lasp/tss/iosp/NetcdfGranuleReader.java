@@ -26,6 +26,10 @@ public class NetcdfGranuleReader extends GranuleIOSP {
         Array array = null;
         
         String vname = var.getFullNameEscaped();
+        //Get the variable name used in the source file.
+        String oname = getVariableXmlAttribute(vname, "srcName");
+        if (oname != null) vname = oname;
+        
         Variable v = _netcdfFile.findVariable(vname);
         try {
             array = v.read();
