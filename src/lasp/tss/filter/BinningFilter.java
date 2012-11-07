@@ -1,6 +1,7 @@
 package lasp.tss.filter;
 
 import lasp.tss.variable.ScalarVariable;
+import lasp.tss.variable.StructureVariable;
 import lasp.tss.variable.TSSVariable;
 import lasp.tss.variable.TimeSeries;
 
@@ -11,6 +12,7 @@ import org.apache.log4j.Logger;
 import ucar.ma2.Array;
 import ucar.ma2.DataType;
 import ucar.nc2.Attribute;
+import ucar.nc2.Structure;
 import ucar.nc2.Variable;
 
 /**
@@ -27,9 +29,6 @@ import ucar.nc2.Variable;
  * - count: The number of samples in each bin.
  */
 public class BinningFilter extends TimeSeriesFilter {
-    
-    //TODO: make sure this works for Vectors (spectra can wait)
-    
     
     // Initialize a logger.
     private static final Logger _logger = Logger.getLogger(BinningFilter.class);
@@ -63,6 +62,7 @@ public class BinningFilter extends TimeSeriesFilter {
         TSSVariable tvar = ts.getVariables().get(0);
         data[0] = tvar.getValues(); //times
         TSSVariable var = ts.getVariables().get(1); //assumes single scalar only
+        if (var.isStructure()) var = ((StructureVariable) var).getVariables().get(0);
         data[1] = var.getValues();
 
         //Define min and max range of times if not entered as arguments.
@@ -85,6 +85,7 @@ public class BinningFilter extends TimeSeriesFilter {
         
         //replace data in the Nc Variable cache
         ncvar = var.getNetcdfVariable();
+ //       if (ncvar instanceof Structure) ncvar = ((Structure) ncvar).getVariables().get(0);
         ncvar.getDimension(0).setLength(n); 
         ncvar.resetShape();
         shape = ncvar.getShape();
