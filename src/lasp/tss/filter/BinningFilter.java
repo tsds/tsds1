@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import ucar.ma2.Array;
 import ucar.ma2.DataType;
+import ucar.nc2.Attribute;
 import ucar.nc2.Variable;
 
 /**
@@ -118,6 +119,8 @@ public class BinningFilter extends TimeSeriesFilter {
         ncvar = new Variable(null, ts.getNetcdfGroup(), null, "count");
         ncvar.setDataType(DataType.DOUBLE);
         ncvar.setDimensions("time"); //TODO: assumes binning over time
+        //add "precision=0" to attributes since this is an int
+        ncvar.addAttribute(new Attribute("precision", "0"));
         array = Array.factory(ncvar.getDataType(), shape, binned[5]);
         ncvar.setCachedData(array);
         ts.addComponent(new ScalarVariable(ts, ncvar));
