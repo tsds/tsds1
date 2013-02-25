@@ -151,13 +151,14 @@ public class DatabaseIOSP extends AbstractIOSP {
                 for (int i=0; i<ncol; i++) {
                     double d = Double.NaN;
                     //Check type and read as appropriate
+                    //TODO: check for other variation of time and text types
                     int typeID  = md.getColumnType(i+1); 
                     
                     if (typeID == java.sql.Types.TIMESTAMP) { //TODO: test for DATE and TIME types?
                         //We need to convert timestamps to numerical values.
                         Timestamp ts = rs.getTimestamp(i+1);
                         d = ts.getTime();
-                    } else if (typeID == java.sql.Types.VARCHAR) {
+                    } else if (typeID == java.sql.Types.VARCHAR || typeID == java.sql.Types.CHAR) {
                         //Text column. Save strings apart from other data.
                         //They will appear as NaNs in the numeric data values.
                         String s = rs.getString(i+1);
@@ -173,7 +174,7 @@ public class DatabaseIOSP extends AbstractIOSP {
             for (int i=0; i<ncol; i++) {
                 String name = md.getColumnName(i+1);
                 int typeID  = md.getColumnType(i+1);
-                if (typeID == java.sql.Types.VARCHAR) { 
+                if (typeID == java.sql.Types.VARCHAR || typeID == java.sql.Types.CHAR) { 
                     String[] text = new String[1];
                     text = (String[]) textDataLists[i].toArray(text);
                     _textDataMap.put(name, text);
