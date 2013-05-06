@@ -35,6 +35,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import lasp.tss.TSSPublicException;
 import lasp.tss.util.RegEx;
 
 /**
@@ -113,7 +114,9 @@ public class ConstraintExpression {
             else if (s.matches(RegEx.FUNCTION)) {
                 FilterConstraint fc = new FilterConstraint(s);
                 _constraints.add(fc);
-            }            
+            }
+            //Unrecognized constraint
+            else throw new TSSPublicException("Unable to parse constraint: " + s);
         }
         
     }
