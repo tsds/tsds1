@@ -37,8 +37,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.TimeZone;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 import lasp.tss.TSSException;
 
@@ -146,6 +153,9 @@ public class DatabaseIOSP extends AbstractIOSP {
                 textDataLists[i] = new ArrayList<String>();
             }
 
+            //Define a Calendar so we get our times in the GMT time zone.
+            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+            
             //Read data from the result set into the ResizableDoubleArray-s which are already in the _dataArrayMap.
             while (rs.next()) { 
                 for (int i=0; i<ncol; i++) {
@@ -156,7 +166,7 @@ public class DatabaseIOSP extends AbstractIOSP {
                     
                     if (typeID == java.sql.Types.TIMESTAMP) { //TODO: test for DATE and TIME types?
                         //We need to convert timestamps to numerical values.
-                        Timestamp ts = rs.getTimestamp(i+1);
+                        Timestamp ts = rs.getTimestamp(i+1, cal);
                         d = ts.getTime();
                     } else if (typeID == java.sql.Types.VARCHAR || typeID == java.sql.Types.CHAR) {
                         //Text column. Save strings apart from other data.
@@ -255,6 +265,24 @@ public class DatabaseIOSP extends AbstractIOSP {
         if (_connection != null) return _connection;
 
         Element ncElement = getNetcdfElement();
+        
+        //See if we can get the database connection from a JNDI resource.
+        String jndi = ncElement.getAttributeValue("jndi");
+        if (jndi != null) {
+            try {
+                Context initCtx = new InitialContext();
+                Context envCtx = (Context) initCtx.lookup("java:comp/env");
+                DataSource ds = (DataSource) envCtx.lookup(jndi);
+                _connection = ds.getConnection();
+            } catch (Exception e) {
+                String msg = "Failed to get database connection from JNDI: " + jndi;
+                _logger.error(msg, e);
+                throw new TSSException(msg, e);
+            }
+            return _connection;
+        }
+
+        //Make the connection ourselves.
         String connectionString = ncElement.getAttributeValue("connectionString");
         String dbUser = ncElement.getAttributeValue("dbUser");
         String dbPassword = ncElement.getAttributeValue("dbPassword");
