@@ -93,7 +93,8 @@ public class DatabaseIOSP extends AbstractIOSP {
         int length = super.getLength(); //see if it is defined in the ncml
         if (length < 0) {
             double[] t = getTimes();
-            length = t.length;
+            if (t != null) length = t.length;
+            else length = 0;
         }
         return length;
     }
