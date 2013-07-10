@@ -239,10 +239,32 @@ public class FormattedAsciiWriter extends TextDataWriter {
                 } 
                 else { //Scalar
                     format = "%f"; //general float
+                    
                     String precision = variable.getAttributeValue("precision"); //number of decimal places
-                    if (precision != null) format = "%."+precision+"f"; //float with fixed number of decimal places
+                    //Make sure this is a valid precision, must be an integer.
+                    //If not valid, log warning and use default format.
+                    if (precision != null) {
+                        try {
+                            Integer.parseInt(precision);
+                            format = "%."+precision+"f"; //float with fixed number of decimal places
+                        } catch (Exception e) {
+                            _logger.warn("Invalid precision: " + precision);
+                        }
+                    }
+                     
                     String sigfig = variable.getAttributeValue("sigfig"); //significant figures
-                    if (sigfig != null) format = "%."+sigfig+"g"; //float, scientific notation if appropriate
+                    //Make sure this is a valid value, must be an integer.
+                    //If not valid, log warning and use default format.
+                    if (sigfig != null) {
+                        try {
+                            Integer.parseInt(sigfig);
+                            format = "%."+sigfig+"g"; //float, scientific notation if appropriate
+                        } catch (Exception e) {
+                            _logger.warn("Invalid number of significant figures: " + sigfig);
+                        }
+                    }
+
+                    //TODO: warn if both precision and sigfig are specified
                 }
             }
             
