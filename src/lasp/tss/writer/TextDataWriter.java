@@ -50,6 +50,12 @@ public abstract class TextDataWriter extends TextWriter implements DataWriter {
         TimeSeriesDataset ds = getDataset();
         
         try {
+            //If the time.format property is defined, modify the Time Variable's 
+            //units metadata so we get the header right.
+            //Note, this takes precedence over a user call to the format_time filter.
+            String format = getProperty("time.format");
+            if (format != null) ds.getTimeVariable().setFormat(format);
+            
             writeHeader();
                 
             //Loop over time samples. write

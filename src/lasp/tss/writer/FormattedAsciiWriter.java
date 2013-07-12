@@ -215,7 +215,7 @@ public class FormattedAsciiWriter extends TextDataWriter {
         
         if (format == null) {
             //Look for an explicit format definition. 
-            if (variable instanceof TimeVariable) format = getProperty("time.format");
+            //if (variable instanceof TimeVariable) format = getProperty("time.format");
             if (format == null) format = getProperty("format"); //from Writer's config (tsds.properties)
             if (format == null && variable instanceof TimeVariable) format = ((TimeVariable) variable).getFormat();
             if (format == null) format = variable.getAttributeValue("format"); //from ncml variable attributes
