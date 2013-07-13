@@ -1,0 +1,20 @@
+<netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2">
+    <attribute name="title" value="TSDS Query"/>
+    <attribute name="id" value="90eba6fb4281a2abb22cf47baa33c29d"/>
+    <attribute name="requestid" value="null"/>
+    <attribute name="location" value=""/>
+    <aggregation dimName="time" type="joinExisting">
+        <netcdf location="file:///media/tmp/datacache-mag//magweb.cr.usgs.gov/4f4e3c68f3f54f3cc6750fbea8f3daf8.data" iosp="lasp.tss.iosp.ColumnarAsciiReader" delimeter=" " columns="1,2;3">
+            <dimension name="time" isUnlimited="true"/>
+            <variable name="time" shape="time" type="String">
+                <attribute name="units" value="yyyy-MM-dd HH:mm:ss.S"/>
+            </variable>
+            <variable name="F" shape="time" type="double">
+                <attribute name="long_name" value=""/>
+                <attribute name="units" value="nT"/>
+
+                <attribute name="_FillValue" type="double" value="99999.00"/>
+            </variable>
+        </netcdf>
+    </aggregation>
+</netcdf>
