@@ -129,7 +129,10 @@ public class HelpWriter extends HtmlWriter {
     protected void writeCatalog() {
         List<InvDataset> datasets = _catalog.getDatasets();
         String cat = getCatalogDatasetsAsString(datasets);
+        // Hack to get rid of context name and port and to use relative links.
+        cat = cat.replace("http://mag.gmu.edu:8081/TSDS/", "");
         println(cat);
+        //System.out.println(cat);
     }
     
     /**
