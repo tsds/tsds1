@@ -52,6 +52,22 @@ public class InfoWriter extends HtmlWriter implements DatasetWriter {
         return title;
     }
 
+    protected String getID() {
+        TimeSeriesDataset ds = getDataset();
+        TimeSeries ts = ds.getTimeSeries();
+        String title = ts.getAttributeValue("id");
+        
+        return title;
+    }
+
+    protected String getLocation() {
+        TimeSeriesDataset ds = getDataset();
+        TimeSeries ts = ds.getTimeSeries();
+        String title = ts.getAttributeValue("location");
+        
+        return title;
+    }
+
     /**
      * Write the content of the body. 
      */
@@ -73,6 +89,23 @@ public class InfoWriter extends HtmlWriter implements DatasetWriter {
             println("</blockquote>");
         }
         
+        //TODO: Have this be based on transform of NcML for this dataset transformed using tss.xsl.  Write tss.xsl.
+        
+        //OPeNDAP Dataset ID
+        String did = getID();
+        if (did != null) {
+        	String dids = "<h2>Dataset ID</h2><blockquote>" + did + "</blockquote>";
+        	printDiv("dds", dids);
+        }
+        
+        //OPeNDAP Dataset Location
+        String dloc = getLocation();
+        // Browsers sometime assume that when it sees &para you meant &para; (the entity for paragraph). 
+        if (dloc != null) {
+        	String dlocs = "<h2>Dataset Location</h2><blockquote><a href='" + dloc + "'>" + dloc.replace("&parameters", "&amp;parameters") + "</a></blockquote>";
+        	printDiv("dds", dlocs);
+        }
+
         //OPeNDAP Dataset Descriptor Structure
         String dds = ds.getDDS();
         dds = "<h2>Dataset Descriptor Structure</h2><blockquote>" + dds + "</blockquote>";
