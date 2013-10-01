@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog name="Autoplot Data"
+        xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0"
+        xmlns:xlink="http://www.w3.org/1999/xlink">
+
+  <service name="tss" serviceType="OpenDAP" base="" />
+  <service name="ncml" serviceType="NCML" base="" />
+
+  <dataset name="autoplot" >
+    <access serviceName="tss" urlPath="autoplot" />
+    <access serviceName="ncml" urlPath="autoplot.ncml" />
+    <documentation type="summary">
+    	Data read by passing to URI vap+xls:http://autoplot.org/data/autoplot.xls?firstRow=51 to Autoplot
+    </documentation>
+  </dataset>
+
+  <dataset name="autoplot remote file" >
+    <access serviceName="tss" urlPath="autoplot-remotefile" />
+    <access serviceName="ncml" urlPath="autoplot-remotefile.ncml" />
+    <documentation type="summary">
+    Data read by passing to URI vap+xls:file:///home/weigel/svn/workspace-tsds/TSDS/WebContent/datasets/autoplot/autoplot.xls?firstRow=51 to Autoplot
+    </documentation>
+  </dataset>
+  
+    <dataset name="autoplot cdf file" >
+    <access serviceName="tss" urlPath="autoplot-cdf" />
+    <access serviceName="ncml" urlPath="autoplot-cdf.ncml" />
+    <documentation type="summary">
+    Data read by passing to URI vap+xls:file:///home/weigel/svn/workspace-tsds/TSDS/WebContent/datasets/autoplot/autoplot.cdf to Autoplot
+    </documentation>
+  </dataset>
+</catalog>

@@ -1,0 +1,62 @@
+To serve the data that are described by the NcML files in this directory, 
+set the "dataset.dir" property in the tss.properties file to this directory.
+
+Datasets defined in this directory (See ncml files for more details).
+Some notes on performance based on poor statistics.
+
+* p11_gtt_daily_http
+  Daily Average Interplanetary Cosmic Ray (and 3 Dec 1974 and 1 Sep 1979 
+    Planetary Encounter) Data from the Pioneer 11 Geiger Tube Telescope (GTT) 
+    Experiment of U. Iowa
+  Stored as a single ASCII file, ~10MB, 6748 time samples, 116 columns!
+  Acquired on demand from http://nssdcftp.gsfc.nasa.gov/spacecraft_data/pioneer/pioneer11/particle/gtt/ip_1day_ascii/p11_gtt_daily.txt
+    80s
+    wget 23s
+
+* p11_gtt_daily_ftp
+  Same as above but acquired via ftp.
+    45s
+    wget 33s
+
+* p11_gtt_daily_local
+  Same as above but acquired via a local copy of the ASCII file.
+  < 2 seconds
+
+* TODO: p11_gtt_daily_local_bin
+  Same as above but acquired via a local copy of the file converted to a binary format.
+
+* TODO: p11_gtt_daily_spectra
+  Same as above but with some of the variables represented as a 12 element spectrum.
+
+
+* p11tr_hr
+  PIONEER 11 TRAPPED RADIATION DETECTOR (TRD) EXPERIMENT: 
+    HOURLY AVERAGED INTERPLANETARY COSMIC RAY DATA, 1973-1991
+  These are stored as yearly ASCII files with 8760 samples, 10 columns
+  ftp://nssdcftp.gsfc.nasa.gov/spacecraft_data/pioneer/pioneer11/particle/trd/ip_1hour_ascii/
+  I have copied only two files (years 1990 and 1991) and used NcML aggregation
+    in this configuration. This exposes 5 variables in addition to time.
+  Need to investigate if we can avoid the redundancy for describing each file.
+  Doing this using NcML aggregation is extremely slow.
+  Needs more investigation. Doesn't appear to be a memory issue.
+  2000 seconds!
+  
+* p11tr_hr_noag
+  Same as above but using the same data (2 years) combined in a single file
+    instead of using NcML aggregation.
+  Much faster: < 1s
+
+* p11tr_hr_small
+  Same as p11tr_hr (using NcML aggregation) but with each file reduced to 
+    88 rows each (1% of original)
+  ~2s, O2 less data, O3 faster
+  
+* p11tr_hr_med
+  Same as p11tr_hr (using NcML aggregation) but with each file reduced to 
+    876 rows each (10% of original)
+  Still pretty slow: ~80s
+
+* TODO: p11tr_hr_scan
+  Use NcML dataset scan to find and aggregate all the data files.
+
+-

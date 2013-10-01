@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2" 
+iosp="lasp.tss.iosp.ColumnarAsciiReader" columns="1,2;109;9" location="/dev/null" 
+url="http://nssdcftp.gsfc.nasa.gov/spacecraft_data/pioneer/pioneer11/particle/gtt/ip_1day_ascii/p11_gtt_daily.txt">
+
+  <attribute name="title" value="Daily Average Interplanetary Cosmic Ray (and 3 Dec 1974 and 1 Sep 1979 Planetary Encounter) Data from the Pioneer 11 Geiger Tube Telescope (GTT) Experiment of U. Iowa" />
+  <attribute name="source" value="ftp://nssdcftp.gsfc.nasa.gov/spacecraft_data/pioneer/pioneer11/particle/gtt/ip_1day_ascii/"/>
+    
+  <dimension name="time" isUnlimited="true"/> 
+    
+  <variable name="time" shape="time" type="String">
+    <attribute name="units" value="yy DDD"/>
+  </variable>
+    
+  <variable name="sun_cs_distance" shape="time" type="double">
+    <attribute name="long_name" value="Radius to SC from the Sun in AU"/>
+    <attribute name="units" value="AU"/>
+  </variable>
+    
+  <variable name="effective_counts" shape="time" type="double">
+    <attribute name="long_name" value="Effective Counts"/>
+  </variable>
+    
+</netcdf>

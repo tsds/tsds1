@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2"  
+    location="ts.nc" iosp="lasp.tss.iosp.NetcdfGranuleReader">
+
+    <attribute name="title" value="Test NetCDF time series" />
+
+    <dimension name="time" length="10" /> 
+
+    <variable name="time" shape="time" type="double">
+        <attribute name="units" value="days since 1970-01-01" />
+    </variable>
+
+    <variable name="value" shape="time" type="double"/>
+    
+</netcdf>

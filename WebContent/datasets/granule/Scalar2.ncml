@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2"  
+    location="Scalar.txt" iosp="lasp.tss.iosp.ColumnarAsciiReader"
+    columns="1,2;3;4;5;6">
+
+    <attribute name="title" value="Variables using multiple columns" />
+
+    <dimension name="time" isUnlimited="true"/> 
+
+    <variable name="time" shape="time" type="String" >
+        <attribute name="units" type="String" value="yy MM" />
+    </variable>
+
+    <variable name="v2" shape="time" type="double" />
+    <variable name="v3" shape="time" type="double" />
+    <variable name="v4" shape="time" type="double" />
+    <variable name="v5" shape="time" type="String" />
+    
+</netcdf>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2"
+location="../bin/Bin3650.bin" iosp="lasp.tss.iosp.BinGranuleReader" byteOrder="little">
+   
+    <attribute name="title" value="Single variable time series from one binary file" />
+    
+    <dimension name="time" isUnlimited="true" /> 
+      
+    <variable name="time" shape="time" type="double">
+        <attribute name="units" type="String" value="days since 1970-01-01" />
+    </variable>
+      
+    <variable name="Variable" shape="time" type="double"/>      
+  
+</netcdf>

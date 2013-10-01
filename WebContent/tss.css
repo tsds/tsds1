@@ -1,0 +1,24 @@
+.das {
+    white-space:pre; 
+    font-family:monospace;
+    /*border-style:solid;*/
+    /*background-color:#b0c4de;*/
+} 
+
+.dds {
+    white-space:pre;
+    font-family:monospace;
+    /*background-color:#b0a4de;*/
+} 
+
+
+.info {
+    white-space:pre;
+    font-family:monospace;
+    /*border-style:solid;*/
+    /*background-color:#b0a43e;*/
+} 
+
+.error {
+    color:red;
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2">
+   
+  <attribute name="title" value="Single variable time series from two HDF5 files" />
+
+  <aggregation type="union"> 
+
+    <netcdf location="http://tsds.net/data/SourceAcronym/Subset1/bin/SourceAcronym_Subset1-1-v0.h5" 
+      iosp="lasp.tss.iosp.NetcdfGranuleReader" >
+    
+      <dimension name="time" length="149016" /> 
+
+      <variable name="time" srcName="ExtendibleArray" shape="time" type="double">
+        <attribute name="units" type="String" value="days since 1970-01-01" />
+      </variable>
+      
+    </netcdf>
+    
+    <netcdf location="http://tsds.net/data/SourceAcronym/Subset1/bin/SourceAcronym_Subset1-1-v0.h5" 
+      iosp="lasp.tss.iosp.NetcdfGranuleReader" >
+    
+      <dimension name="time" length="149016" /> 
+
+      <variable name="Variable" srcName="ExtendibleArray" shape="time" type="double"/>
+      
+    </netcdf>
+    
+  </aggregation>
+    
+</netcdf>

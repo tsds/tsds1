@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2">
+   
+  <attribute name="title" value="Single variable time series from two binary files" />
+
+  <aggregation type="union"> 
+
+    <netcdf location="Bin3650.bin" iosp="lasp.tss.iosp.BinIOSP" byteOrder="little" >
+    
+      <dimension name="time" length="365" /> 
+
+      <variable name="time" shape="time" type="double">
+        <attribute name="units" type="String" value="days since 1970-01-01" />
+      </variable>
+      
+    </netcdf>
+    
+    <netcdf location="Bin3650.bin" iosp="lasp.tss.iosp.BinIOSP" byteOrder="little" >
+    
+      <dimension name="time" length="365" /> 
+
+      <group name="Vector" shape="time">
+        <variable name="x" shape="time" type="double" />
+        <variable name="y" shape="time" type="double" />
+        <variable name="z" shape="time" type="double" />
+      </group>
+      
+    </netcdf>
+    
+  </aggregation>
+    
+</netcdf>

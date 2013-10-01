@@ -1,0 +1,56 @@
+<project name="tsds" default="war" basedir=".">
+  
+  <!-- Source directory definitions -->
+  <property name="src.dir"      location="src"                    description="Java source code"/>
+  <property name="web.dir"      location="WebContent"             description="Directory of web content"/>
+  <property name="lib.dir"      location="${web.dir}/WEB-INF/lib" description="Third party jar files"/>
+    
+  <!-- Resource files -->
+  <property name="web.xml"   location="${web.dir}/WEB-INF/web.xml"  description="Web Application Deployment Descriptor"/>
+  <property name="log.conf"  location="${web.dir}/WEB-INF/classes/log4j.properties" description="Logging configuration"/>
+
+  <!-- Output locations -->
+  <property name="build.dir" location="build"                                description="Build output directory"/>
+  <property name="class.dir" location="${build.dir}/classes"                 description="Temporary class directory"/>
+  <property name="jar.file"  location="${build.dir}/tss.jar"                 description="Jar file" />
+  <property name="war.file"  location="${build.dir}/${ant.project.name}.war" description="War file"/>
+ 
+  <!--============================== TARGETS ==============================-->
+
+  <target name="clean" description="Delete stuff created by previous builds.">
+    <delete failonerror="false" dir="${build.dir}"/>
+  </target>
+
+  <target name="init" description="Prepare for the build. e.g. Make directories used by the build.">
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${class.dir}"/>
+  </target>
+      
+  <target name="compile" depends="init" description="Compile the Servlet code.">
+    <javac srcdir="${src.dir}" destdir="${class.dir}" debug="true">
+      <classpath>
+        <fileset dir="${lib.dir}" includes="*.jar"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="jar" depends="compile" description="Make a jar file for the Servlet only.">
+    <jar destfile="${jar.file}" basedir="${class.dir}" />
+  </target>
+
+  <target name="war" depends="jar" description="Make a war file ready to deploy to a Servlet container.">
+    <war destfile="${war.file}" webxml="${web.xml}" >
+      <lib file="${jar.file}" description="include the tss jar file" />
+      <lib dir="${lib.dir}" description="include the 3rd party libs excluding the servlet-api">
+        <exclude name="servlet-api.jar" />
+      </lib>
+      <classes dir="${class.dir}" includes="ucar/**" description="overriding netcdf classes, need to be earlier in classpath"/>
+      <classes file="${log.conf}" description="include the log config, in the classpath"/>
+      <fileset dir="${web.dir}" excludes="WEB-INF/**" description="copy the web content"/>
+    </war>
+  </target>
+
+</project>
+
+
+

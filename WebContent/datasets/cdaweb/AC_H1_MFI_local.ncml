@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2"
+	location="ac_h1_mfi.txt" iosp="lasp.tss.iosp.ColumnarAsciiReader"
+		headerLength="59" columns="1,2;3">
+    <attribute name="title" value="AC_H1_MFI Parameters" />
+    <dimension name="time" isUnlimited="true" />
+    <variable name="time" shape="time" type="String">
+        <attribute name="units" value="dd-MM-yyyy HH:mm:ss.SS" />
+    </variable>
+    <variable name="Magnitude" shape="time" type="double">
+        <attribute name="long_name" value="Magnitude" />
+        <attribute name="units" value="nT" />
+        <attribute name="precision" value="3" />
+        <attribute name="_FillValue" type="double" value="1e33" />
+    </variable>
+
+</netcdf>
