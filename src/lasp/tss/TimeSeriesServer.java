@@ -39,8 +39,11 @@ import lasp.tss.writer.AbstractWriter;
 import lasp.tss.writer.DatasetWriter;
 import lasp.tss.writer.ErrorWriter;
 import lasp.tss.writer.WriterFactory;
+import lasp.tss.util.RequestWrapper;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * OPeNDAP server to serve time series data as a Sequence.
@@ -49,15 +52,15 @@ import org.apache.log4j.Logger;
  */
 public class TimeSeriesServer extends HttpServlet {
     
-    // Initialize a logger.
-    private static final Logger _logger = Logger.getLogger(TimeSeriesServer.class);
+    // Initialize a logger. 
+    private static final Logger _logger = LoggerFactory.getLogger(TimeSeriesServer.class);
     
     /**
      * Initialize the Servlet. Load properties.
      */
     public void init() {
         _logger.info("Initializing the TimeSeriesServer Servlet.");
-        TSSProperties.makeInstance(getServletConfig());
+        TSSProperties.makeInstance(getServletConfig());        
     }
     
     /**
@@ -71,7 +74,13 @@ public class TimeSeriesServer extends HttpServlet {
         //Get the request not including the constraints
         String path = request.getPathInfo();
         
-        _logger.info("Handling request: "+path+"?"+request.getQueryString());
+        // Turning this off in favor of logging additional info
+//        _logger.info("Handling request: "+path+"?"+request.getQueryString());
+        // Log the request details
+	    RequestWrapper req = new RequestWrapper((HttpServletRequest) request);
+	    req.setLogInfo();
+		_logger.info("");
+		req.clearLogInfo();
         
         try {            
             String type = null;   //requested output type, i.e. "suffix"
@@ -101,7 +110,7 @@ public class TimeSeriesServer extends HttpServlet {
             }
             
             //Construct a Writer to produce the requested output.
-            _logger.info("Constructing a Writer object to handle the output type: " + type);
+            _logger.debug("Constructing a Writer object to handle the output type: " + type);
             writer = WriterFactory.makeWriter(type, request, response);
             if (writer == null) {
                 String msg = "Unable to construct a Writer to produce the output type: " + type;
@@ -111,7 +120,7 @@ public class TimeSeriesServer extends HttpServlet {
             
             //Construct a Dataset for Writers that need it.
             if (writer instanceof DatasetWriter) {
-                _logger.info("Constructing a Dataset object for the data set: " + dsname); 
+                _logger.debug("Constructing a Dataset object for the data set: " + dsname); 
                 dataset = new TimeSeriesDataset(request);
                 if (dataset == null) {
                     String msg = "Unable to construct a Dataset object for the data set: " + dsname;
@@ -123,9 +132,9 @@ public class TimeSeriesServer extends HttpServlet {
 
             //Initialize the Writer and write the response.
             try {
-                _logger.info("Initializing the Writer: " + writer.getClass().getName());
+                _logger.debug("Initializing the Writer: " + writer.getClass().getName());
                 writer.init();
-                _logger.info("Writing the response.");
+                _logger.debug("Writing the response.");
                 writer.write();
             } catch (Throwable t) {
                 String msg = "Unable to write the response.";
@@ -138,7 +147,7 @@ public class TimeSeriesServer extends HttpServlet {
             _logger.error("Catching Throwable.", t);
 
             try {
-                _logger.info("Writing Error response.");
+                _logger.debug("Writing Error response.");
                 
                 //Clear the header and anything that we tried to write.
                 //It's possible that we are too late. see Javadoc, isCommitted().
@@ -157,7 +166,7 @@ public class TimeSeriesServer extends HttpServlet {
             response.flushBuffer();
             if (dataset != null) dataset.close(); //Make sure Dataset resources are closed.
             //TODO: NetcdfDataset.shutdown() to shut down FileCache?
-            _logger.info("Response is complete.");
+            _logger.debug("Response is complete.");
         }
         
     }

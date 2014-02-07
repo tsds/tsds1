@@ -45,7 +45,9 @@ import lasp.tss.variable.TimeSeries;
 import lasp.tss.variable.TimeVariable;
 import lasp.tss.variable.VariableFactory;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -74,7 +76,7 @@ import ucar.nc2.util.CancelTask;
 public class TimeSeriesDataset {
 
     // Initialize a logger.
-    private static final Logger _logger = Logger.getLogger(TimeSeriesDataset.class);
+    private static final Logger _logger = LoggerFactory.getLogger(TimeSeriesDataset.class);
     
     private HttpServletRequest _request;
     private NetcdfDataset _ncDataset;
@@ -115,6 +117,7 @@ public class TimeSeriesDataset {
             //Clean up resources. The server would typically handle it in a finally block, but not if this Dataset is null.
             close();
             String msg = "Failed to construct the dataset: " + getName();
+            _logger.error(msg);
             throw new TSSException(msg, e);
         }
     }
@@ -141,10 +144,10 @@ public class TimeSeriesDataset {
         
         //Look for the dataset in the catalog.
         String curl = TSSProperties.getCatalogUrl();
-        _logger.info("Catalog URL: " + curl);
+        _logger.debug("Catalog URL: " + curl);
         InvCatalogImpl catalog = CatalogUtils.readCatalog(curl);
         if (catalog != null) {
-        	_logger.info("Looking in catalog for data set: " + dsname);
+        	_logger.debug("Looking in catalog for data set: " + dsname);
             InvDataset ds = CatalogUtils.findDataset(catalog, dsname);
             if (ds != null) {
                 InvAccess access = ds.getAccess(ServiceType.NCML);
@@ -156,7 +159,7 @@ public class TimeSeriesDataset {
         if (url == null) {
             String datadir = TSSProperties.getDatasetDir();
             url = "file:" + datadir + File.separator + dsname + ".ncml";
-        	_logger.info("URL not found in catalog.  Looking in dataset.dir: " + url);
+        	_logger.debug("URL not found in catalog.  Looking in dataset.dir: " + url);
 
         }
 
@@ -172,7 +175,7 @@ public class TimeSeriesDataset {
             //needed to make aggregation not slow, other side effects not clear
             //Should this happen at the server level?
             
-            _logger.info("Reading NcML: " + ncmlURL);
+            _logger.debug("Reading NcML: " + ncmlURL);
             
             //HACK the request into ncml so the IOSP can see it.
             SAXBuilder builder = new SAXBuilder(false);
@@ -183,7 +186,8 @@ public class TimeSeriesDataset {
             
             dataset = NcMLReader.readNcML(ncmlURL, ncel, cancelTask);
         } catch(Exception e) { 
-            String msg = "Unable to construct the Dataset: " + getName();
+            String msg = "Unable to construct NetcdfDataset: " + getName();
+            _logger.error(msg);
             throw new TSSPublicException(msg, e);
         } finally {
             //Shut down the FileCache to see if it reduces Tomcat PermGen memory problems
