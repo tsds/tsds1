@@ -1,0 +1,17 @@
+<catalog xmlns:xlink="http://www.w3.org/1999/xlink" id="SWPC/GOES/Primary/Particle/PT1M" name="">
+    				<documentation xlink:href="ftp://ftp.sec.noaa.gov/pub/lists/particle/" xlink:title="Catalog derived from inspection of *Gp_part_5m.txt files in ftp://ftp.sec.noaa.gov/pub/lists/particle/"/>
+    				<service name="tss" serviceType="OpenDAP" base="http://tsds.org/tsds/SWPC/GOES/Primary/Particle/PT1M"/>
+					
+			<dataset name="Real-time measurements of particles from GOES primary satellite." ID="Gp_particles" urltemplate="ftp://ftp.sec.noaa.gov/pub/lists/particle/$Y$m$d_Gp_part_5m.txt" timeformat="yyyy MM dd HHmm" timecolumns="1,2,3,4" datareader="lasp.tss.iosp.ColumnarAsciiReader">
+						<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="ftp://ftp.sec.noaa.gov/pub/lists/particle/README" xlink:title=""/>
+						<access serviceName="tss" urlPath="Gp_particles"/>
+						<access serviceName="ncml" urlPath="Gp_particles"/>
+						<timeCoverage>
+							<Start>2013-06-30</Start>
+							<End>2013-09-04</End>
+						</timeCoverage>
+						<groups>
+							<group/>
+						</groups>
+						<variables><variable id="P_gt_1" name="P&gt;1" label="P&gt;1" units="Protons/cm2-s-sr" type="scalar" fillvalue="-1.00e+05" format="%.2e" columns="7" lineregex="^[0-9]"/><variable id="P_gt_5" name="P&gt;5" label="P&gt;5" units="Protons/cm2-s-sr" type="scalar" fillvalue="-1.00e+05" format="%.2e" columns="8" lineregex="^[0-9]"/><variable id="P_gt_10" name="P&gt;10" label="P&gt;10" units="Protons/cm2-s-sr" type="scalar" fillvalue="-1.00e+05" format="%.2e" columns="9" lineregex="^[0-9]"/><variable id="P_gt_30" name="P&gt;30" label="P&gt;30" units="Protons/cm2-s-sr" type="scalar" fillvalue="-1.00e+05" format="%.2e" columns="10" lineregex="^[0-9]"/><variable id="P_gt_50" name="P&gt;50" label="P&gt;50" units="Protons/cm2-s-sr" type="scalar" fillvalue="-1.00e+05" format="%.2e" columns="11" lineregex="^[0-9]"/><variable id="P_gt_100" name="P&gt;100" label="P&gt;100" units="Protons/cm2-s-sr" type="scalar" fillvalue="-1.00e+05" format="%.2e" columns="12" lineregex="^[0-9]"/><variable id="E_gt_0.8" name="E&gt;0.8" label="E&gt;0.8" units="Electrons/cm2-s-sr" type="scalar" fillvalue="-1.00e+05" format="%.2e" columns="13" lineregex="^[0-9]"/><variable id="E_gt_2.0" name="E&gt;2.0" label="E&gt;2.0" units="Electrons/cm2-s-sr" type="scalar" fillvalue="-1.00e+05" format="%.2e" columns="14" lineregex="^[0-9]"/><variable id="E_gt_4.0" name="E&gt;4.0" label="E&gt;4.0" units="Electrons/cm2-s-sr" type="scalar" fillvalue="-1.00e+05" format="%.2e" columns="15" lineregex="^[0-9]"/></variables>
+				</dataset></catalog>

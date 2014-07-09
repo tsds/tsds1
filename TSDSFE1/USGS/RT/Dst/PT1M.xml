@@ -1,0 +1,17 @@
+<catalog xmlns:xlink="http://www.w3.org/1999/xlink" id="USGS/RT/Dst/PT1M" name="Real Time Dst from USGS; 1-minute cadence.">
+    				<documentation xlink:href="http://magweb.cr.usgs.gov/data/indices/beta/Dst_minute/" xlink:title="Catalog derived from inspection of"/>
+    				<service name="tss" serviceType="OpenDAP" base="http://tsds.org/tsds/USGS/RT/Dst/PT1M"/>
+					
+			<dataset name="Real-time Dst" ID="Dst" urltemplate="http://magweb.cr.usgs.gov/data/indices/beta/Dst_minute/usgs$Y$m$ddst4.min" timeformat="yyyy-MM-dd HH:mm:ss.S" timecolumns="1,2" datareader="lasp.tss.iosp.ColumnarAsciiReader">
+						<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://geomag.usgs.gov/products/" xlink:title="Real-time Dst estimate from USGS; 1-minute cadence."/>
+						<access serviceName="tss" urlPath="Dst"/>
+						<access serviceName="ncml" urlPath="Dst"/>
+						<timeCoverage>
+							<Start>2013-01-03</Start>
+							<End>2013-08-13</End>
+						</timeCoverage>
+						<groups>
+							<group/>
+						</groups>
+						<variables><variable id="DOY" name="Day of Year" label="Day of Year" units="" type="scalar" fillvalue="" format="" columns="3" lineregex="^[0-9]"/><variable id="DST_RT" name=" Real-time Dst" label=" Real-time Dst" units="nT" type="scalar" fillvalue="" format="" columns="4" lineregex="^[0-9]"/></variables>
+				</dataset></catalog>

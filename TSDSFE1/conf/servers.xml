@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<servers>
+	<server>
+		<id>sscweb</id>
+		<max>100</max>
+		<dir>sscweb.gsfc.nasa.gov</dir>
+	</server>
+	<server>
+		<id>cdaweb</id>
+		<max>20</max>
+		<dir>cdaweb.gsfc.nasa.gov</dir>
+	</server>
+	<server>
+		<id>supermag</id>
+		<max>20</max>
+		<dir>supermag.jhuapl.edu</dir>
+	</server>
+	<server>
+		<id>lisird</id>
+		<max>20</max>
+		<dir>lasp.colorado.edu</dir>
+	</server>
+	<server>
+		<id>spidr</id>
+		<max>5</max>
+		<dir>spidr.ngdc.noaa.gov</dir>
+	</server>
+</servers>

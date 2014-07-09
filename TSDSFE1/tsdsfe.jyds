@@ -1,0 +1,64 @@
+# title: tsds client
+# label: tsds client
+tr         = getParam( 'timerange', '1997-08-26//1997-09-05', 'timerange to load' )
+catalog    = getParam( 'catalog', 'sscweb', 'catalog' )
+dataset    = getParam( 'dataset', 'ace', 'dataset' )
+parameters = getParam( 'parameters', 'X_GEI', 'parameters' )
+start      = getParam( 'start', '1997-08-26', 'start' )
+stop       = getParam( 'stop', '1997-09-01', 'stop' )
+server     = getParam( 'server', 'http://tsds.org/get/' )
+units      = getParam( 'units', 'R_E' )
+labels     = getParam( 'labels', '' )
+title      = getParam( 'title', 'def' )
+fill       = getParam( 'fill', '-1e31')
+fill       = float(fill)
+
+if ( title=='def' ):
+  title= 'catalog: ' + catalog + ' | dataset: ' + dataset #+ ' | parameters: ' + parameters
+print 'v20130217_0703'
+#print parameters
+
+tf    = TimeParser.create('$Y-$m-$d')
+drtr  = DatumRangeUtil.parseTimeRange(tr)
+start = tf.format( drtr.min(), None )
+stop  = tf.format( drtr.max(), None )
+
+surl = server + "?" + "catalog=" + catalog + "&dataset=" + dataset + "&parameters=" + parameters + "&start=" + start + "&stop=" + stop + "&out=txt&stream=true"
+print surl
+
+# note the server may provide a valid but html response.
+
+f = downloadResourceAsTempFile( URL( surl ), monitor ) 
+print 'File: '+f.toString()
+
+from java.io import FileReader, BufferedReader
+fo= BufferedReader( FileReader(f) )
+line1= fo.readLine()
+print line1
+fo.close()
+
+try:
+
+   from org.das2.datum import EnumerationUnits
+   from org.virbo.dataset import DDataSet
+   if ( 1 ):
+      ll= line1.split(',') 
+      eu= EnumerationUnits.create('default')
+      lenll= len(ll)-1
+      llds= DDataSet.createRank1(lenll)
+      for i in xrange(lenll):
+         llds[i]= eu.createDatum( ll[i+1] ).doubleValue(eu)
+      llds.putProperty( QDataSet.UNITS, eu )
+      result= getDataSet( 'vap+dat:file://'+f.toString()+'?bundle=1:&depend0=field0' )
+      result.putProperty( QDataSet.DEPEND_1, llds )
+   else:
+      result= getDataSet( 'vap+dat:file://'+f.toString() )
+   result.putProperty( QDataSet.TITLE, title )
+   result.putProperty( QDataSet.FILL_VALUE, fill )   
+
+except org.virbo.datasource.HtmlResponseIOException,ex:
+   raise org.das2.dataset.NoDataInIntervalException('No data in interval')
+   #raise java.io.FileNotFoundException('Data Set is Empty')
+except java.lang.IllegalArgumentException, ex:
+   raise org.das2.dataset.NoDataInIntervalException('No data in interval')
+

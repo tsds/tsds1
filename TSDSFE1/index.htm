@@ -1,0 +1,575 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+		<title>TSDSFE GUI</title>
+
+		<link rel="stylesheet" type="text/css" href="css/gui.css">
+       	<link rel="stylesheet" href="css/jquery-ui-1.9.2.css">
+
+  		<script type="text/javascript" src="js/deps/jquery-1.8.3.min.js"></script>
+  		<script type="text/javascript" src="js/deps/jquery-ui-1.9.2.js"></script>
+		<script type="text/javascript" src="js/deps/jquery-simulate-0.0.1.js"></script>
+		<script type="text/javascript" src="js/deps/date.js"></script>
+		<script type="text/javascript" src="js/deps/jquery.query-2.1.3.js"></script>
+		<script type="text/javascript" src="js/deps/jquery.ba-hashchange-1.3.js"></script>
+		<script type="text/javascript" src="js/jquery.scrollTo-min.js"></script>
+		
+		<script type="text/javascript" src="js/dropdown2.js"></script>
+		<script>
+			TSDSFE = "http://tsds.org/get";
+			//TSDSFE = "http://localhost:8081/tsdsfe";
+			function tsdsfeajax(i,url) {
+				url = TSDSFE + "/" + url;
+				$('#status').show();
+				$('#status').html("Requesting " + url);
+				$.ajax({
+					type: "GET",
+					url: url,
+					async: false,
+					dataType: "text",
+					success: function (data,textStatus, jqXHR) {
+						console.log("Loaded data for "+i);
+						//$('#status'+i).hide();
+						$('#ready'+i).show();
+						console.log("data="+data);
+						if (!data.match(/^\s*\[/)) {
+							ret = data.replace(/,$/,"").replace(/\n/,'').split(",");
+						} else {			
+							eval("ret=" + data);
+						}
+						$('#status').html("Received <a target='_blank' href='" + url + "'>"+url+"</a>");
+						//setTimeout(function () {$('#status').html("")}, 100);
+					},
+					error: function (xhr, textStatus, errorThrown) {
+						$('#status'+i).text('x');
+					}
+				});
+				//console.log(ret);
+				return ret;				
+			}
+			
+			function getdas(attr) {
+				var START_date = Date.parse(selected('start'));
+				var STOP_date  = Date.parse(selected('start')).addDays(1);
+				
+				turl = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&start="+START_date.toString('yyyy-MM-dd')+"&stop="+STOP_date.toString('yyyy-MM-dd')+"&out=dasjson";
+				console.log("getdas: requesting " + turl);
+				
+				$.ajax({
+					type: "GET",
+					url: turl,
+					async: false,
+					dataType: "text",
+					success: function (data,textStatus, jqXHR) {
+						ret = data;
+					},
+					error: function (xhr, textStatus, errorThrown) {
+						$('#status').text('Failed to get attribute information.');
+					}
+				});
+				try {
+					eval("ret = " + ret);
+				} catch (err) {
+					console.log("Something went wrong with metadata request.");
+					ret = "";
+				}
+				return ret;				
+			}
+						
+			function selected(name) {
+				console.log("selected: " + name);
+				if (location.hash !== "") {
+					var qs = $.parseQueryString();
+					//console.log(location.hash);
+					//console.log("using hash value for " + name + "=" + qs[name]);
+					if (qs[name]) return qs[name];
+				}
+					
+				return $("span[name='"+name+"']").attr('value');
+			}
+			
+			function catalogs(i) {
+				catalogs.onselect = function () {
+					//$('#status').text('Retrieving dataset list');
+					info = tsdsfeajax(i,"?catalog="+selected('catalog'));
+					$('#cataloginfo').html("<b>Catalog information:</b>");
+					$('#datasetinfo').html("");
+					$('#parameterinfo').html("");
+					$('#outputinfo').hide();
+					$('#dldiv').hide();
+					$('#previewdatadiv').hide();
+					$('#previewimgdiv').hide();
+					$('#debugdiv').hide();
+					$('#dllinkdiv').hide();
+					$('#cataloginfo').show();
+					$('#overviewdiv').hide();
+					
+					$('#cataloginfo').append('<ul style="list-style-position: outside;">');
+					for (j = 0;j < info.length;j++) {
+						console.log("info:" + info[j].title);
+						if (!(info[j].title === "") && !(info[j].link === "")) {
+							$('#cataloginfo ul').append('<li style=""><a href="'+info[j].link+'">'+info[j].title+'</a></li>');
+						} else if ((info[j].title === "") && !(info[j].link === "")) {
+							$('#catalogtinfo ul').append('<li style=""><a href="'+info[j].link+'">'+info[j].link+'</a></li>');
+						} 
+					}
+					window.location.hash="catalog="+selected('catalog');
+					//updatehash(i,"catalog");	
+					
+				};
+						
+				return tsdsfeajax(i,"?catalog=.*");
+			}
+			
+			function datasets(i) {
+				datasets.onselect = function () {
+					info = tsdsfeajax(i,"?catalog="+selected('catalog')+"&dataset="+selected('dataset'));
+					$('#datasetinfo').html("<b>Dataset documentation:</b>")
+					$('#datasetinfo').show();					
+					$('#datasetinfo').append('<ul style="list-style-position: outside;">');
+					for (j = 0;j < info.length;j++) {
+						if (!(info[j].title === "") && !(info[j].link === "")) {
+							$('#datasetinfo ul').append('<li style=""><a href="'+info[j].link+'">'+info[j].title+'</a></li>');
+						} else if ((info[j].title === "") && !(info[j].link === "")) {
+							$('#datasetinfo ul').append('<li style=""><a href="'+info[j].link+'">'+info[j].link+'</a></li>');
+						}
+					}
+					//updatehash(i,"dataset");	
+				};
+				list = tsdsfeajax(i,"?catalog="+selected('catalog')+"&dataset=.*");
+
+				//console.log("--" + qs["dataset"])
+				//console.log($("#dataset"));
+				console.log(list);
+				for (var k = 0; k < list.length; k++) {
+					if (list[k].label === "") {
+						list[k].label = list[k].name;
+					}
+					if (list[k].label.length > 60) {
+						list[k].label = list[k].value + ": " + list[k].label.substring(0,60) + " ...";
+					} else if (list[k].label === "") {
+						list[k].label = list[k].value  + ": (no label or name in catalog)";						
+					} else {
+						list[k].label = list[k].value + ": " + list[k].label;
+					}
+				}
+				function compare(a,b) {
+					  if (a.value < b.value) return -1;
+					  if (a.value > b.value) return 1;
+					  return 0;
+				}
+
+				list.sort(compare);
+				return list
+			}
+			
+			function starttime(i) {
+				starttime.onselect = function () {
+					//updatehash(i,"start");
+				};
+				return tsdsfeajax(i,"?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&start=.*");
+			}
+			
+			function stoptime(i) {
+				stoptime.onselect = function () {
+					//updatehash(i,"stop");
+					$("#outputinfo").show();
+					preview();
+					
+				}
+				return tsdsfeajax(i,"?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&stop=.*");
+			}
+			
+			function parameters(i) {
+				//parameters.onselect = dorequest;
+				parameters.onselect = function () {
+					console.log('parameters selected');
+					console.log(parameters.list);
+					// http://stackoverflow.com/questions/5579678/jquery-how-to-find-an-object-by-attribute-in-an-array
+					var findparameter = function() {
+						var sel = selected('parameters');
+					    for (var i = 0, len = parameters.list.length; i < len; i++) {
+					        if (parameters.list[i]["value"] === sel && parameters.list[i]["label"] !== sel)
+					            return parameters.list[i]["label"];
+
+					    }
+
+					    return ""; // The object was not found
+
+					}
+
+					var info = findparameter();
+					$('#parameterinfo').html("<b>Parameter label:</b>")
+					$('#parameterinfo').show();					
+					$('#parameterinfo').append('<ul style="list-style-position: outside;">');
+					if (info === "") {
+						$('#parameterinfo ul').append('<li style="">No parameter label in catalog.</li>');
+					} else {
+						$('#parameterinfo ul').append('<li style="">'+info+'</li>');
+					}				
+					//updatehash(i,"parameters");
+				};
+
+				parameters.list = tsdsfeajax(i,"?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters=.*");
+				var list = parameters.list;
+				for (var k = 0; k < list.length; k++) {
+					if (list[k].label.length > 60) {
+						list[k].label = list[k].value + ": " + list[k].label.substring(0,60) + " ...";
+					} else if (list[k].label === "") {
+						list[k].label = list[k].value;						
+					} else {
+						list[k].label = list[k].value + ": " + list[k].label;
+					}
+				}
+				
+				return list;
+			}
+			
+			function outputs(i) {
+				outputs.onselect = function () {
+					dorequest();
+					//updatehash(i,"output");
+				}
+				values = [{label:"Data (style 1)", value:"txt"},{label:"Data (style 2)",value:"asc"},{label:"Data (style 3)",value:"dat"},{label:"IDL (script)",value:"idl"},{label:"MATLAB (script)",value:"matlab"},{label:"Debug",value:"debug"}];
+				return values;
+			}
+			
+			function preview() {
+				$('#outputinfo').show();
+				$('#dldiv').hide();
+				show1pdplots();
+			}
+
+			function triggerselect() {
+				// Set inital values of drop-downs based on hash.
+				if (location.hash !== "") {
+					qs = $.parseQueryString();
+					console.log("Initial query string");
+					for (var id in qs) {
+						console.log("id="+id);
+						$("#"+id).val(qs[id]).data("autocomplete")._trigger("select",event,{item:qs[id]});
+					}
+				}
+			}				
+			
+			function tests(i) {
+				var list = new Array();
+				list[0] = {label:"SSCWeb",value:"sscweb",url:"catalog=sscweb&dataset=ace&parameters=X_GEI,Y_GEI,Z_GEI&start=1997-08-26&stop=1997-09-05"};
+				list[1] = {label:"CDAWeb",value:"cdaweb",url:"catalog=cdaweb&dataset=A1_K0_MPA&parameters=dens_lop&start=2001-08-31&stop=2001-09-10"};
+				list[2] = {label:"SuperMAG",value:"supermag",url:"catalog=supermag&dataset=AAA&parameters=B_N,B_E,B_Z&start=2008-01-01&stop=2008-01-11"};
+				list[3] = {label:"SPIDR",value:"spidr",url:"catalog=spidr&dataset=amie_ae&parameters=amie_ae&version=0&start=1991-01-01&stop=1991-01-11"};
+				list[4] = {label:"USGS 1-minute",value:"usgs1m",url:"catalog=USGS/RT/PT1M&dataset=BRW&start=2013-05-02&stop=2013-05-05&parameters=H"};
+				list[5] = {label:"USGS 1-second",value:"usgs1s",url:"catalog=USGS/RT/PT1S&dataset=BRW&start=2013-05-02&stop=2013-05-05&parameters=H"};
+				list[6] = {label:"ISIS-2",value:"ISIS-2",url:"catalog=NSSDC/ISIS-2&dataset=CEP&start=1971-04-14&stop=1971-04-16&parameters=L_value"};
+				list[7] = {label:"TSX-5",value:"TSX-5",url:"catalog=ViRBO/TSX-5/EPHX&dataset=ephx&start=2000-08-15&stop=2000-08-17&parameters=PitchAngle"};
+				list[8] = {label:"Linkcheck",value:"Linkcheck",url:"catalog=Autoplot/Linkcheck&dataset=1&start=2012-12-07&stop=2012-12-09&parameters=ResponseTime"};
+				//				list[5] = {label:"ISIS-1",value:"ISIS-1",url:"catalog=NSSDC/ISIS-1&dataset=CEP&start=1969-01-30&stop=1969-02-19&parameters=Altitude"};
+
+				
+				tests.onselect = function () {
+					console.log('test selected');
+					vid = $("#dropdownstest0").attr('value');
+					console.log(vid);
+					var k = 0;
+					while (true) {
+						if (list[k].value === vid) {break} else {k = k+1}
+					}
+					location.hash = list[k].url;
+					preview();
+					$('#outputinfo').hide();
+
+					triggerselect();
+
+				};
+				
+				//location.search = $.query.set("catalog","SSCWeb").toString();
+				
+				return list;
+			}
+
+			function imgloaded() {
+				imgloaded.loaded = imgloaded.loaded + 1;
+				$('#status').text(imgloaded.loaded + ' of ' + imgloaded.Ndays + ' images loaded ');
+				if (imgloaded.loaded = imgloaded.Ndays) {
+					$('#status').text('');
+				}
+			}
+
+			function viewdata(id) {
+				var src = $("iframe[id="+id+"]").attr("data");
+				$("iframe[id="+id+"]").attr("src",src).show();
+				//$.scrollTo($("iframe[id="+id+"]"));
+			}
+
+			function show1pdplots() {
+
+				var START_ms   = new Date(Date.parse( selected('start')));
+				var STOP_ms    = new Date(Date.parse( selected('stop')));
+				var Ndays      = 1 + Math.round((STOP_ms.valueOf()-START_ms.valueOf())/(1000*24*60*60));
+				var START_date = Date.parse(selected('start'));
+				var STOP_date  = Date.parse(selected('start')).addDays(1);
+
+				$('#status').text('Requesting parameter metadata.');
+				das = getdas();
+				console.log(das);
+				
+				Units = new Array();
+				Fills = new Array();
+				k = 0;
+				for (var key in das) {
+				  if (das.hasOwnProperty(key)) {
+					  if (key != "time") {
+						  Units[k] = das[key].units;
+						  Fills[k] = das[key]._FillValue;
+						  k = k+1;
+						  console.log(key + " -> " + das[key]);
+					  }
+				  }
+				}
+
+				// For now assume all parameters have same units.
+				// When tsdsfe.jyds and servlet understand http://tsds.org/dd, will use that notation.				
+				if (Units.length > 1) {
+					units = Units[1];
+				} else {
+					units = '';
+				}
+				if (Fills.length > 0) {
+					fills = "" + Fills[0]; // Convert to string type if needed.
+				} else {
+					fills = '-1e31';
+				}
+
+				fills.replace("e+","e"); // So no need to decode fill value.
+				
+				console.log(typeof(fills))
+				
+				$('#status').text('Requesting ' + Ndays + ' images');
+				$("#previewimgdiv").show();	
+				$('#previewimg').html("");
+
+				imgloaded.Ndays = Ndays;
+				imgloaded.loaded = 0;
+
+				var i = 0;
+				while (i < Ndays) {
+					turl = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&start="+START_date.toString('yyyy-MM-dd')+"&stop="+STOP_date.toString('yyyy-MM-dd')+"&out=asc";
+					url = TSDSFE+"/tsdsfe.jyds?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&timerange="+START_date.toString('yyyy-MM-dd')+"&fill="+fills;				
+					var aurl = "http://autoplot.org/plot/SimpleServlet?&drawGrid=true&plot.xaxis.drawTickLabels=true&width=800&height=200&url=vap+jyds:" + encodeURIComponent(url);
+					START_date.addDays(1);
+					STOP_date.addDays(1);
+
+					console.log(aurl);
+					//links = "<a href='http://autoplot.org/autoplot.jnlp?open=vap+jyds:"+encodeURIComponent(url)+"'>View in Autoplot</a>"
+					links = "<a href='http://autoplot.org/autoplot.jnlp?open=vap+jyds:"+url+"'>View in Autoplot</a>"
+					links = links + " | <a style='text-decoration:underline;cursor:pointer' onclick='viewdata("+i+")'>View Data</a>";
+					//links = links + ' | <a target="blank" href="'+turl+'">View Data</a>';
+					$("#previewimg").append("<div style='position:relative'><img onload='imgloaded()' id='" + i + "' style='z-index: -1' src='"+aurl+"'></img><div style='position:absolute;left:0px;top:0px;font-size:8pt'>"+links+"</div></div>");
+					$("#previewimg").append("<div style='position:relative'><iframe width='98%' id='" + i + "' data='"+turl+"' style='display:none'></iframe></div>");
+
+					//$("#img[id="+i+"]").click(function () {$(this).append("Hello")});
+					i = i + 1;
+				}
+				$('#previewimg img').click(function(){window.location=$(this).attr('jnlp')});
+			}
+
+			function dorequest() {
+			
+				url = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&start="+selected('start')+"&stop="+selected('stop');
+				
+				if (selected('outputs') === 'matlab' || selected('outputs') === 'idl') {
+					url = url+"&out=asc"+"&return=" + selected('outputs') + "&stream=true";
+					$("#dlframe").html("");
+					$("#dldiv").show();
+					$("#dlframe").attr("src",url);
+				} else if (selected('outputs') === 'debug')  {
+					url = url+"&out=asc"+"&stream=true&debug=true";
+					$("#debugdiv").show();
+					$("#debugframe").attr("src",url);
+				} else {
+					output = selected('outputs'); 
+					if ( output === 'iso') {
+						output = "dat";
+					}
+					url = url+"&out="+output+"&stream=true&attach=true";
+					if (selected('outputs') === 'iso') {
+						url = url + "&filter=format_time(yyyy'-'MM'-'dd'T'HH':'mm':'ss.S)";
+					}
+					window.location = url;
+				}
+				$('#dllinkhref').attr('href',url).text(url);
+				$('#dllinkdiv').show();
+			}
+
+			// http://paulgueller.com/2011/04/26/parse-the-querystring-with-jquery/
+			jQuery.extend({
+				  parseQueryString: function(){
+				    var nvpair = {};
+				    var qs = window.location.hash.replace('#', '');
+				    var pairs = qs.split('&');
+				    $.each(pairs, function(i, v){
+				      var pair = v.split('=');
+				      nvpair[pair[0]] = pair[1];
+				    });
+				    return nvpair;
+				  }
+				});
+			
+			$(function() {
+				
+				// See Harris' post at http://stackoverflow.com/questions/426258/how-do-i-check-a-checkbox-with-jquery-or-javascript
+				(function( $ ) {
+				    $.fn.checked = function(value) {
+				        if(value === true || value === false) {
+				            // Set the value of the checkbox
+				            $(this).each(function(){ this.checked = value; });
+				        } 
+				        else if(value === undefined || value === 'toggle') {
+				            // Toggle the checkbox
+				            $(this).each(function(){ this.checked = !this.checked; });
+				        }
+				    };
+				})( jQuery );
+
+				//$('#debug').each(function(){ this.checked = false; });
+				$('#previewimgcheckbox').each(function(){ this.checked = true; });
+				$('#previewdatacheckbox').each(function(){ this.checked = true; });
+
+				function callback() {}
+				
+				dropdown2(["catalog","dataset","parameters","start","stop","outputs"],["Catalog","Datasets","Parameters","Start","Stop","Output"],[catalogs,datasets,parameters,starttime,stoptime,outputs],"#dropdowns",0,"",callback);
+
+				dropdown2(["tests"],["Tests"],[tests],"#dropdownstest");
+
+
+				triggerselect();
+					
+				//preview();
+				
+				//if (location.hash) {
+				//	qs = $.parseQueryString();
+				//	$("#catalog").val(qs["catalog"]).data("autocomplete")._trigger("select",event,{item:qs["catalog"]});
+				//	console.log("Setting catalog to " + qs["catalog"]);
+				//}
+				return;
+				console.log("Binding hashchange");
+				//$(window).hashchange.byurledit = false;
+				$(window).hashchange.byurledit = true;
+				$(window).bind("hashchange",function() {
+					
+					//$(window).hashchange.lashash = qs; 
+					// Need to figure out what parameter was changed and then remove all parameters after that.  Otherwise
+					// User could change the catalog and the parameter list will not be updated.
+					console.log("Hash change");
+					console.log($(window).hashchange.byurledit);
+					if ($(window).hashchange.byurledit) {
+						var qs = $.parseQueryString();
+						console.log("Hash change made by manual edit to URL");
+						console.log("Last hash")
+						console.log(qs);
+						for (var id in qs) {
+							console.log("Triggering: " + qs[id]);
+							// This creates an infinite loop.
+							//$("#"+id).val(qs[id]).data("autocomplete")._trigger("select",event,{item:qs[id]});
+						}
+//							$("#"+id).val(qs[id]).data("autocomplete")._trigger("select",event,{item:qs[id]});
+					}					
+					$(window).hashchange.byurledit = true;
+				});										
+
+				return;
+
+//				function callback(id) {
+			//}
+
+				// Use for testing random?
+				function autoselect(el,N) {
+					$(el+"list").click();
+					if (arguments.length < 2)
+						N = 1;
+					for (i = 0; i < N;i++) {
+						$(el).simulate("keydown", { keyCode: $.ui.keyCode.DOWN });
+					}
+					$(el).simulate("keydown", { keyCode: $.ui.keyCode.ENTER });
+				}
+
+					
+				$("#demo").click(function () {
+					autoselect("#catalog",1);
+					autoselect("#dataset");
+					autoselect("#start");
+					autoselect("#stop");
+					autoselect("#parameters");
+				})
+			});
+		</script>
+		
+	</head>
+
+ 	<body>	
+ 		<div style="float:left;width:10em;margin-right:10px;">
+ 			
+			<button type="button" onclick="window.location=window.location.pathname">Clear</button>
+			<div title="Show preview images of data when a parameter is selected"><input id="previewimgcheckbox" type="checkbox" value=""/>&nbsp;Show preview plots</div>
+			<span id="dropdowns0"></span>
+			<span id="dropdowns1" style="display:none"></span>
+			<span id="dropdowns2" style="display:none"></span>
+			<span id="dropdowns3" style="display:none"></span>
+			<span id="dropdowns4" style="display:none"></span>
+			<span id="dropdowns5" style="display:none"></span>
+		</div>
+		<span id="status" style="background-color:yellow;"></span>
+		<div id="dllinkdiv" style="margin-left:12em;display:none;">
+			<b>Direct URL for output:</b>
+			<ul>
+				<li><span style="background-color:yellow"><a id="dllinkhref" href=""></a></span></li>
+			</ul>
+		</div>
+		<div id="overviewdiv" style="margin-left:12em;">
+			<b>Overview:</b>
+			<ul>
+				<li>This interface may be used to build a <a href="http://tsds.org/tsdsfe">TSDS Front End (TSDSFE)</a> URL for downloading data.</li>
+				<li>Begin by selecting a catalog on the left.</li>
+				<li>Or, select a test</li>
+			</ul>
+			<div style="margin-left:2.5em;margin-top:-1em;width:10em;" >
+				<span id="dropdownstest0"></span>
+			</div>
+		</div>
+		
+		<br/>
+		<div id="infodiv" style="margin-left:12em;">		
+			<div id="dldiv" style="background-color:white;display:none;">
+				<div><b>Download script:</b></div>
+				<iframe id="dlframe" style="width:95%;height:20em;"></iframe>
+			</div>
+			<div id="cataloginfo" style="display:none;width:95%"></div>
+			<div id="datasetinfo" style="display:none;width:95%"></div>
+			<div id="parameterinfo" style="display:none;width:95%"></div>
+			<div id="outputinfo" style="display:none;width:95%">
+				<b>Output options:</b>
+				<ul>
+					<li>Data (style 1) - Space-separated values with <a href="http://www.w3.org/TR/NOTE-datetime">ISO8601</a> timestamps (e.g., <code>2000-01-01T00:00:00.0 1.1 9.0)</code></li>
+					<li>Data (style 2) - Comma-separated values with timestamps in same format as original (if original had formatted time). First line is header.</li>
+					<li>Data (style 3) - Space-separated values with timestamps in same format as original (if original had formatted time). No header.</li>
+					<li>IDL (script) - A script that when executed in IDL, creates a data array <code>D</code> and label array <code>L</code>.</li>
+					<li>MATLAB (script) - A script that when executed in MATLAB, creates a data array <code>D</code> and label array <code>L</code>.</li>
+					<li>Debug - show processing steps.</li>
+				</ul>
+			</div>
+		</div>
+		<div id="debugdiv" style="margin-left:12em;background-color:white;width:100%;height:100%;display:none;">
+			<div><b>Debug info</b></div>
+			<iframe id="debugframe" style="width:95%;height:100%;"></iframe>
+		</div>
+		<div id="previewimgdiv" style="margin-left:12em;display:none;">
+			<div><b>Preview plots:</b></div>
+			<div id="previewimg" style="width:95%;border: 3px solid black;overflow: auto">
+				<img src=""></img>
+			</div> 
+		</div>
+	</body>
+	
+</html>
+

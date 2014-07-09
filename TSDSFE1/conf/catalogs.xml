@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<catalogs>
+	<catalog>
+		<name>SSCWeb</name>
+		<id>sscweb</id>
+		<urlgenerator>http://tsds.net/catalogs/SSCWeb-urls.xsl</urlgenerator>
+		<ncml>
+			<generator>http://tsds.net/catalogs/SSCWeb-ncml.xsl</generator>
+			<iosp>lasp.tss.iosp.ColumnarAsciiReader</iosp>
+			<timecols>1,2,3</timecols>
+			<timefmt>yyyy D HH:mm</timefmt>
+			<fillvalue>1e31</fillvalue>
+		</ncml>
+		<tsdsfecatalog>http://tsds.net/catalogs/SSCWeb-tsdsfe.xml</tsdsfecatalog>
+		<thredds>
+			<generator>http://tsds.org/code#SSCWeb</generator>
+			<refresh>PT1D</refresh>
+		</thredds>
+		<notes>
+			<note>Some SSCWeb output options are not available through this interface at this time.</note>
+		</notes>
+	</catalog>
+	<catalog>
+		<name>CDAWeb</name>
+		<id>cdaweb</id>
+		<urlgenerator>http://tsds.net/catalogs/CDAWeb-urls.xsl</urlgenerator>
+		<ncml>
+			<generator>http://tsds.net/catalogs/TSDSFE-ncml.xsl</generator>
+			<iosp>lasp.tss.iosp.ColumnarAsciiReader</iosp>
+			<timecols>1,2</timecols>
+			<timefmt>dd-MM-yyyy HH:mm:ss.S</timefmt>
+			<fillvalue>1e31</fillvalue>
+		</ncml>		
+		<tsdsfecatalog>http://tsds.net/catalogs/CDAWeb-tsdsfe.xml</tsdsfecatalog>
+	</catalog>
+		<catalog>
+		<name>SuperMAG</name>
+		<id>supermag</id>
+		<urlgenerator>http://tsds.net/catalogs/SuperMAG-urls.xsl</urlgenerator>
+		<ncml>
+			<generator>http://tsds.net/catalogs/SuperMAG-ncml.xsl</generator>
+			<iosp>lasp.tss.iosp.ColumnarAsciiReader</iosp>
+			<timecols>1,2,3,4,5,6</timecols>
+			<timefmt>yyyy MM dd HH mm ss</timefmt>
+		</ncml>		
+		<tsdsfecatalog>http://tsds.net/catalogs/SuperMAG-tsdsfe.xml</tsdsfecatalog>
+	</catalog>
+	
+	<catalog>
+		<name>SPIDR</name>
+		<id>spidr</id>
+		<urlgenerator>http://tsds.net/catalogs/SPIDR-urls.xsl</urlgenerator>
+		<ncml>
+			<generator>http://tsds.net/catalogs/SPIDR-ncml.xsl</generator>
+			<iosp>lasp.tss.iosp.ColumnarAsciiReader</iosp>
+			<timecols>1,2</timecols>
+			<timefmt>yyyy-MM-dd HH:mm</timefmt>
+		</ncml>
+		<tsdsfecatalog>http://tsds.net/catalogs/SPIDR-tsdsfe.xml</tsdsfecatalog>
+	</catalog>
+
+	<catalog>
+		<name>LISIRD</name>
+		<id>lisird</id>
+		<!-- url>http://lasp.colorado.edu/lisird/tss/catalog.thredds</url -->
+		<urlgenerator>http://tsds.net/catalogs/LISIRD-urls.xsl</urlgenerator>
+		<ncml>
+			<generator>http://tsds.net/catalogs/LISIRD-ncml.xsl</generator>
+			<iosp>lasp.tss.iosp.ColumnarAsciiReader</iosp>
+			<timecols>1,2</timecols>
+			<timefmt>yyyy-MM-dd HH:mm</timefmt>
+		</ncml>
+		<tsdsfecatalog>http://tsds.net/catalogs/LISIRD-tsdsfe.xml</tsdsfecatalog>
+	</catalog>
+	
+	<catalog>
+		<name>TSDS0</name>
+		<id>tsds0</id>
+		<urlgenerator>http://tsds.net/catalogs/TSDS0-urls.xsl</urlgenerator>
+		<ncmlgenerator>http://tsds.net/catalogs/TSDS0-ncml.xsl</ncmlgenerator>
+		<tsdsfecatalog>http://tsds.net/catalogs/TSDS0-tsdsfe.xml</tsdsfecatalog>
+	</catalog>
+</catalogs>

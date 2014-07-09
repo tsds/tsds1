@@ -1,0 +1,22 @@
+; Enter the following commands at the IDL command line prompt.
+; Data will be placed in matrix named D.
+; Column labels will be placed in cell array named L.
+
+oUrl = OBJ_NEW('IDLnetUrl')
+mc   = oUrl->Get(url="__META__", /string_array )
+ds   = oUrl->Get(url="__DATA__", /string_array )
+D    = fltarr(1200,size(strsplit(ds[0]),/DIMENSIONS))
+reads, ds, D
+
+headers  = mc[0]
+sheaders = strsplit(headers,',',/extract)
+time     = sheaders[0]
+L        = ['Year','Month','Day','Hour','Minute','Second',sheaders[1]]
+
+help, D
+print, 'has column labels'
+print, L
+
+
+
+

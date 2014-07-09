@@ -1,0 +1,17 @@
+<catalog xmlns:xlink="http://www.w3.org/1999/xlink" id="Kyoto/RT/Dst/PT1H" name="Real Time Dst from Kyoto; 1-hour cadence.">
+    				<documentation xlink:href="http://wdc.kugi.kyoto-u.ac.jp/dst_realtime/" xlink:title="Catalog derived from inspection of"/>
+    				<service name="tss" serviceType="OpenDAP" base="http://tsds.org/tsds/Kyoto/RT/Dst/PT1H"/>
+					
+			<dataset name="Real-time Dst" ID="Dst" urltemplate="http://datacache.org/dc/sync?return=stream&amp;forceUpdate=true&amp;plugin=kyotodst&amp;source=http://wdc.kugi.kyoto-u.ac.jp/dst_realtime/$Y$m/index.html" timeformat="yyyy-MM-dd HH:mm:ss.S" timecolumns="1,2" datareader="lasp.tss.iosp.ColumnarAsciiReader">
+						<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://wdc.kugi.kyoto-u.ac.jp/dst_realtime/" xlink:title="Real-time Dst estimate from Kyoto; 1-hour cadence."/>
+						<access serviceName="tss" urlPath="Dst"/>
+						<access serviceName="ncml" urlPath="Dst"/>
+						<timeCoverage>
+							<Start>2013-01-01</Start>
+							<End>2013-08-31</End>
+						</timeCoverage>
+						<groups>
+							<group/>
+						</groups>
+						<variables><variable id="DST_RT" name="Real-time Dst" label="Real-time Dst" units="" type="scalar" fillvalue="" format="" columns="3" lineregex="^[0-9]"/></variables>
+				</dataset></catalog>

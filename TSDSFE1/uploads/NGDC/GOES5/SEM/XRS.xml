@@ -1,0 +1,17 @@
+<catalog xmlns:xlink="http://www.w3.org/1999/xlink" id="NGDC/GOES5/SEM/XRS" name="">
+    				<documentation xlink:href="http://www.ngdc.noaa.gov/goes/sem/getMetadata" xlink:title="GOES SEM Metadata"/>
+    				<service name="tss" serviceType="OpenDAP" base="http://tsds.org/tsds/NGDC/GOES5/SEM/XRS"/>
+					
+			<dataset name="X-rays; two channels; one minute averages." ID="xrs_1m" urltemplate="http://www.ngdc.noaa.gov/goes/sem/getData/goes5/xrs_1m.csv?fromDate=$Y$m$d&amp;toDate=$Y$m$d&amp;file=true" timeformat="yyyy-MM-dd HH:mm:ss.S" timecolumns="1,2" datareader="lasp.tss.iosp.ColumnarAsciiReader">
+						<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.ngdc.noaa.gov/goes/sem/getMetadata/goes5/xrs_1m.json" xlink:title="Measurements from the X-Ray Sensor (XRS) instrument on GOES 5."/>
+						<access serviceName="tss" urlPath="xrs_1m"/>
+						<access serviceName="ncml" urlPath="xrs_1m"/>
+						<timeCoverage>
+							<Start>1986-01-01</Start>
+							<End>1987-03-31</End>
+						</timeCoverage>
+						<groups>
+							<group/>
+						</groups>
+						<variables><variable id="xs" name="X-ray 0.05 - 0.4 nm irradiance" label="X-ray 0.05 - 0.4 nm irradiance" units="W/m^2" type="scalar" fillvalue="-9999.0" format="" columns="3" lineregex="^[0-9]"/><variable id="xl" name="X-ray 0.1 - 0.8 nm irradiance" label="X-ray 0.1 - 0.8 nm irradiance" units="W/m^2" type="scalar" fillvalue="-9999.0" format="" columns="4" lineregex="^[0-9]"/></variables>
+				</dataset></catalog>

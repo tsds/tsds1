@@ -1,0 +1,17 @@
+<catalog xmlns:xlink="http://www.w3.org/1999/xlink" id="SWPC/GOES/Primary/XRay/PT1M" name="">
+    				<documentation xlink:href="ftp://ftp.sec.noaa.gov/pub/lists/xr/" xlink:title="Catalog derived from inspection of *Gp_xr_1m.txt files in ftp://ftp.sec.noaa.gov/pub/lists/xr/"/>
+    				<service name="tss" serviceType="OpenDAP" base="http://tsds.org/tsds/SWPC/GOES/Primary/XRay/PT1M"/>
+					
+			<dataset name="Real-time measurements of solar x-rays from GOES primary satellite." ID="Gp_xr" urltemplate="ftp://ftp.sec.noaa.gov/pub/lists/xray/$Y$m$d_Gp_xr_1m.txt" timeformat="yyyy MM dd HHmm" timecolumns="1,2,3,4" datareader="lasp.tss.iosp.ColumnarAsciiReader">
+						<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="ftp://ftp.sec.noaa.gov/pub/lists/xray/README" xlink:title=""/>
+						<access serviceName="tss" urlPath="Gp_xr"/>
+						<access serviceName="ncml" urlPath="Gp_xr"/>
+						<timeCoverage>
+							<Start>2013-06-30</Start>
+							<End>2013-09-04</End>
+						</timeCoverage>
+						<groups>
+							<group/>
+						</groups>
+						<variables><variable id="Short" name="Xray flux; 0.05-0.4 nanometer" label="Xray flux; 0.05-0.4 nanometer" units="W/m^2" type="scalar" fillvalue="-1.00e+05" format="%.2e" columns="7" lineregex="^[0-9]"/><variable id="Long" name="Xray flux; 0.1-0.8 nanometer" label="Xray flux; 0.1-0.8 nanometer" units="W/m^2" type="scalar" fillvalue="-1.00e+05" format="%.2e" columns="8" lineregex="^[0-9]"/></variables>
+				</dataset></catalog>

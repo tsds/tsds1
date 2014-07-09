@@ -1,0 +1,209 @@
+<catalog xmlns:xlink="http://www.w3.org/1999/xlink" id="USGS/RT/PT1S" name="USGS Real Time 1-Second Magnetometer Measurements">
+    				<documentation xlink:href="http://magweb.cr.usgs.gov/data/magnetometer/" xlink:title="Catalog derived by inspection of http://magweb.cr.usgs.gov/data/magnetometer/."/>
+    				<service name="tss" serviceType="OpenDAP" base="http://tsds.org/tsds/USGS/RT/PT1S"/>
+					
+			<dataset name="BDT one-minute" ID="BDT" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/BDT/OneSecond/bdt%Y%m%dvsec.sec" timeformat="yyyy-MM-dd HH:mm:ss.S" timecolumns="1,2" datareader="lasp.tss.iosp.ColumnarAsciiReader">
+						<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://geomag.usgs.gov/products/downloads.php" xlink:title="Real-time ground magnetometer measurements from USGS."/>
+						<access serviceName="tss" urlPath="BDT"/>
+						<access serviceName="ncml" urlPath="BDT"/>
+						<timeCoverage>
+							<Start>2013-05-01</Start>
+							<End>2013-07-09</End>
+						</timeCoverage>
+						<groups>
+							<group id="H,D,Z" name="HDZ components" label="" type="vector"/>
+						</groups>
+						<variables><variable id="DOY" name="Day of Year" label="Day of Year" units="Gregorian" type="scalar" fillvalue="" format="%j" columns="3" lineregex="^[0-9]"/><variable id="H" name="Boulder Test H" label="Boulder Test H" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="4" lineregex="^[0-9]"/><variable id="D" name="Boulder Test D" label="Boulder Test D" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="5" lineregex="^[0-9]"/><variable id="Z" name="Boulder Test Z" label="Boulder Test Z" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="6" lineregex="^[0-9]"/><variable id="F" name="Boulder Test F" label="Boulder Test F" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="7" lineregex="^[0-9]"/></variables>
+				</dataset><dataset name="BOU one-minute" ID="BOU" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/BOU/OneSecond/bou%Y%m%dvsec.sec" timeformat="yyyy-MM-dd HH:mm:ss.S" timecolumns="1,2" datareader="lasp.tss.iosp.ColumnarAsciiReader">
+						<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://geomag.usgs.gov/products/downloads.php" xlink:title="Real-time ground magnetometer measurements from USGS."/>
+						<access serviceName="tss" urlPath="BOU"/>
+						<access serviceName="ncml" urlPath="BOU"/>
+						<timeCoverage>
+							<Start>2013-05-01</Start>
+							<End>2013-07-09</End>
+						</timeCoverage>
+						<groups>
+							<group id="H,D,Z" name="HDZ components" label="" type="vector"/>
+						</groups>
+						<variables><variable id="DOY" name="Day of Year" label="Day of Year" units="Gregorian" type="scalar" fillvalue="" format="%j" columns="3" lineregex="^[0-9]"/><variable id="H" name="Boulder H" label="Boulder H" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="4" lineregex="^[0-9]"/><variable id="D" name="Boulder D" label="Boulder D" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="5" lineregex="^[0-9]"/><variable id="Z" name="Boulder Z" label="Boulder Z" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="6" lineregex="^[0-9]"/><variable id="F" name="Boulder F" label="Boulder F" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="7" lineregex="^[0-9]"/></variables>
+				</dataset><dataset name="BRT one-minute" ID="BRT" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/BRT/OneSecond/brt%Y%m%dvsec.sec" timeformat="yyyy-MM-dd HH:mm:ss.S" timecolumns="1,2" datareader="lasp.tss.iosp.ColumnarAsciiReader">
+						<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://geomag.usgs.gov/products/downloads.php" xlink:title="Real-time ground magnetometer measurements from USGS."/>
+						<access serviceName="tss" urlPath="BRT"/>
+						<access serviceName="ncml" urlPath="BRT"/>
+						<timeCoverage>
+							<Start>2013-05-01</Start>
+							<End>2013-07-09</End>
+						</timeCoverage>
+						<groups>
+							<group id="H,D,Z" name="HDZ components" label="" type="vector"/>
+						</groups>
+						<variables><variable id="DOY" name="Day of Year" label="Day of Year" units="Gregorian" type="scalar" fillvalue="" format="%j" columns="3" lineregex="^[0-9]"/><variable id="H" name="Barrow Test H" label="Barrow Test H" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="4" lineregex="^[0-9]"/><variable id="D" name="Barrow Test D" label="Barrow Test D" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="5" lineregex="^[0-9]"/><variable id="Z" name="Barrow Test Z" label="Barrow Test Z" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="6" lineregex="^[0-9]"/><variable id="F" name="Barrow Test F" label="Barrow Test F" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="7" lineregex="^[0-9]"/></variables>
+				</dataset><dataset name="BRW one-minute" ID="BRW" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/BRW/OneSecond/brw%Y%m%dvsec.sec" timeformat="yyyy-MM-dd HH:mm:ss.S" timecolumns="1,2" datareader="lasp.tss.iosp.ColumnarAsciiReader">
+						<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://geomag.usgs.gov/products/downloads.php" xlink:title="Real-time ground magnetometer measurements from USGS."/>
+						<access serviceName="tss" urlPath="BRW"/>
+						<access serviceName="ncml" urlPath="BRW"/>
+						<timeCoverage>
+							<Start>2013-05-01</Start>
+							<End>2013-07-09</End>
+						</timeCoverage>
+						<groups>
+							<group id="H,D,Z" name="HDZ components" label="" type="vector"/>
+						</groups>
+						<variables><variable id="DOY" name="Day of Year" label="Day of Year" units="Gregorian" type="scalar" fillvalue="" format="%j" columns="3" lineregex="^[0-9]"/><variable id="H" name="Barrow H" label="Barrow H" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="4" lineregex="^[0-9]"/><variable id="D" name="Barrow D" label="Barrow D" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="5" lineregex="^[0-9]"/><variable id="Z" name="Barrow Z" label="Barrow Z" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="6" lineregex="^[0-9]"/><variable id="F" name="Barrow F" label="Barrow F" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="7" lineregex="^[0-9]"/></variables>
+				</dataset><dataset name="BSL one-minute" ID="BSL" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/BSL/OneSecond/bsl%Y%m%dvsec.sec" timeformat="yyyy-MM-dd HH:mm:ss.S" timecolumns="1,2" datareader="lasp.tss.iosp.ColumnarAsciiReader">
+						<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://geomag.usgs.gov/products/downloads.php" xlink:title="Real-time ground magnetometer measurements from USGS."/>
+						<access serviceName="tss" urlPath="BSL"/>
+						<access serviceName="ncml" urlPath="BSL"/>
+						<timeCoverage>
+							<Start>2013-05-01</Start>
+							<End>2013-07-09</End>
+						</timeCoverage>
+						<groups>
+							<group id="H,D,Z" name="HDZ components" label="" type="vector"/>
+						</groups>
+						<variables><variable id="DOY" name="Day of Year" label="Day of Year" units="Gregorian" type="scalar" fillvalue="" format="%j" columns="3" lineregex="^[0-9]"/><variable id="H" name="Stennis Space Center H" label="Stennis Space Center H" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="4" lineregex="^[0-9]"/><variable id="D" name="Stennis Space Center D" label="Stennis Space Center D" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="5" lineregex="^[0-9]"/><variable id="Z" name="Stennis Space Center Z" label="Stennis Space Center Z" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="6" lineregex="^[0-9]"/><variable id="F" name="Stennis Space Center F" label="Stennis Space Center F" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="7" lineregex="^[0-9]"/></variables>
+				</dataset><dataset name="CMO one-minute" ID="CMO" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/CMO/OneSecond/cmo%Y%m%dvsec.sec" timeformat="yyyy-MM-dd HH:mm:ss.S" timecolumns="1,2" datareader="lasp.tss.iosp.ColumnarAsciiReader">
+						<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://geomag.usgs.gov/products/downloads.php" xlink:title="Real-time ground magnetometer measurements from USGS."/>
+						<access serviceName="tss" urlPath="CMO"/>
+						<access serviceName="ncml" urlPath="CMO"/>
+						<timeCoverage>
+							<Start>2013-05-01</Start>
+							<End>2013-07-09</End>
+						</timeCoverage>
+						<groups>
+							<group id="H,D,Z" name="HDZ components" label="" type="vector"/>
+						</groups>
+						<variables><variable id="DOY" name="Day of Year" label="Day of Year" units="Gregorian" type="scalar" fillvalue="" format="%j" columns="3" lineregex="^[0-9]"/><variable id="H" name="College H" label="College H" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="4" lineregex="^[0-9]"/><variable id="D" name="College D" label="College D" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="5" lineregex="^[0-9]"/><variable id="Z" name="College Z" label="College Z" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="6" lineregex="^[0-9]"/><variable id="F" name="College F" label="College F" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="7" lineregex="^[0-9]"/></variables>
+				</dataset><dataset name="DED one-minute" ID="DED" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/DED/OneSecond/ded%Y%m%dvsec.sec" timeformat="yyyy-MM-dd HH:mm:ss.S" timecolumns="1,2" datareader="lasp.tss.iosp.ColumnarAsciiReader">
+						<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://geomag.usgs.gov/products/downloads.php" xlink:title="Real-time ground magnetometer measurements from USGS."/>
+						<access serviceName="tss" urlPath="DED"/>
+						<access serviceName="ncml" urlPath="DED"/>
+						<timeCoverage>
+							<Start>2013-05-01</Start>
+							<End>2013-07-09</End>
+						</timeCoverage>
+						<groups>
+							<group id="H,D,Z" name="HDZ components" label="" type="vector"/>
+						</groups>
+						<variables><variable id="DOY" name="Day of Year" label="Day of Year" units="Gregorian" type="scalar" fillvalue="" format="%j" columns="3" lineregex="^[0-9]"/><variable id="H" name="Deadhorse H" label="Deadhorse H" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="4" lineregex="^[0-9]"/><variable id="D" name="Deadhorse D" label="Deadhorse D" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="5" lineregex="^[0-9]"/><variable id="Z" name="Deadhorse Z" label="Deadhorse Z" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="6" lineregex="^[0-9]"/><variable id="F" name="Deadhorse F" label="Deadhorse F" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="7" lineregex="^[0-9]"/></variables>
+				</dataset><dataset name="FRD one-minute" ID="FRD" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/FRD/OneSecond/frd%Y%m%dvsec.sec" timeformat="yyyy-MM-dd HH:mm:ss.S" timecolumns="1,2" datareader="lasp.tss.iosp.ColumnarAsciiReader">
+						<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://geomag.usgs.gov/products/downloads.php" xlink:title="Real-time ground magnetometer measurements from USGS."/>
+						<access serviceName="tss" urlPath="FRD"/>
+						<access serviceName="ncml" urlPath="FRD"/>
+						<timeCoverage>
+							<Start>2013-05-01</Start>
+							<End>2013-07-09</End>
+						</timeCoverage>
+						<groups>
+							<group id="H,D,Z" name="HDZ components" label="" type="vector"/>
+						</groups>
+						<variables><variable id="DOY" name="Day of Year" label="Day of Year" units="Gregorian" type="scalar" fillvalue="" format="%j" columns="3" lineregex="^[0-9]"/><variable id="H" name="Fredericksburg H" label="Fredericksburg H" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="4" lineregex="^[0-9]"/><variable id="D" name="Fredericksburg D" label="Fredericksburg D" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="5" lineregex="^[0-9]"/><variable id="Z" name="Fredericksburg Z" label="Fredericksburg Z" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="6" lineregex="^[0-9]"/><variable id="F" name="Fredericksburg F" label="Fredericksburg F" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="7" lineregex="^[0-9]"/></variables>
+				</dataset><dataset name="FRN one-minute" ID="FRN" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/FRN/OneSecond/frn%Y%m%dvsec.sec" timeformat="yyyy-MM-dd HH:mm:ss.S" timecolumns="1,2" datareader="lasp.tss.iosp.ColumnarAsciiReader">
+						<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://geomag.usgs.gov/products/downloads.php" xlink:title="Real-time ground magnetometer measurements from USGS."/>
+						<access serviceName="tss" urlPath="FRN"/>
+						<access serviceName="ncml" urlPath="FRN"/>
+						<timeCoverage>
+							<Start>2013-05-01</Start>
+							<End>2013-07-09</End>
+						</timeCoverage>
+						<groups>
+							<group id="H,D,Z" name="HDZ components" label="" type="vector"/>
+						</groups>
+						<variables><variable id="DOY" name="Day of Year" label="Day of Year" units="Gregorian" type="scalar" fillvalue="" format="%j" columns="3" lineregex="^[0-9]"/><variable id="H" name="Fresno H" label="Fresno H" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="4" lineregex="^[0-9]"/><variable id="D" name="Fresno D" label="Fresno D" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="5" lineregex="^[0-9]"/><variable id="Z" name="Fresno Z" label="Fresno Z" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="6" lineregex="^[0-9]"/><variable id="F" name="Fresno F" label="Fresno F" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="7" lineregex="^[0-9]"/></variables>
+				</dataset><dataset name="GUA one-minute" ID="GUA" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/GUA/OneSecond/gua%Y%m%dvsec.sec" timeformat="yyyy-MM-dd HH:mm:ss.S" timecolumns="1,2" datareader="lasp.tss.iosp.ColumnarAsciiReader">
+						<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://geomag.usgs.gov/products/downloads.php" xlink:title="Real-time ground magnetometer measurements from USGS."/>
+						<access serviceName="tss" urlPath="GUA"/>
+						<access serviceName="ncml" urlPath="GUA"/>
+						<timeCoverage>
+							<Start>2013-05-01</Start>
+							<End>2013-07-09</End>
+						</timeCoverage>
+						<groups>
+							<group id="H,D,Z" name="HDZ components" label="" type="vector"/>
+						</groups>
+						<variables><variable id="DOY" name="Day of Year" label="Day of Year" units="Gregorian" type="scalar" fillvalue="" format="%j" columns="3" lineregex="^[0-9]"/><variable id="H" name="Guam H" label="Guam H" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="4" lineregex="^[0-9]"/><variable id="D" name="Guam D" label="Guam D" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="5" lineregex="^[0-9]"/><variable id="Z" name="Guam Z" label="Guam Z" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="6" lineregex="^[0-9]"/><variable id="F" name="Guam F" label="Guam F" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="7" lineregex="^[0-9]"/></variables>
+				</dataset><dataset name="HON one-minute" ID="HON" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/HON/OneSecond/hon%Y%m%dvsec.sec" timeformat="yyyy-MM-dd HH:mm:ss.S" timecolumns="1,2" datareader="lasp.tss.iosp.ColumnarAsciiReader">
+						<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://geomag.usgs.gov/products/downloads.php" xlink:title="Real-time ground magnetometer measurements from USGS."/>
+						<access serviceName="tss" urlPath="HON"/>
+						<access serviceName="ncml" urlPath="HON"/>
+						<timeCoverage>
+							<Start>2013-05-01</Start>
+							<End>2013-07-09</End>
+						</timeCoverage>
+						<groups>
+							<group id="H,D,Z" name="HDZ components" label="" type="vector"/>
+						</groups>
+						<variables><variable id="DOY" name="Day of Year" label="Day of Year" units="Gregorian" type="scalar" fillvalue="" format="%j" columns="3" lineregex="^[0-9]"/><variable id="H" name="Honolulu H" label="Honolulu H" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="4" lineregex="^[0-9]"/><variable id="D" name="Honolulu D" label="Honolulu D" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="5" lineregex="^[0-9]"/><variable id="Z" name="Honolulu Z" label="Honolulu Z" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="6" lineregex="^[0-9]"/><variable id="F" name="Honolulu F" label="Honolulu F" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="7" lineregex="^[0-9]"/></variables>
+				</dataset><dataset name="KGI one-minute" ID="KGI" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/KGI/OneSecond/kgi%Y%m%dvsec.sec" timeformat="yyyy-MM-dd HH:mm:ss.S" timecolumns="1,2" datareader="lasp.tss.iosp.ColumnarAsciiReader">
+						<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://geomag.usgs.gov/products/downloads.php" xlink:title="Real-time ground magnetometer measurements from USGS."/>
+						<access serviceName="tss" urlPath="KGI"/>
+						<access serviceName="ncml" urlPath="KGI"/>
+						<timeCoverage>
+							<Start>2013-05-01</Start>
+							<End>2013-07-09</End>
+						</timeCoverage>
+						<groups>
+							<group id="H,D,Z" name="HDZ components" label="" type="vector"/>
+						</groups>
+						<variables><variable id="DOY" name="Day of Year" label="Day of Year" units="Gregorian" type="scalar" fillvalue="" format="%j" columns="3" lineregex="^[0-9]"/><variable id="H" name="King Sejong Island H" label="King Sejong Island H" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="4" lineregex="^[0-9]"/><variable id="D" name="King Sejong Island D" label="King Sejong Island D" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="5" lineregex="^[0-9]"/><variable id="Z" name="King Sejong Island Z" label="King Sejong Island Z" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="6" lineregex="^[0-9]"/><variable id="F" name="King Sejong Island F" label="King Sejong Island F" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="7" lineregex="^[0-9]"/></variables>
+				</dataset><dataset name="NEW one-minute" ID="NEW" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/NEW/OneSecond/new%Y%m%dvsec.sec" timeformat="yyyy-MM-dd HH:mm:ss.S" timecolumns="1,2" datareader="lasp.tss.iosp.ColumnarAsciiReader">
+						<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://geomag.usgs.gov/products/downloads.php" xlink:title="Real-time ground magnetometer measurements from USGS."/>
+						<access serviceName="tss" urlPath="NEW"/>
+						<access serviceName="ncml" urlPath="NEW"/>
+						<timeCoverage>
+							<Start>2013-05-01</Start>
+							<End>2013-07-09</End>
+						</timeCoverage>
+						<groups>
+							<group id="H,D,Z" name="HDZ components" label="" type="vector"/>
+						</groups>
+						<variables><variable id="DOY" name="Day of Year" label="Day of Year" units="Gregorian" type="scalar" fillvalue="" format="%j" columns="3" lineregex="^[0-9]"/><variable id="H" name="Newport H" label="Newport H" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="4" lineregex="^[0-9]"/><variable id="D" name="Newport D" label="Newport D" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="5" lineregex="^[0-9]"/><variable id="Z" name="Newport Z" label="Newport Z" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="6" lineregex="^[0-9]"/><variable id="F" name="Newport F" label="Newport F" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="7" lineregex="^[0-9]"/></variables>
+				</dataset><dataset name="SHU one-minute" ID="SHU" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/SHU/OneSecond/shu%Y%m%dvsec.sec" timeformat="yyyy-MM-dd HH:mm:ss.S" timecolumns="1,2" datareader="lasp.tss.iosp.ColumnarAsciiReader">
+						<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://geomag.usgs.gov/products/downloads.php" xlink:title="Real-time ground magnetometer measurements from USGS."/>
+						<access serviceName="tss" urlPath="SHU"/>
+						<access serviceName="ncml" urlPath="SHU"/>
+						<timeCoverage>
+							<Start>2013-05-01</Start>
+							<End>2013-07-09</End>
+						</timeCoverage>
+						<groups>
+							<group id="H,D,Z" name="HDZ components" label="" type="vector"/>
+						</groups>
+						<variables><variable id="DOY" name="Day of Year" label="Day of Year" units="Gregorian" type="scalar" fillvalue="" format="%j" columns="3" lineregex="^[0-9]"/><variable id="H" name="Shumagin H" label="Shumagin H" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="4" lineregex="^[0-9]"/><variable id="D" name="Shumagin D" label="Shumagin D" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="5" lineregex="^[0-9]"/><variable id="Z" name="Shumagin Z" label="Shumagin Z" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="6" lineregex="^[0-9]"/><variable id="F" name="Shumagin F" label="Shumagin F" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="7" lineregex="^[0-9]"/></variables>
+				</dataset><dataset name="SIT one-minute" ID="SIT" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/SIT/OneSecond/sit%Y%m%dvsec.sec" timeformat="yyyy-MM-dd HH:mm:ss.S" timecolumns="1,2" datareader="lasp.tss.iosp.ColumnarAsciiReader">
+						<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://geomag.usgs.gov/products/downloads.php" xlink:title="Real-time ground magnetometer measurements from USGS."/>
+						<access serviceName="tss" urlPath="SIT"/>
+						<access serviceName="ncml" urlPath="SIT"/>
+						<timeCoverage>
+							<Start>2013-05-01</Start>
+							<End>2013-07-09</End>
+						</timeCoverage>
+						<groups>
+							<group id="H,D,Z" name="HDZ components" label="" type="vector"/>
+						</groups>
+						<variables><variable id="DOY" name="Day of Year" label="Day of Year" units="Gregorian" type="scalar" fillvalue="" format="%j" columns="3" lineregex="^[0-9]"/><variable id="H" name="Sitka H" label="Sitka H" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="4" lineregex="^[0-9]"/><variable id="D" name="Sitka D" label="Sitka D" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="5" lineregex="^[0-9]"/><variable id="Z" name="Sitka Z" label="Sitka Z" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="6" lineregex="^[0-9]"/><variable id="F" name="Sitka F" label="Sitka F" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="7" lineregex="^[0-9]"/></variables>
+				</dataset><dataset name="SJG one-minute" ID="SJG" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/SJG/OneSecond/sjg%Y%m%dvsec.sec" timeformat="yyyy-MM-dd HH:mm:ss.S" timecolumns="1,2" datareader="lasp.tss.iosp.ColumnarAsciiReader">
+						<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://geomag.usgs.gov/products/downloads.php" xlink:title="Real-time ground magnetometer measurements from USGS."/>
+						<access serviceName="tss" urlPath="SJG"/>
+						<access serviceName="ncml" urlPath="SJG"/>
+						<timeCoverage>
+							<Start>2013-05-01</Start>
+							<End>2013-07-09</End>
+						</timeCoverage>
+						<groups>
+							<group id="H,D,Z" name="HDZ components" label="" type="vector"/>
+						</groups>
+						<variables><variable id="DOY" name="Day of Year" label="Day of Year" units="Gregorian" type="scalar" fillvalue="" format="%j" columns="3" lineregex="^[0-9]"/><variable id="H" name="San Juan H" label="San Juan H" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="4" lineregex="^[0-9]"/><variable id="D" name="San Juan D" label="San Juan D" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="5" lineregex="^[0-9]"/><variable id="Z" name="San Juan Z" label="San Juan Z" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="6" lineregex="^[0-9]"/><variable id="F" name="San Juan F" label="San Juan F" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="7" lineregex="^[0-9]"/></variables>
+				</dataset><dataset name="TUC one-minute" ID="TUC" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/TUC/OneSecond/tuc%Y%m%dvsec.sec" timeformat="yyyy-MM-dd HH:mm:ss.S" timecolumns="1,2" datareader="lasp.tss.iosp.ColumnarAsciiReader">
+						<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://geomag.usgs.gov/products/downloads.php" xlink:title="Real-time ground magnetometer measurements from USGS."/>
+						<access serviceName="tss" urlPath="TUC"/>
+						<access serviceName="ncml" urlPath="TUC"/>
+						<timeCoverage>
+							<Start>2013-05-01</Start>
+							<End>2013-07-09</End>
+						</timeCoverage>
+						<groups>
+							<group id="H,D,Z" name="HDZ components" label="" type="vector"/>
+						</groups>
+						<variables><variable id="DOY" name="Day of Year" label="Day of Year" units="Gregorian" type="scalar" fillvalue="" format="%j" columns="3" lineregex="^[0-9]"/><variable id="H" name="Tucson H" label="Tucson H" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="4" lineregex="^[0-9]"/><variable id="D" name="Tucson D" label="Tucson D" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="5" lineregex="^[0-9]"/><variable id="Z" name="Tucson Z" label="Tucson Z" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="6" lineregex="^[0-9]"/><variable id="F" name="Tucson F" label="Tucson F" units="nT" type="scalar" fillvalue="99999.00" format="%.2f" columns="7" lineregex="^[0-9]"/></variables>
+				</dataset></catalog>

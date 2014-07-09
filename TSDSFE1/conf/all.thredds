@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog name="Time Series Data Server Master THREDDS Catalog"
+        xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0"
+        xmlns:xlink="http://www.w3.org/1999/xlink">
+
+	<catalogRef ID="sscweb" xlink:title="SSCWeb" xlink:href="http://mag.gmu.edu/catalogs/SSCWeb.thredds"/>  
+	<catalogRef ID="cdaweb" xlink:title="CDAWeb" xlink:href="http://mag.gmu.edu/catalogs/CDAWeb.thredds"/>
+	<catalogRef ID="supermag" xlink:title="SuperMAG" xlink:href="http://mag.gmu.edu/catalogs/SuperMAG.thredds"/>
+	<catalogRef ID="spidr" xlink:title="SPIDR" xlink:href="http://mag.gmu.edu/catalogs/SPIDR.thredds"/>
+	<catalogRef ID="lisird" xlink:title="LISIRD" xlink:href="http://mag.gmu.edu/catalogs/LISIRD.thredds"/>
+<!--
+
+	<catalogRef ID="sscweb" xlink:title="SSCWeb" xlink:href="http://localhost/tsds/catalogs/SSCWeb.thredds"/>  
+	<catalogRef ID="cdaweb" xlink:title="CDAWeb" xlink:href="http://localhost/tsds/catalogs/CDAWeb.thredds"/>
+	<catalogRef ID="supermag" xlink:title="SuperMAG" xlink:href="http://localhost/tsds/catalogs/SuperMAG.thredds"/>
+	<catalogRef ID="spidr" xlink:title="SPIDR" xlink:href="http://localhost/tsds/catalogs/SPIDR.thredds"/>
+	<catalogRef ID="lisird" xlink:title="LISIRD" xlink:href="http://localhost/tsds/catalogs/LISIRD.thredds"/>
+-->	
+
+</catalog>
